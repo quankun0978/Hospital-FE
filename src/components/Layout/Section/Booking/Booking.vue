@@ -3,7 +3,6 @@
     <div class="max-w-7xl mx-auto relative" :class="{ 'pt-10': !isFirst }">
       <div class="flex justify-between items-center px-4 gap-4">
         <div class="flex items-center gap-2">
-          <img :src="bookingIcon" alt="Booking Icon" class="w-6 h-6" />
           <div>
             <h2 class="text-lg md:text-xl font-bold mb-0">{{ title }}</h2>
             <p class="hidden md:block text-sm">{{ description }}</p>
@@ -15,7 +14,7 @@
           variant="primary"
           size="sm"
           :iconRight="true"
-          additionalClasses="group hover:bg-blue-900"
+          additionalClasses="group hover:bg-blue-900 py-1.5 px-3 text-sm"
           @click="goToViewMore"
         >
           <span class="font-semibold whitespace-nowrap">{{ t('components.section.booking.viewMore') }}</span>

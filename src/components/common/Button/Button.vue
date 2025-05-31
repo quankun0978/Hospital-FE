@@ -25,7 +25,7 @@
     </span>
 
     <!-- Nội dung chính -->
-    <span><slot /></span>
+    <span><slot/></span>
 
     <!-- Icon sau nếu có -->
     <span v-if="iconRight" class="inline-block ml-2">

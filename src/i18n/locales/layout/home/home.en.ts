@@ -40,6 +40,13 @@ export default {
   common: {
     address: 'Address',
     workingHours: 'Working Hours',
-    specialties: 'Specialties'
-  }
+    specialties: 'Specialties',
+    home: 'Home',
+    doctor: 'Doctor',
+    clinic: 'Clinic',
+    hospital: 'Hospital',
+    about: 'About',
+    experience: 'Experience',
+    loading: 'Loading...'
+  },
 }; 

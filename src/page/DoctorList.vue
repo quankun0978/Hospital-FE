@@ -135,8 +135,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from '@/i18n/useI18n';
-import { doctorApi } from '@/api/commonFunction';
-
+import doctorApi from '../api/doctorApi';
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();

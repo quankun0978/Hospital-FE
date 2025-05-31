@@ -13,7 +13,7 @@
         :name="doctor.name" 
         :title="getTitle(doctor)"
         :image="getDoctorImage(doctor)"
-        :link="`/doctors/${doctor.doctorId}`"
+        :link="`/doctors/${doctor.doctorInfos[0].slug}`"
         :specialties="getDoctorSpecialties(doctor)"
         :hospital="getDoctorHospital(doctor)"
       />
@@ -28,8 +28,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { useI18n } from '@/i18n/useI18n';
 import DoctorCard from './DoctorCard.vue';
-import { doctorApi } from '@/api/commonFunction.ts';
-
+import doctorApi from '../../../../api/doctorApi';
 const { t } = useI18n();
 
 // Props
@@ -83,7 +82,7 @@ const getTitle = (doctor) => {
   // Lấy chức danh của bác sĩ từ thông tin chi tiết nếu có
   const position = doctor.doctorInfos?.[0]?.positionName;
   if (position) return position;
-  
+  console.log(doctor);
   // Mặc định là BS.
   return 'BS.';
 };

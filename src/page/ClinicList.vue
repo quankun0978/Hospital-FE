@@ -170,8 +170,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from '@/i18n/useI18n';
-import { clinicApi } from '@/api/commonFunction.ts';
-
+import clinicApi from '../api/clinicApi';
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();

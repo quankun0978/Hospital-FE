@@ -1,15 +1,17 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import i18n from './i18n'
-import pinia from './store'  // Import pinia instance
-import '@/assets/css/tailwind.css'
-import '@/assets/css/styles.css'
-import Vue3Toastify from 'vue3-toastify'
-import 'vue3-toastify/dist/index.css'
-import 'vue3-toastify/dist/index.css';
-
-const app = createApp(App)
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import i18n from "./i18n";
+import pinia from "./store";
+import 'ant-design-vue/dist/reset.css'; // Import pinia instance
+import "@/assets/css/tailwind.css";
+import "@/assets/css/ant.css";
+import "@/assets/css/styles.css";
+import Vue3Toastify from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
+import "vue3-toastify/dist/index.css";
+import Antd from 'ant-design-vue';
+const app = createApp(App);
 
 // Cấu hình toast toàn cục
 app.use(Vue3Toastify, {
@@ -19,10 +21,11 @@ app.use(Vue3Toastify, {
   timeout: 5000,
   pauseOnHover: true,
   closeOnClick: true,
-  theme: "colored"
-})
+  theme: "colored",
+});
 
-app.use(pinia)  // Sử dụng Pinia
-app.use(router)
-app.use(i18n)
-app.mount('#app')
+app.use(pinia); // Sử dụng Pinia
+app.use(router);
+app.use(i18n);
+app.use(Antd)
+app.mount("#app");

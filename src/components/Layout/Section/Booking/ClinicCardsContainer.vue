@@ -42,8 +42,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useI18n } from '@/i18n/useI18n';
 import ClinicCard from './ClinicCard.vue';
 import HospitalCard from './HospitalCard.vue';
-import { clinicApi } from '@/api/commonFunction.ts';
-
+import clinicApi from '../../../../api/clinicApi';
 const { t } = useI18n();
 
 // Props

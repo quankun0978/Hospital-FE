@@ -88,7 +88,7 @@
                       @click="verifyOtp"
                       :additionalClasses="'w-full md:w-auto md:px-10 mt-10 mb-6'"
                     >
-                      {{ loading ? t('common.loading') : t('pages.sendOTP.verify.continue') }}
+                      {{ loading ? t('pages.home.common.loading') : t('pages.sendOTP.verify.continue') }}
                     </AppButton>
                   </div>
                 </div>
@@ -128,7 +128,7 @@
                         :disabled="loading"
                         :additionalClasses="'w-full md:w-auto md:px-10 mt-6 mb-6'"
                       >
-                        {{ loading ? t('common.loading') : t('pages.sendOTP.password.continue') }}
+                        {{ loading ? t('pages.home.common.loading') : t('pages.sendOTP.password.continue') }}
                       </AppButton>
                     </div>
                   </div>
@@ -203,7 +203,7 @@
                         :disabled="loading"
                         :additionalClasses="'w-full md:w-auto md:px-10 mt-6 mb-6'"
                       >
-                        {{ loading ? t('common.loading') : t('pages.sendOTP.profile.complete') }}
+                        {{ loading ? t('pages.home.common.loading') : t('pages.sendOTP.profile.complete') }}
                       </AppButton>
                     </div>
                   </div>
@@ -227,10 +227,8 @@ import Select from '../components/common/Select/Select.vue';
 import AppButton from '../components/common/Button/Button.vue';
 import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 import { auth } from '@/services/firebase/firebase';
-import registerService from '../services/api/registerService';
 import axios from '../api/axios';
-import { authApi } from '../api/commonFunction';
-
+import authApi from '../api/authApi';
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
@@ -389,8 +387,6 @@ const verifyOtp = async () => {
       // Chuyển sang bước tiếp theo
       currentStep.value = 2;
       errorMessage.value=""
-      // Thiết lập số điện thoại cho form hồ sơ
-      profileForm.value.phone = phoneNumber.value;
       
       loading.value = false;
     } catch (otpError) {
@@ -507,12 +503,11 @@ const submitProfile = async () => {
     // Chuẩn bị dữ liệu gửi
     const registerData = {
       // Thông tin User (sử dụng số điện thoại ban đầu dùng để xác thực OTP)
-      username: phoneNumber.value, // Sử dụng số điện thoại lúc đăng ký làm username
       password: passwordForm.value.password,
       name: profileForm.value.fullName,
       phone: phoneNumber.value, // Số điện thoại ban đầu dùng cho User và user.Phone
       roleId: "R3", // R3 là vai trò bệnh nhân
-      
+      PhonePatient: profileForm.value.phone,
       // Thông tin PatientRecord
       fullName: profileForm.value.fullName,
       dateOfBirth: formattedDateOfBirth,
@@ -586,10 +581,10 @@ onMounted(async () => {
     }
     
     // Kiểm tra xem có confirmationResult trong localStorage không
-    const savedConfirmationResult = getConfirmationResultFromStorage();
-    if (!savedConfirmationResult) {
-      errorMessage.value = 'Không tìm thấy thông tin xác thực. Vui lòng quay lại trang đăng ký.';
-    }
+    // const savedConfirmationResult = getConfirmationResultFromStorage();
+    // if (!savedConfirmationResult) {
+    //   errorMessage.value = 'Không tìm thấy thông tin xác thực. Vui lòng quay lại trang đăng ký.';
+    // }
     
     // Đảm bảo DOM đã được render trước khi focus
     nextTick(() => {

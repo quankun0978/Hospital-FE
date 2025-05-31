@@ -4,14 +4,14 @@ import { showToast } from '../../plugins/toast.ts';
 
 // Cấu hình Firebase của bạn
 const firebaseConfig = {
-    apiKey: "AIzaSyBUVnXy6_2ieFbBtSf3Tug9SXnvTDVKU2k",
-    authDomain: "hospital-24ded.firebaseapp.com",
-    projectId: "hospital-24ded",
-    storageBucket: "hospital-24ded.firebasestorage.app",
-    messagingSenderId: "1020331608741",
-    appId: "1:1020331608741:web:aad506b3325bded9365b4c",
-    measurementId: "G-THTPLFBTPM"
-  };
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+};
 
 // Khởi tạo Firebase
 if (!firebase.apps.length) {

@@ -80,24 +80,7 @@
             </li>
           </ul>
         </div>
-        <div class="lg:flex items-center">
-          <ul id="menu-second" class="px-6 lg:px-0 lg:flex text-sm font-normal">
-            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown group nav-item">
-              <a href="#" data-toggle="dropdown" aria-expanded="false" class="dropdown-toggle nav-link" id="menu-item-dropdown-60">{{ t('components.header.medicalStaff.title') }}</a>
-              <ul class="dropdown-menu group-hover:block group-hover:block overflow-hidden lg:hidden lg:absolute lg:top-75 lg:bg-white lg:rounded-xl lg:shadow-yu" aria-labelledby="menu-item-dropdown-60">
-                <li class="menu-item menu-item-type-post_type menu-item-object-page nav-item">
-                  <a href="#" class="dropdown-item">{{ t('components.header.medicalStaff.doctor') }}</a>
-                </li>
-                <li class="menu-item menu-item-type-post_type menu-item-object-page nav-item">
-                  <a href="#" class="dropdown-item">{{ t('components.header.medicalStaff.clinic') }}</a>
-                </li>
-                <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item">
-                  <a target="_blank" rel="noopener noreferrer" href="#" class="dropdown-item">{{ t('components.header.medicalStaff.y360') }}</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+        
         <a href="#" target="_blank" class="flex lg:hidden items-center px-6 py-4 space-x-2 bg-slate-100 mt-4 mb-24">
           <img :src="downloadAppIcon" alt="Download App" />
           <div class="block">
@@ -113,7 +96,7 @@
         <!-- Phần user info - khi chưa đăng nhập -->
         <div id="user-info" class="p-3" v-if="!isLoggedIn">
           <router-link to="/login">
-            <AppButton additionalClasses="py-3" variant="outline" size="md" rounded="sm">
+            <AppButton additionalClasses="py-2" variant="outline" size="md" rounded="sm">
               {{ t('components.header.navigation.login') }}
             </AppButton>
           </router-link>
@@ -160,7 +143,7 @@
                 </router-link>
               </li>
               <li class="border-b border-gray-100">
-                <router-link to="/profile" class="block px-4 py-2 text-sm hover:bg-gray-50">
+                <router-link to="/patient-record" class="block px-4 py-2 text-sm hover:bg-gray-50">
                   Hồ sơ
                 </router-link>
               </li>
@@ -187,7 +170,7 @@ import closeMenuIcon from '@/assets/images/close-menu.svg';
 import downloadAppIcon from '@/assets/images/download-app.svg';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import AppButton from '@/components/common/Button/Button.vue';
-import { userApi } from '@/api/commonFunction';
+import userApi from '../../../api/userApi';
 import { useAuthStore } from '@/store/auth';
 
 const { t } = useI18n();

@@ -30,12 +30,13 @@
               to="/login?action=login"
               class="w-1/2 py-2 text-center font-medium"
               :class="{
-                'text-primary border-b-2 border-primary active': activeTab === 'login',
-                'text-gray-500 hover:text-gray-700': activeTab !== 'login'
+                'text-primary border-b-2 border-primary active':
+                  activeTab === 'login',
+                'text-gray-500 hover:text-gray-700': activeTab !== 'login',
               }"
               @click="handleTabChange('login')"
             >
-              {{ t('pages.login.tabNavigation.login') }}
+              {{ t("pages.login.tabNavigation.login") }}
             </router-link>
             <router-link
               to="/login?action=register"
@@ -46,7 +47,7 @@
               }"
               @click="handleTabChange('register')"
             >
-              {{ t('pages.login.tabNavigation.register') }}
+              {{ t("pages.login.tabNavigation.register") }}
             </router-link>
           </div>
 
@@ -60,7 +61,7 @@
             <div v-if="loginFormError" class="message error">
               {{ loginFormError }}
             </div>
-            
+
             <div class="space-y-4">
               <Input
                 v-model="loginForm.phone"
@@ -88,32 +89,30 @@
                   v-model="loginForm.remember"
                   class="mr-2"
                 />
-                <span class="text-sm text-gray-700">{{ t('pages.login.loginForm.rememberPassword') }}</span>
+                <span class="text-sm text-gray-700">{{
+                  t("pages.login.loginForm.rememberPassword")
+                }}</span>
               </label>
               <router-link
                 to="/forgot-password"
                 class="cursor-pointer text-sm text-primary"
               >
-                {{ t('pages.login.loginForm.forgotPassword') }}
+                {{ t("pages.login.loginForm.forgotPassword") }}
               </router-link>
             </div>
 
-            <AppButton 
-              type="submit" 
-              variant="primary" 
-              :disabled="isLoading"
-            >
+            <AppButton type="submit" variant="primary" :disabled="isLoading">
               <span v-if="isLoading">Đang xử lý...</span>
-              <span v-else>{{ t('pages.login.loginForm.loginButton') }}</span>
+              <span v-else>{{ t("pages.login.loginForm.loginButton") }}</span>
             </AppButton>
 
             <div class="text-center text-sm p-6 border-t mt-8">
-              {{ t('pages.login.loginForm.noAccount') }}
+              {{ t("pages.login.loginForm.noAccount") }}
               <span
                 class="font-medium cursor-pointer text-primary"
                 @click="handleTabChange('register')"
               >
-                {{ t('pages.login.loginForm.registerNow') }}
+                {{ t("pages.login.loginForm.registerNow") }}
               </span>
             </div>
           </form>
@@ -128,29 +127,33 @@
             <div v-if="registerFormError" class="message error">
               {{ registerFormError }}
             </div>
-            
-            <div class="ant-form flex flex-col gap-8 ng-untouched ng-pristine ng-invalid ant-form-inline">
+
+            <div
+              class="ant-form flex flex-col gap-8 ng-untouched ng-pristine ng-invalid ant-form-inline"
+            >
               <div>
                 <div class="ant-form-item ant-row">
-                  <div class="ant-form-item-control ng-tns-c14-3 ant-col ng-star-inserted">
+                  <div
+                    class="ant-form-item-control ng-tns-c14-3 ant-col ng-star-inserted"
+                  >
                     <div class="ant-form-item-control-input">
                       <div class="ant-form-item-control-input-content">
                         <label
                           for="phoneNumber"
                           class="block mb-1 text-sm font-medium text-gray-700 ng-tns-c14-3"
-                        >Số điện thoại</label>
-                        <div
-                          class="flex rounded-md shadow-sm ng-tns-c14-3"
+                          >Số điện thoại</label
                         >
+                        <div class="flex rounded-md shadow-sm ng-tns-c14-3">
                           <span
                             class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-200 bg-gray-50 text-gray-500 text-sm font-medium"
-                          ><img
-                            width="18"
-                            height="18"
-                            alt="VN"
-                            src="@/assets/images/vn.svg"
-                          />
-                          +84</span>
+                            ><img
+                              width="18"
+                              height="18"
+                              alt="VN"
+                              src="@/assets/images/vn.svg"
+                            />
+                            +84</span
+                          >
                           <input
                             v-model="registerForm.phone"
                             placeholder="Nhập số điện thoại để tiếp tục"
@@ -163,18 +166,23 @@
                         </div>
                       </div>
                     </div>
-                    <p v-if="registerErrors.phone" class="mt-1 text-sm text-red-600">
+                    <p
+                      v-if="registerErrors.phone"
+                      class="mt-1 text-sm text-red-600"
+                    >
                       {{ registerErrors.phone }}
                     </p>
                   </div>
                 </div>
                 <div class="ant-form-item ant-row">
-                  <div class="ant-form-item-control ng-tns-c14-4 ant-col ng-star-inserted">
+                  <div
+                    class="ant-form-item-control ng-tns-c14-4 ant-col ng-star-inserted"
+                  >
                     <div class="ant-form-item-control-input">
                       <div class="ant-form-item-control-input-content">
                         <div
                           id="recaptcha-container-create"
-                          class="py-6 ng-tns-c14-4 "
+                          class="py-6 ng-tns-c14-4"
                         ></div>
                       </div>
                     </div>
@@ -185,14 +193,19 @@
                 <label
                   class="ant-checkbox-wrapper ant-checkbox-wrapper-checked ng-untouched ng-pristine ng-valid ng-star-inserted"
                 >
-                  <span class="ant-checkbox ant-checkbox-checked flex items-center gap-1">
+                  <span
+                    class="ant-checkbox ant-checkbox-checked flex items-center gap-1"
+                  >
                     <input
                       type="checkbox"
                       v-model="registerForm.termsAccepted"
                       class="ant-checkbox-input"
                     />
-                    <span class="ant-checkbox-inner"></span>
-                    <span>Tôi đã đọc và đồng ý với các điều khoản và điều kiện sử dụng</span>
+                    <input type="checkbox" v-model="registerForm.isAccept" />
+                    <span
+                      >Tôi đã đọc và đồng ý với các điều khoản và điều kiện sử
+                      dụng</span
+                    >
                   </span>
                 </label>
               </div>
@@ -209,9 +222,7 @@
               </div>
             </div>
 
-            <div
-              class="text-center text-sm p-6 border-t mt-8"
-            >
+            <div class="text-center text-sm p-6 border-t mt-8">
               Đã có tài khoản?
               <span
                 class="font-medium cursor-pointer text-primary"
@@ -232,14 +243,17 @@ import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Input from "../components/common/Input/Input.vue";
 import AppButton from "../components/common/Button/Button.vue";
-import { useI18n } from '../i18n/useI18n';
-import { authApi } from '../api/commonFunction';
-import { initRecaptcha, sendOTP, checkFirebaseConfig } from '../services/firebase/firebase';
-import registerService from '../services/api/registerService';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import { showToast } from '../plugins/toast.ts';
-import { useAuthStore } from '../store/auth';
+import { useI18n } from "../i18n/useI18n";
+import authApi from "../api/authApi.ts";
+import {
+  initRecaptcha,
+  sendOTP,
+  checkFirebaseConfig,
+} from "../services/firebase/firebase";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import { showToast } from "../plugins/toast.ts";
+import { useAuthStore } from "../store/auth";
 
 const { t } = useI18n();
 const authStore = useAuthStore();
@@ -264,6 +278,7 @@ const registerForm = ref({
   phone: "",
   password: "",
   termsAccepted: true,
+  isAccept: true,
 });
 
 const loginErrors = ref({
@@ -277,11 +292,11 @@ const registerErrors = ref({
 });
 
 const isLoading = ref(false);
-const apiError = ref('');
-const userName = localStorage.getItem("")
+const apiError = ref("");
+const userName = localStorage.getItem("");
 // Thêm biến theo dõi lỗi form
-const loginFormError = ref('');
-const registerFormError = ref('');
+const loginFormError = ref("");
+const registerFormError = ref("");
 const canRegister = computed(() => {
   return (
     registerForm.value.phone &&
@@ -317,65 +332,76 @@ const initFirebaseRecaptcha = () => {
     // Kiểm tra cấu hình Firebase
     const isConfigValid = checkFirebaseConfig();
     if (!isConfigValid) {
-      console.error('Cấu hình Firebase không hợp lệ!');
-      apiError.value = 'Cấu hình Firebase không hợp lệ. Vui lòng liên hệ quản trị viên.';
-      showToast.error('Cấu hình Firebase không hợp lệ. Vui lòng liên hệ quản trị viên.');
+      console.error("Cấu hình Firebase không hợp lệ!");
+      apiError.value =
+        "Cấu hình Firebase không hợp lệ. Vui lòng liên hệ quản trị viên.";
+      showToast.error(
+        "Cấu hình Firebase không hợp lệ. Vui lòng liên hệ quản trị viên."
+      );
       return;
     }
-    
+
     // Clear container trước khi tạo mới recaptcha
-    const container = document.getElementById('recaptcha-container-create');
+    const container = document.getElementById("recaptcha-container-create");
     if (container) {
-      container.innerHTML = '';
+      container.innerHTML = "";
     }
-    
+
     // Đợi một chút để DOM được render
     setTimeout(() => {
       try {
         // Cập nhật callback để theo dõi trạng thái xác thực reCAPTCHA
-        recaptchaVerifier.value = new firebase.auth.RecaptchaVerifier('recaptcha-container-create', {
-          'size': 'normal',
-          'callback': (response) => {
-            // reCAPTCHA solved, allow signInWithPhoneNumber.
-            recaptchaVerified.value = true;
-            showToast.success('Xác thực Captcha thành công!');
-          },
-          'expired-callback': () => {
-            // Response expired. Ask user to solve reCAPTCHA again.
-            recaptchaVerified.value = false;
-            showToast.warning('Captcha đã hết hạn. Vui lòng xác thực lại.');
+        recaptchaVerifier.value = new firebase.auth.RecaptchaVerifier(
+          "recaptcha-container-create",
+          {
+            size: "normal",
+            callback: (response) => {
+              // reCAPTCHA solved, allow signInWithPhoneNumber.
+              recaptchaVerified.value = true;
+            },
+            "expired-callback": () => {
+              // Response expired. Ask user to solve reCAPTCHA again.
+              recaptchaVerified.value = false;
+            },
           }
-        });
-        
-        
+        );
+
         // Render reCAPTCHA ngay lập tức
-        recaptchaVerifier.value.render().then(function(widgetId) {
-        }).catch(function(error) {
-          console.error('Lỗi khi render Recaptcha:', error);
-          showToast.error('Không thể hiển thị Captcha. Vui lòng làm mới trang và thử lại.');
-          // Thử lại render nếu gặp lỗi
-          setTimeout(() => {
-            try {
-              recaptchaVerifier.value.render();
-            } catch (e) {
-              showToast.error('Lỗi hiển thị Captcha. Vui lòng làm mới trang và thử lại sau.');
-            }
-          }, 500);
-        });
+        recaptchaVerifier.value
+          .render()
+          .then(function (widgetId) {})
+          .catch(function (error) {
+            console.error("Lỗi khi render Recaptcha:", error);
+            showToast.error(
+              "Không thể hiển thị Captcha. Vui lòng làm mới trang và thử lại."
+            );
+            // Thử lại render nếu gặp lỗi
+            setTimeout(() => {
+              try {
+                recaptchaVerifier.value.render();
+              } catch (e) {
+                showToast.error(
+                  "Lỗi hiển thị Captcha. Vui lòng làm mới trang và thử lại sau."
+                );
+              }
+            }, 500);
+          });
       } catch (error) {
-        showToast.error('Lỗi khởi tạo Captcha. Vui lòng làm mới trang và thử lại.');
+        showToast.error(
+          "Lỗi khởi tạo Captcha. Vui lòng làm mới trang và thử lại."
+        );
       }
     }, 500); // Tăng thời gian chờ lên để đảm bảo DOM đã được render
   } catch (error) {
-    apiError.value = 'Lỗi khởi tạo Recaptcha. Vui lòng thử lại.';
-    showToast.error('Lỗi khởi tạo Captcha. Vui lòng làm mới trang và thử lại.');
+    apiError.value = "Lỗi khởi tạo Recaptcha. Vui lòng thử lại.";
+    showToast.error("Lỗi khởi tạo Captcha. Vui lòng làm mới trang và thử lại.");
   }
 };
 
 const validateLogin = () => {
   let isValid = true;
   loginErrors.value = { phone: "", password: "" };
-  loginFormError.value = '';
+  loginFormError.value = "";
 
   if (!loginForm.value.phone) {
     loginFormError.value = "Vui lòng nhập đầy đủ thông tin đăng nhập.";
@@ -401,7 +427,7 @@ const validateLogin = () => {
 const validateRegister = () => {
   let isValid = true;
   registerErrors.value = { phone: "" };
-  registerFormError.value = '';
+  registerFormError.value = "";
 
   if (!registerForm.value.phone) {
     registerErrors.value.phone = "Vui lòng nhập số điện thoại";
@@ -414,10 +440,11 @@ const validateRegister = () => {
   }
 
   if (!registerForm.value.termsAccepted) {
-    registerFormError.value = "Vui lòng đồng ý với điều khoản và điều kiện sử dụng.";
+    registerFormError.value =
+      "Vui lòng đồng ý với điều khoản và điều kiện sử dụng.";
     isValid = false;
   }
-  
+
   if (!recaptchaVerified.value) {
     registerFormError.value = "Vui lòng xác thực Captcha trước khi tiếp tục.";
     isValid = false;
@@ -429,31 +456,32 @@ const validateRegister = () => {
 const handleLogin = async () => {
   if (validateLogin()) {
     isLoading.value = true;
-    apiError.value = '';
-    loginFormError.value = '';
-    
+    apiError.value = "";
+    loginFormError.value = "";
+
     try {
       const response = await authApi.login({
         phone: loginForm.value.phone,
-        password: loginForm.value.password
+        password: loginForm.value.password,
       });
-      
+
       if (response.succeeded) {
         const token = response.data.token;
         const user = response.data.user || {};
-        
+
         // Sử dụng Pinia store để đăng nhập
         authStore.login(user, token);
-                      
+
         // Chuyển hướng đến trang chính mà không reload trang
-        router.push('/');
-        showToast.success('Đăng nhập thành công!');
+        router.push("/");
+        showToast.success("Đăng nhập thành công!");
       } else {
-        loginFormError.value = response.message || 'Đăng nhập thất bại, vui lòng thử lại.';
+        loginFormError.value =
+          response.message || "Đăng nhập thất bại, vui lòng thử lại.";
       }
     } catch (error) {
-      console.error('Login error:', error);
-      loginFormError.value = 'Đã có lỗi xảy ra, vui lòng thử lại sau.';
+      console.error("Login error:", error);
+      loginFormError.value = "Đã có lỗi xảy ra, vui lòng thử lại sau.";
     } finally {
       isLoading.value = false;
     }
@@ -463,63 +491,74 @@ const handleLogin = async () => {
 const handleRegister = async () => {
   if (validateRegister()) {
     isLoading.value = true;
-    apiError.value = '';
-    registerFormError.value = '';
-    
+    apiError.value = "";
+    registerFormError.value = "";
+
     try {
       // Kiểm tra xem người dùng đã xác thực reCAPTCHA chưa
       if (!recaptchaVerified.value) {
-        registerFormError.value = 'Vui lòng xác thực Captcha trước khi tiếp tục';
-        showToast.warning('Vui lòng xác thực Captcha trước khi tiếp tục');
+        registerFormError.value =
+          "Vui lòng xác thực Captcha trước khi tiếp tục";
+        showToast.warning("Vui lòng xác thực Captcha trước khi tiếp tục");
         isLoading.value = false;
         return;
       }
-      
+
       // Định dạng số điện thoại (+84...)
-      const phoneNumberFormatted = `+84${registerForm.value.phone.substring(1)}`;      
+      const phoneNumberFormatted = `+84${registerForm.value.phone.substring(
+        1
+      )}`;
       // Kiểm tra số điện thoại đã tồn tại chưa
-     // const checkResult = await registerService.checkPhoneExists(registerForm.value.phone);
-      
-    //  if (checkResult.exists) {
-     //   apiError.value = 'Số điện thoại này đã được đăng ký. Vui lòng đăng nhập hoặc sử dụng số điện thoại khác.';
-     //   isLoading.value = false;
-     //   return;
-     // }
-      
+      const checkPhone = await authApi.checkExistsPhone(
+        registerForm.value.phone
+      );
+
+      if (!checkPhone.success) {
+        apiError.value = checkPhone.message;
+        isLoading.value = false;
+        return;
+      }
+
       // Nếu chưa khởi tạo recaptcha, khởi tạo lại
       if (!recaptchaVerifier.value) {
         initFirebaseRecaptcha();
-        registerFormError.value = 'Cần xác thực Captcha lại. Vui lòng thử lại.';
+        registerFormError.value = "Cần xác thực Captcha lại. Vui lòng thử lại.";
         isLoading.value = false;
         return;
       }
-      
+
       // Gửi OTP qua Firebase sử dụng verifier đã được xác thực
-      const otpResult = await sendOTP(phoneNumberFormatted, recaptchaVerifier.value);
-      
+      const otpResult = await sendOTP(
+        phoneNumberFormatted,
+        recaptchaVerifier.value
+      );
+
       if (otpResult.success) {
         // Lưu confirmationResult vào localStorage để sử dụng ở trang SendOTP
-        localStorage.setItem('firebaseConfirmationResult', JSON.stringify(otpResult.confirmationResult));
-        
+        localStorage.setItem(
+          "firebaseConfirmationResult",
+          JSON.stringify(otpResult.confirmationResult)
+        );
+
         // Thông báo cho người dùng bằng toast thay vì alert
-        showToast.success('Mã OTP đã được gửi đến số điện thoại của bạn!');
-        
+        showToast.success("Mã OTP đã được gửi đến số điện thoại của bạn!");
+
         // Chuyển đến trang SendOTP với số điện thoại đã đăng ký
         router.push({
-          path: '/send-otp',
-          query: { phone: registerForm.value.phone }
+          path: "/send-otp",
+          query: { phone: registerForm.value.phone },
         });
       } else {
-        console.error('Lỗi gửi OTP:', otpResult.error);
-        registerFormError.value = 'Không thể gửi mã OTP. Vui lòng thử lại sau. Lỗi: ' + (otpResult.error ? otpResult.error.message : 'Không xác định');
-        
+        console.error("Lỗi gửi OTP:", otpResult.error);
+        registerFormError.value = "Không thể gửi mã OTP. Vui lòng thử lại sau.";
+
         // Reset recaptcha để người dùng có thể thử lại
-        recaptchaVerified.value = false;  
+        recaptchaVerified.value = false;
         if (recaptchaVerifier.value) {
           try {
             recaptchaVerifier.value.clear();
           } catch (e) {
-            console.error('Lỗi khi clear recaptcha:', e);
+            console.error("Lỗi khi clear recaptcha:", e);
           }
           recaptchaVerifier.value = null;
           setTimeout(() => {
@@ -528,9 +567,10 @@ const handleRegister = async () => {
         }
       }
     } catch (error) {
-      console.error('Send OTP error:', error);
-      registerFormError.value = 'Đã có lỗi xảy ra: ' + (error.message || 'Không xác định');
-      
+      console.error("Send OTP error:", error);
+      registerFormError.value =
+        "Đã có lỗi xảy ra: " + (error.message || "Không xác định");
+
       // Reset recaptcha nếu có lỗi
       recaptchaVerified.value = false;
       if (recaptchaVerifier.value) {
@@ -541,7 +581,7 @@ const handleRegister = async () => {
             initFirebaseRecaptcha();
           }, 500);
         } catch (e) {
-          console.error('Lỗi khi reset recaptcha:', e);
+          console.error("Lỗi khi reset recaptcha:", e);
         }
       }
     } finally {
@@ -553,7 +593,7 @@ const handleRegister = async () => {
 // Thêm xử lý khi chuyển tab
 const handleTabChange = (tab) => {
   activeTab.value = tab;
-  if (tab === 'register') {
+  if (tab === "register") {
     // Khi chuyển sang tab đăng ký, khởi tạo reCAPTCHA
     setTimeout(() => {
       initFirebaseRecaptcha();

@@ -9,13 +9,13 @@
         class="absolute w-full object-center"
       >
     </div>
-    <div class="relative ml-4 -mt-14 w-28 h-28 aspect-square overflow-hidden p-2 bg-white rounded-lg border border-slate-200">
+    <div class="relative ml-4 -mt-14 w-28 h-28 aspect-square overflow-hidden  bg-white rounded-lg ">
       <img 
         width="96" 
         height="96" 
         :src="logoImage" 
         :alt="name" 
-        class="absolute object-f"
+        class="absolute w-full h-full object-cover"
       />
     </div>
     <div class="flex flex-1 flex-col text-gray-800 p-4">
