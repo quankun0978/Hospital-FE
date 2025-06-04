@@ -1,6 +1,6 @@
 <template>
   <div class="doctor-detail-page bg-slate-100">
-    <div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto py-8">
       <div v-if="loading" class="flex justify-center items-center py-16">
         <div class="loader"></div>
       </div>
@@ -44,7 +44,7 @@
               </div>
             </div>
 
-            <div class="flex flex-col justify-center flex-1 p-4 md:pl-0 gap-1">
+            <div class="flex flex-col justify-center flex-1 p-4 md:pl-0 gap-2">
               <h1 class="text-lg text-center md:text-left md:text-xl">
                 <span class="md:hidden">{{ getShortTitle(doctor) }}</span>
                 <span class="hidden md:inline-block">{{
@@ -54,7 +54,7 @@
               </h1>
 
               <div
-                class="flex items-center justify-center md:justify-start divide-x mb-2"
+                class="flex items-center justify-center md:justify-start divide-x "
               >
                 <div class="font-semibold flex items-center pr-2 text-primary">
                   <img
@@ -74,7 +74,7 @@
                 id="specialties"
                 class="flex flex-col md:flex-row md:items-end md:gap-3"
               >
-                <h2 class="text-gray-600 text-sm doctorinfo-label">
+                <h2 class="text-gray-600 text-sm mb-0 doctorinfo-label">
                   Chuyên khoa
                 </h2>
                 <div class="space-x-2">
@@ -276,7 +276,7 @@
                 <div class="px-2 pt-2 md:px-4 md:pt-4">
                   <div v-if="availableDates[selectedDate]" class="font-medium">
                     <div class="flex items-center">
-                      <!-- <img width="20" height="20" loading="lazy" src="@/assets/img/booking/svg/sun-fog.svg" alt="Buổi chiều" /> -->
+                      <img width="20" height="20" loading="lazy" src="@/assets/images/sun-fog.svg" alt="Buổi chiều" />
                       <p class="ml-1 text-sm pr-1">Buổi chiều</p>
                       <div class="h-px w-full bg-slate-200 flex-1"></div>
                     </div>
@@ -339,6 +339,7 @@ import { useI18n } from "@/i18n/useI18n";
 import doctorApi from "../api/doctorApi";
 import markdownApi from "../api/markdownApi";
 import { Markdown } from "../model/Markdown";
+import SunFog from "../assets/images/sun-fog.svg";
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
@@ -447,7 +448,7 @@ const fetchDoctorDetails = async () => {
       // Sau khi lấy được doctor, gọi tiếp API lấy markdown
       try {
         const markdown = await markdownApi.getMarkdownById(
-          "D3719887-4532-40F9-8C86-2E39ECEDA6C0"
+          doctor.value.doctorId
         );
         if (markdown && markdown.contentHTML) {
           doctorMarkdownHTML.value = markdown.contentHTML;
@@ -528,12 +529,16 @@ const selectDate = (index) => {
 
 // Xử lý chọn khung giờ
 const selectTimeSlot = (slot) => {
-  // Trong thực tế, bạn sẽ cần thêm logic để xác định ngày và giờ đã chọn
-  console.log(
-    "Đã chọn khung giờ:",
-    availableDates.value[selectedDate.value].label,
-    slot
-  );
+  // Lấy ngày đã chọn
+  const dateLabel = availableDates.value[selectedDate.value].label;
+  // Chuyển hướng sang trang appointment-step và truyền tên bệnh nhân, thời gian
+  router.push({
+    path: "/appointment-step",
+    query: {
+      patientName: doctor.value?.name || '',
+      time: `${dateLabel} ${slot}`,
+    },
+  });
 };
 
 // Hàm đặt lịch khám

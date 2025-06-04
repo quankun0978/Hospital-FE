@@ -59,7 +59,7 @@ export const useAuthStore = defineStore('auth', {
       
       // Lưu thông tin vào localStorage
       localStorage.setItem('accessToken', token);
-      localStorage.setItem('userId', userData.id || '');
+      localStorage.setItem('userId', userData.userId || '');
       localStorage.setItem('userName', userData.name || userData.username || '');
       localStorage.setItem('userEmail', userData.email || '');
       localStorage.setItem('Phone', userData.phone || '');

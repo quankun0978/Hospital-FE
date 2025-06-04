@@ -17,7 +17,11 @@
       </div>
       <nav 
         id="primary-menu" 
-        :class="['bg-white absolute z-[100] top-0 right-0 left-0 transition transform origin-top-right h-screen lg:flex lg:h-auto overflow-scroll lg:overflow-visible lg:relative', isMenuOpen.value ? 'block' : 'hidden']"
+        :class="[
+          'bg-white fixed z-[100] top-0 right-0 left-0 transition-all duration-300 lg:transform-none lg:flex lg:h-auto lg:relative',
+          'h-screen lg:h-auto overflow-y-auto lg:overflow-visible',
+          isMenuOpen ? 'translate-x-0 md:translate-x-0' : '-translate-x-full xl:translate-x-0',
+        ]"
       >
         <div class="lg:hidden sticky top-0">
           <button 
@@ -110,15 +114,7 @@
           >
 
             <span class="text-sm font-medium">{{ userName }}</span>
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              class="h-4 w-4" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
+            <img :src="arrowDownIcon" alt="Arrow Down" width="16" height="16"/>
           </button>
           
           <!-- Dropdown Menu -->
@@ -169,6 +165,7 @@ import menuToggleIcon from '@/assets/images/menu-toggle.svg';
 import closeMenuIcon from '@/assets/images/close-menu.svg';
 import downloadAppIcon from '@/assets/images/download-app.svg';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
+import arrowDownIcon from '@/assets/images/arrow-down.svg';
 import AppButton from '@/components/common/Button/Button.vue';
 import userApi from '../../../api/userApi';
 import { useAuthStore } from '@/store/auth';
@@ -274,6 +271,18 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Thêm media query cho mobile */
+@media (max-width: 768px) {
+  #primary-menu {
+    transform: translateX(-100%);
+  }
+  
+  #primary-menu.translate-x-0 {
+    transform: translateX(0);
+  }
+}
+
+/* Các style khác giữ nguyên */
 .language-switcher-container {
   display: flex;
   justify-content: flex-end;
@@ -285,5 +294,39 @@ onUnmounted(() => {
 
 .bg-primary {
   background-color: #2563eb;
+}
+
+.primary-menu-toggle {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.primary-menu-toggle:hover {
+  opacity: 0.8;
+}
+
+/* Overlay khi menu mobile mở */
+#primary-menu::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+#primary-menu.translate-x-0::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (min-width: 1024px) {
+  #primary-menu::before {
+    display: none;
+  }
 }
 </style>

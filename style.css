@@ -23014,7 +23014,7 @@ a:hover {
     scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .transform-none {
-  transform: none;
+  transform: unset;
 }
 @keyframes pulse {
   50% {
@@ -26114,7 +26114,7 @@ span.ant-upload-list-item-card-actions {
   .dark\:ring-offset-gray-800 {
     --tw-ring-offset-color: #1f2937;
   }
-  .dark\:focus\:ring-blue-600:focus {
+.dark\:focus\:ring-blue-600:focus {
     --tw-ring-opacity: 1;
     --tw-ring-color: rgb(37 99 235 / var(--tw-ring-opacity, 1));
   }

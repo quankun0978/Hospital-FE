@@ -63,6 +63,7 @@ const props = defineProps({
   record: { type: Object, default: null },
 });
 const emit = defineEmits(['close', 'success']);
+const userId = localStorage.getItem("userId");
 
 const loading = ref(false);
 
@@ -71,7 +72,7 @@ const form = ref({
   dateOfBirth: '',
   gender: 'M',
   address: '',
-  userId: "BD0C99DE-977E-426E-94EC-B2A487652E8E",
+  userId: userId,
   phone: '',
   email: '',
   healthInsuranceNumber: '',

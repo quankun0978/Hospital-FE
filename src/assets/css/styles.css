@@ -3543,3 +3543,12 @@ article > :not(.entry-content) {
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity, 1));
 }
+
+.step-button {
+  display: flex;
+  flex: 1 1 0%;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  padding-left: 2.75rem;
+}

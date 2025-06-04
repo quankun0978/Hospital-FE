@@ -18,7 +18,7 @@
         <div v-else-if="showAll && specialties.length > 10" class="col-span-3 lg:col-span-6 flex flex-1 justify-center pt-4">
           <button @click.stop.prevent="showAll = false" class="bg-white cursor-pointer rounded-full px-3 py-1.5 shadow flex items-center group hover:bg-primary hover:text-white transition-all">
             <span class="text-sm font-medium mr-2">Ẩn bớt</span>
-            <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" style="transform: rotate(180deg)"><g fill-rule="evenodd"><path stroke-width="2" stroke="currentColor" fill="none" d="M1 1l4 4-4 4"></path></g></svg>
+            <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" style="transform: rotate(270deg)"><g fill-rule="evenodd"><path stroke-width="2" stroke="currentColor" fill="none" d="M1 1l4 4-4 4"></path></g></svg>
           </button>
         </div>
       </summary>

@@ -19107,7 +19107,7 @@ a:hover {
     scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .transform-none {
-  transform: none;
+  transform: unset;
 }
 @keyframes pulse {
   50% {

@@ -8,6 +8,7 @@ import DoctorDetail from "@/page/DoctorDetail.vue";
 import ClinicList from "@/page/ClinicList.vue";
 import ClinicDetail from "@/page/ClinicDetail.vue";
 import PatientRecord from "@/page/PatientRecord.vue";
+import AppointmentStep from "@/page/Appointment/AppointmentStep.vue";
 const routes = [
   {
     path: "/",
@@ -88,6 +89,14 @@ const routes = [
     component: ClinicDetail,
     meta: {
       title: "Hospital - Chi tiết cơ sở y tế",
+    },
+  },
+  {
+    path: "/appointment-step",
+    name: "appointment-step",
+    component: AppointmentStep,
+    meta: {
+      title: "Hospital - Đặt lịch khám",
     },
   },
   // Thêm các route khác ở đây nếu cần

@@ -6,7 +6,7 @@
       :title="t('pages.home.mainHeading.bookingOnline')"
       :subtitle="t('pages.home.mainHeading.bookingSubtitle')"
     />
-    <main class="container mx-auto px-4 py-8">
+    <main class="container-full mx-auto  py-8">
       <!-- Booking Section for Doctors -->
       <Booking
         id="booking-doctors"
@@ -58,6 +58,7 @@
         :subtitle="t('pages.home.mainHeading.newsSubtitle')"
       />
       <NewsSection />
+      <ProfessionalSection/>
     </main>
 
     <!-- About Section -->
@@ -79,6 +80,7 @@ import AboutSection from "@/components/Layout/Section/About/AboutSection.vue";
 import SecuritySection from "@/components/Layout/Section/Security/SecuritySection.vue";
 import MainHeading from "@/components/Layout/Heading/MainHeading.vue";
 import SpecialtyContainer from "../components/Layout/Section/Booking/SpecialtyContainer.vue";
+import ProfessionalSection from "../components/Layout/Section/Professional/ProfessionalSection.vue";
 const { t } = useI18n();
 </script>
 

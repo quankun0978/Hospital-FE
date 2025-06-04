@@ -36,7 +36,7 @@
           @click="togglePasswordVisibility"
           width="20"
           height="20"
-          class="absolute bottom-1/2 translate-y-1/2  right-[10px] cursor-pointer"
+          class="absolute top-[11px]  right-[10px] cursor-pointer"
           :src="showPassword ? 'https://youmed.vn/dat-kham/assets/img/booking/svg/Show.svg' : 'https://youmed.vn/dat-kham/assets/img/booking/svg/Hide.svg'"
         />
       </div>

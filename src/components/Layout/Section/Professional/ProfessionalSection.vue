@@ -8,8 +8,8 @@
             <p class="font-bold text-gray-700 font-serif md:text-lg mb-6">
               {{ t('components.section.professional.description') }}
             </p>
-            <a href="#"
-              class="bg-primary inline-flex text-white items-center rounded-full px-5 py-2 group cursor-pointer">
+            <button 
+              class="bg-primary inline-flex text-white items-center rounded-full px-5 py-2 group cursor-pointer hover:bg-blue-900">
               <p class="font-medium mr-1">{{ t('components.section.professional.viewTeam') }}</p>
               <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" class="ml-2">
                 <g fill-rule="evenodd">
@@ -19,7 +19,7 @@
                     class="group-hover:translate-x-1 transition-transform"></path>
                 </g>
               </svg>
-            </a>
+            </button>
           </div>
         </div>
         <div class="md:basis-2/3 gap-6 grid grid-cols-1 md:grid-cols-2">
