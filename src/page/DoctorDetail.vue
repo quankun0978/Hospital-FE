@@ -72,7 +72,7 @@
 
               <div
                 id="specialties"
-                class="flex flex-col md:flex-row md:items-end md:gap-3"
+                class="flex flex-col md:flex-row md:items-end md:gap-3 items-center"
               >
                 <h2 class="text-gray-600 text-sm mb-0 doctorinfo-label">
                   Chuyên khoa
@@ -81,7 +81,7 @@
                   <h3
                     v-for="(specialty, index) in getDoctorSpecialties(doctor)"
                     :key="index"
-                    class="inline-block"
+                    class="inline-block px-2 py-1 text-xs bg-blue-100 text-green-800 rounded mt-1"
                   >
                     <router-link
                       :to="`/doctors?specialty=${encodeURIComponent(
@@ -111,7 +111,24 @@
                   Nơi công tác
                 </h2>
                 <div>
-                  <p class="font-medium">{{ getDoctorHospital(doctor) }}</p>
+                  <div v-if="doctor.clinics && doctor.clinics.length > 0">
+                    <div v-for="clinic in doctor.clinics" :key="clinic.clinicId" class="mb-2">
+                      <router-link 
+                        :to="`/clinic/${clinic.slug}`" 
+                        class="font-medium text-primary hover:underline"
+                      >
+                        {{ clinic.name }}
+                      </router-link>
+                      <p v-if="clinic.address" class="text-sm text-gray-600">{{ clinic.address }}</p>
+                      <span v-if="clinic.isHospital" class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded mt-1">
+                        Bệnh viện
+                      </span>
+                      <span v-else class="inline-block px-2 py-1 text-xs bg-green-100 text-green-800 rounded mt-1">
+                        Phòng khám
+                      </span>
+                    </div>
+                  </div>
+                  <p v-else class="font-medium">{{ getDoctorHospital(doctor) }}</p>
                 </div>
               </div>
             </div>
@@ -300,6 +317,8 @@
               </div>
             </details>
           </div>
+
+      
 
           <!-- Giới thiệu bác sĩ -->
           <div class="max-w-none" v-if="doctorMarkdownHTML">
@@ -501,10 +520,13 @@ const getDoctorImage = (doctor) => {
 };
 
 const getDoctorSpecialties = (doctor) => {
-  // Trong thực tế, specialties có thể được lấy từ một API khác hoặc từ hệ thống phân loại
-  // Tạm thời, chúng ta có thể dựa vào priceId hoặc positionName để xác định chuyên khoa
-  const specialties = [];
+  // Sử dụng dữ liệu specialties thực từ API
+  if (doctor.specialties && doctor.specialties.length > 0) {
+    return doctor.specialties.map(specialty => specialty.name);
+  }
 
+  // Fallback: Sử dụng positionName nếu không có specialties
+  const specialties = [];
   if (doctor.doctorInfos && doctor.doctorInfos.length > 0) {
     doctor.doctorInfos.forEach((info) => {
       if (info.positionName && !specialties.includes(info.positionName)) {
@@ -518,7 +540,12 @@ const getDoctorSpecialties = (doctor) => {
 };
 
 const getDoctorHospital = (doctor) => {
-  // Lấy tên bệnh viện/phòng khám từ thông tin chi tiết
+  // Sử dụng dữ liệu clinics thực từ API
+  if (doctor.clinics && doctor.clinics.length > 0) {
+    return doctor.clinics[0].name;
+  }
+
+  // Fallback: Lấy tên bệnh viện/phòng khám từ thông tin chi tiết
   return doctor.doctorInfos?.[0]?.clinicName || "";
 };
 
@@ -531,26 +558,36 @@ const selectDate = (index) => {
 const selectTimeSlot = (slot) => {
   // Lấy ngày đã chọn
   const dateLabel = availableDates.value[selectedDate.value].label;
-  // Chuyển hướng sang trang appointment-step và truyền tên bệnh nhân, thời gian
+  const slug = route.params.slug;
+  
+  // Chuyển hướng sang trang appointment-step với thông tin đầy đủ
   router.push({
     path: "/appointment-step",
     query: {
-      patientName: doctor.value?.name || '',
+      doctorSlug: slug,
+      doctorName: doctor.value?.name || '',
       time: `${dateLabel} ${slot}`,
+      date: dateLabel,
+      timeSlot: slot,
     },
   });
 };
 
 // Hàm đặt lịch khám
 const bookAppointment = (doctorInfo) => {
-  if (!doctorInfo) return;
+  if (!doctor.value) return;
 
-  // Chuyển hướng đến trang đặt lịch khám với thông tin bác sĩ
+  const slug = route.params.slug;
+  
+  // Chuyển hướng đến trang appointment-step với thông tin bác sĩ
   router.push({
-    path: "/book-appointment",
+    path: "/appointment-step",
     query: {
+      doctorSlug: slug,
       doctorId: doctor.value.doctorId,
-      doctorInfoId: doctorInfo.id,
+      doctorName: doctor.value.name,
+      clinicName: getDoctorHospital(doctor.value),
+      specialty: getDoctorSpecialties(doctor.value)[0] || '',
     },
   });
 };

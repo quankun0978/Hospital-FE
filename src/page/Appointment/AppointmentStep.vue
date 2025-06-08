@@ -130,10 +130,14 @@
                                     infinite-scroll=""
                                     class="grid gap-4 max-h-96 overflow-y-auto ng-star-inserted"
                                   >
-                                    <div>
+                                    <div
+                                      v-for="(record, idx) in patientRecords"
+                                      :key="record.patientId"
+                                    >
                                       <div
                                         _ngcontent-serverapp-c107=""
                                         class="flex flex-col gap-4 p-4"
+                                        v-if="idx === 0"
                                       >
                                         <ul
                                           _ngcontent-serverapp-c107=""
@@ -150,7 +154,7 @@
                                               _ngcontent-serverapp-c107=""
                                               class="font-medium"
                                             >
-                                              YMP252173792
+                                              {{ record.patientId }}
                                             </p>
                                           </li>
 
@@ -305,12 +309,12 @@
                                                   _ngcontent-serverapp-c107=""
                                                   class="font-medium text-base text-gray-800"
                                                 >
-                                                  Nguyễn Văn Addd </span
+                                                  {{ record.patientName }} </span
                                                 ><span
                                                   _ngcontent-serverapp-c107=""
                                                   class="font-normal text-sm text-gray-600"
                                                 >
-                                                  23/02/1990
+                                                  {{ record.dateOfBirth }}
                                                 </span>
                                               </div>
                                             </div>
@@ -673,7 +677,7 @@
                                   <textarea
                                     _ngcontent-serverapp-c113=""
                                     rows="1"
-                                    formcontrolname="note"
+                                    v-model="appointmentNote"
                                     nz-input=""
                                     class="ant-input rounded mt-1 ng-untouched ng-pristine ng-valid"
                                     placeholder="Triệu chứng, thuốc đang dùng, tiền sử, ..."
@@ -817,10 +821,9 @@
                       >
                         <img
                           _ngcontent-serverapp-c103=""
-                          defaultimage="./assets/img/placeholder.svg"
-                          class="w-[60px] h-[60px] object-scale-down rounded-full lazyload ng-lazyloaded"
-                          alt="Lê Thị Minh Hồng"
-                          src="https://cdn.youmed.vn/photos/6482af81-ab7d-4587-b011-8a9bad38a1e9.png"
+                          class="w-[60px] h-[60px] object-scale-down rounded-full "
+                          :alt="doctorName"
+                          :src="imageUrl"
                         />
                       </div>
 
@@ -829,13 +832,13 @@
                           _ngcontent-serverapp-c103=""
                           class="font-medium text-base"
                         >
-                          Lê Thị Minh Hồng
+                          {{ doctorName || doctor?.name || 'Đang tải...' }}
                         </p>
                         <p
                           _ngcontent-serverapp-c103=""
                           class="font-normal text-xs text-gray-500 line-clamp-2"
                         >
-                          250 Nguyễn Xí, P.13, Q. Bình Thạnh, TP.HCM
+                          {{ clinicName || doctor?.clinics?.[0]?.name || '' }}
                         </p>
                       </div>
                     </div>
@@ -853,17 +856,18 @@
                         >
                           <div _ngcontent-serverapp-c103="">Ngày khám</div>
                           <div _ngcontent-serverapp-c103="" class="font-medium">
-                            02/06/2025
+                            {{ appointmentDate || 'Chưa chọn' }}
                           </div>
                         </div>
 
                         <div
                           _ngcontent-serverapp-c103=""
                           class="flex flex-row justify-between py-2 text-gray-800 ng-star-inserted"
+                          v-if="timeSlot"
                         >
                           <div _ngcontent-serverapp-c103="">Khung giờ</div>
                           <div _ngcontent-serverapp-c103="" class="font-medium">
-                            18:45-18:50
+                            {{ timeSlot }}
                           </div>
                         </div>
                       </div>
@@ -879,7 +883,7 @@
                           _ngcontent-serverapp-c103=""
                           class="font-medium ng-star-inserted"
                         >
-                          Nguyễn Văn Addd
+                          {{ selectedRecord?.patientName || 'Chưa chọn' }}
                         </div>
                       </div>
                     </div>
@@ -895,10 +899,11 @@
                       >
                         <button
                           _ngcontent-serverapp-c103=""
-                          appsingleclick=""
-                          class="w-full button font-semibold text-sm text-white px-4 py-4 bg-primary ng-star-inserted"
+                          @click="submitAppointment"
+                          :disabled="loading || !selectedRecord"
+                          class="w-full button font-semibold text-sm text-white px-4 py-4 bg-primary ng-star-inserted disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Đặt lịch
+                          {{ loading ? 'Đang xử lý...' : 'Đặt lịch' }}
                         </button>
                       </div>
                     </div>
@@ -930,13 +935,155 @@
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
-import { computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { ref, computed, onMounted } from "vue";
 import arrowDownIcon from "@/assets/images/arrow-down.svg";
 import borderIcon from "@/assets/images/border.svg";
 import checkedBgBlueIcon from "@/assets/images/checked-bg-blue.svg";
 import familyBlockIcon from "@/assets/images/family-block.svg";
+import doctorApi from "@/api/doctorApi";
+import appointmentApi from "@/api/appointmentApi";
+
 const route = useRoute();
-const patientName = computed(() => route.query.patientName || "");
-const time = computed(() => route.query.time || "");
+const router = useRouter();
+
+// State
+const doctor = ref(null);
+const doctorInfo = ref(null);
+const imageUrl = ref("");
+const selectedRecord = ref(null);
+const loading = ref(false);
+const appointmentNote = ref("");
+
+// Computed từ query params
+const doctorSlug = computed(() => route.query.doctorSlug || "");
+const doctorName = computed(() => route.query.doctorName || "");
+const appointmentTime = computed(() => route.query.time || "");
+const appointmentDate = computed(() => route.query.date || "");
+const timeSlot = computed(() => route.query.timeSlot || "");
+const clinicName = computed(() => route.query.clinicName || "");
+const specialty = computed(() => route.query.specialty || "");
+
+// Mock data cho bệnh nhân (trong thực tế sẽ lấy từ API)
+const patientRecords = ref([
+  {
+    patientId: "YMP252146155",
+    patientName: "Nguyễn Văn Addd",
+    phone: "0978567567",
+    gender: "Nam",
+    dateOfBirth: "23/02/1990",
+    address: "số nhà 234523",
+    relationshipType: "Tôi"
+  },
+  {
+    patientId: "YMP252173792", 
+    patientName: "adsadasd",
+    phone: "0977789898",
+    gender: "Nam",
+    dateOfBirth: "01/01/1990",
+    address: "ưerwewtw",
+    relationshipType: "Cha"
+  }
+]);
+
+// Lấy thông tin bác sĩ khi có slug
+const fetchDoctorDetails = async () => {
+  if (!doctorSlug.value) return;
+  
+  try {
+    loading.value = true;
+    const response = await doctorApi.getBySlug(doctorSlug.value);
+    if (response.succeeded && response.data) {
+      doctor.value = response.data;
+      imageUrl.value = "https://localhost:7038" + response.data.doctorInfos[0].imageUrl;
+      console.log(imageUrl.value);
+    }
+  } catch (error) {
+    console.error("Lỗi khi lấy thông tin bác sĩ:", error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Chọn hồ sơ bệnh nhân
+const selectRecord = (record) => {
+  selectedRecord.value = record;
+};
+
+// Hàm lấy logo phòng khám
+const getDoctorLogo = () => {
+  
+  if (doctorInfo.value?.imageUrl) {
+    return "https://localhost:7038" + doctorInfo.value.imageUrl;
+  }
+
+  // Logo mặc định
+  return "https://cdn.youmed.vn/photos/fb4179f1-d0e9-4e2a-98a2-26e6efe7add8.png";
+};
+
+// Xử lý đặt lịch khám
+const submitAppointment = async () => {
+  if (!selectedRecord.value) {
+    alert("Vui lòng chọn hồ sơ bệnh nhân");
+    return;
+  }
+
+  if (!doctor.value) {
+    alert("Không tìm thấy thông tin bác sĩ");
+    return;
+  }
+
+  try {
+    loading.value = true;
+    
+    // Tạo data để gửi API
+    const appointmentData = {
+      // patientId: selectedRecord.value.patientId,
+      doctorId: doctor.value.doctorId,
+      appointmentDate: formatDateForAPI(appointmentDate.value),
+      timeType: timeSlot.value,
+      reason: appointmentNote.value || ""
+    };
+
+    const response = await appointmentApi.create(appointmentData);
+    
+    if (response.succeeded) {
+      alert("Đặt lịch khám thành công!");
+      // Chuyển về trang chủ hoặc trang lịch hẹn
+      router.push("/");
+    } else {
+      alert(response.message || "Có lỗi xảy ra khi đặt lịch");
+    }
+  } catch (error) {
+    console.error("Lỗi khi đặt lịch:", error);
+    alert("Có lỗi xảy ra khi đặt lịch khám");
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Format date cho API (chuyển từ "Th 2, 19-05" sang "2024-05-19")
+const formatDateForAPI = (dateLabel) => {
+  if (!dateLabel) return new Date().toISOString().split('T')[0];
+  
+  // Đây là logic đơn giản, trong thực tế cần parse chính xác hơn
+  const currentYear = new Date().getFullYear();
+  const dateParts = dateLabel.split(', ')[1]?.split('-');
+  if (dateParts && dateParts.length === 2) {
+    const day = dateParts[0].padStart(2, '0');
+    const month = dateParts[1].padStart(2, '0');
+    return `${currentYear}-${month}-${day}`;
+  }
+  
+  return new Date().toISOString().split('T')[0];
+};
+
+// Hook lifecycle
+onMounted(() => {
+  fetchDoctorDetails();
+  // Mặc định chọn bệnh nhân đầu tiên
+  if (patientRecords.value.length > 0) {
+    selectedRecord.value = patientRecords.value[0];
+  }
+});
 </script>

@@ -145,7 +145,6 @@ onMounted(() => {
 .clinic-cards-container {
   display: flex;
   flex-wrap: nowrap;
-  overflow-x: auto;
   gap: 1rem;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;

@@ -4,7 +4,7 @@ import type { PaginatedResponse } from '../model/PaginatedResponse';
 
 const clinicApi = {
   getAll: () => fetchData<Clinic[]>('/Clinic'),
-  getById: (id: string | number) => fetchData<Clinic>(`/clinics/${id}`),
+  getById: (id: string | number) => fetchData<Clinic>(`/clinic/${id}`),
   getClinics: (parameters: any) => 
     fetchDataWithParams<PaginatedResponse<Clinic>>('/Clinic', parameters),
 };
