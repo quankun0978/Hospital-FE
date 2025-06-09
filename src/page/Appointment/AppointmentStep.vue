@@ -134,115 +134,7 @@
                                       v-for="(record, idx) in patientRecords"
                                       :key="record.patientId"
                                     >
-                                      <div
-                                        _ngcontent-serverapp-c107=""
-                                        class="flex flex-col gap-4 p-4"
-                                        v-if="idx === 0"
-                                      >
-                                        <ul
-                                          _ngcontent-serverapp-c107=""
-                                          class="divide-y divide-gray-100"
-                                        >
-                                          <li
-                                            _ngcontent-serverapp-c107=""
-                                            class="flex justify-between flex-wrap text-gray-800 py-1 ng-star-inserted"
-                                          >
-                                            <p _ngcontent-serverapp-c107="">
-                                              Mã bệnh nhân
-                                            </p>
-                                            <p
-                                              _ngcontent-serverapp-c107=""
-                                              class="font-medium"
-                                            >
-                                              {{ record.patientId }}
-                                            </p>
-                                          </li>
 
-                                          <li
-                                            _ngcontent-serverapp-c107=""
-                                            class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                          >
-                                            <p _ngcontent-serverapp-c107="">
-                                              Họ và tên
-                                            </p>
-                                            <p
-                                              _ngcontent-serverapp-c107=""
-                                              class="font-medium"
-                                            >
-                                              adsadasd
-                                            </p>
-                                          </li>
-
-                                          <li
-                                            _ngcontent-serverapp-c107=""
-                                            class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                          >
-                                            <p _ngcontent-serverapp-c107="">
-                                              Giới tính
-                                            </p>
-                                            <p
-                                              _ngcontent-serverapp-c107=""
-                                              class="font-medium"
-                                            >
-                                              Nam
-                                            </p>
-                                          </li>
-
-                                          <li
-                                            _ngcontent-serverapp-c107=""
-                                            class="flex justify-between flex-wrap text-gray-800 py-2"
-                                          >
-                                            <p _ngcontent-serverapp-c107="">
-                                              Ngày sinh
-                                            </p>
-                                            <p
-                                              _ngcontent-serverapp-c107=""
-                                              class="font-medium"
-                                            >
-                                              01/01/1990
-                                            </p>
-                                          </li>
-                                          <li
-                                            _ngcontent-serverapp-c107=""
-                                            class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                          >
-                                            <p _ngcontent-serverapp-c107="">
-                                              Số điện thoại
-                                            </p>
-                                            <p
-                                              _ngcontent-serverapp-c107=""
-                                              class="font-medium"
-                                            >
-                                              0977789898
-                                            </p>
-                                          </li>
-
-                                          <li
-                                            _ngcontent-serverapp-c107=""
-                                            class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                          >
-                                            <p _ngcontent-serverapp-c107="">
-                                              Địa chỉ
-                                            </p>
-                                            <p
-                                              _ngcontent-serverapp-c107=""
-                                              class="font-medium"
-                                            >
-                                              ưerwewtw
-                                            </p>
-                                          </li>
-                                        </ul>
-                                        <div
-                                          _ngcontent-serverapp-c107=""
-                                          class="flex flex-row gap-4 items-start"
-                                        >
-                                          <a
-                                            _ngcontent-serverapp-c107=""
-                                            class="font-semibold text-sm text-primary leading-17 bg-blue-50 border-inherit shadow-sm rounded px-4 py-3"
-                                            >Điều chỉnh</a
-                                          >
-                                        </div>
-                                      </div>
                                       <div
                                         _ngcontent-serverapp-c108=""
                                         _nghost-serverapp-c107=""
@@ -251,7 +143,12 @@
                                       >
                                         <div
                                           _ngcontent-serverapp-c107=""
-                                          class="cursor-pointer border-gray-300 rounded-lg flex flex-col ng-star-inserted active"
+                                          class="cursor-pointer border border-gray-300 rounded-lg flex flex-col ng-star-inserted hover:bg-gray-50 transition-colors"
+                                          :class="{ 
+                                            'bg-blue-50 border-blue-300': selectedRecord && selectedRecord.patientId === record.patientId,
+                                            'bg-white': !selectedRecord || selectedRecord.patientId !== record.patientId
+                                          }"
+                                          @click="selectRecord(record)"
                                         >
                                           <div
                                             _ngcontent-serverapp-c107=""
@@ -261,15 +158,8 @@
                                               _ngcontent-serverapp-c107=""
                                               class="flex row gap-1"
                                             >
-                                              <div
-                                                class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-50"
-                                                :class="{
-                                                  'bg-gray-50':
-                                                    selectedRecord &&
-                                                    selectedRecord.patientId ===
-                                                      record.patientId,
-                                                }"
-                                                @click="selectRecord(record)"
+                                                                                            <div
+                                                class="flex items-center gap-3 px-4 py-3"
                                               >
                                                 <div class="relative w-12 h-12">
                                                   <img
@@ -286,7 +176,11 @@
                                                     <div
                                                       class="absolute z-20 text-sm text-white font-bold"
                                                     >
-                                                      AD
+                                                      {{
+                                                        getInitials(
+                                                          record.fullName
+                                                        )
+                                                      }}
                                                     </div>
                                                     <span
                                                       v-if="idx === 0"
@@ -296,7 +190,10 @@
                                                     <span
                                                       v-else
                                                       class="absolute z-20 text-xs bg-gray-400 rounded-full -top-1 right-0 text-white px-1"
-                                                      >Cha</span
+                                                      >{{
+                                                        record.relationshipType ||
+                                                        "Khác"
+                                                      }}</span
                                                     >
                                                   </div>
                                                 </div>
@@ -309,30 +206,34 @@
                                                   _ngcontent-serverapp-c107=""
                                                   class="font-medium text-base text-gray-800"
                                                 >
-                                                  {{ record.patientName }} </span
-                                                ><span
+                                                  {{ record.fullName }}
+                                                </span>
+                                                <span
                                                   _ngcontent-serverapp-c107=""
                                                   class="font-normal text-sm text-gray-600"
                                                 >
-                                                  {{ record.dateOfBirth }}
+                                                  {{
+                                                    formatDate(
+                                                      record.dateOfBirth
+                                                    )
+                                                  }}
                                                 </span>
                                               </div>
                                             </div>
-                                            <button
+                                                                                      <div class="p-2">
+                                            <img
                                               _ngcontent-serverapp-c107=""
-                                              class="p-2"
-                                            >
-                                              <img
-                                                _ngcontent-serverapp-c107=""
-                                                :src="arrowDownIcon"
-                                                title="Xem thêm thông tin"
-                                                class="cursor-pointer w-4 h-4"
-                                              />
-                                            </button>
+                                              :src="arrowDownIcon"
+                                              title="Xem thêm thông tin"
+                                              class="cursor-pointer w-4 h-4 transition-transform"
+                                              :class="{ 'rotate-180': isRecordExpanded(record.patientId) }"
+                                            />
+                                          </div>
                                           </div>
                                           <div
                                             _ngcontent-serverapp-c107=""
-                                            class="flex flex-col gap-4 p-4 hidden"
+                                            class="flex flex-col gap-4 p-4"
+                                            v-show="isRecordExpanded(record.patientId)"
                                           >
                                             <ul
                                               _ngcontent-serverapp-c107=""
@@ -349,7 +250,7 @@
                                                   _ngcontent-serverapp-c107=""
                                                   class="font-medium"
                                                 >
-                                                  YMP252146155
+                                                  {{ record.patientCode || "Chưa có" }}
                                                 </p>
                                               </li>
 
@@ -364,7 +265,7 @@
                                                   _ngcontent-serverapp-c107=""
                                                   class="font-medium"
                                                 >
-                                                  Nguyễn Văn Addd
+                                                  {{ record.fullName }}
                                                 </p>
                                               </li>
 
@@ -379,7 +280,7 @@
                                                   _ngcontent-serverapp-c107=""
                                                   class="font-medium"
                                                 >
-                                                  Nam
+                                                  {{ record.gender === "M" ? "Nam" : record.gender === "F" ? "Nữ" : "--" }}
                                                 </p>
                                               </li>
 
@@ -394,7 +295,7 @@
                                                   _ngcontent-serverapp-c107=""
                                                   class="font-medium"
                                                 >
-                                                  23/02/1990
+                                                  {{ formatDate(record.dateOfBirth) }}
                                                 </p>
                                               </li>
                                               <li
@@ -408,7 +309,7 @@
                                                   _ngcontent-serverapp-c107=""
                                                   class="font-medium"
                                                 >
-                                                  0978567567
+                                                  {{ record.phone }}
                                                 </p>
                                               </li>
 
@@ -423,7 +324,7 @@
                                                   _ngcontent-serverapp-c107=""
                                                   class="font-medium"
                                                 >
-                                                  số nhà 234523
+                                                  {{ record.address }}
                                                 </p>
                                               </li>
                                             </ul>
@@ -442,203 +343,7 @@
                                       </div>
                                     </div>
 
-                                    <div
-                                      _ngcontent-serverapp-c108=""
-                                      _nghost-serverapp-c107=""
-                                      id="patient1"
-                                      class="ng-star-inserted"
-                                    >
-                                      <div
-                                        _ngcontent-serverapp-c107=""
-                                        class="cursor-pointer border-gray-300 rounded-lg flex flex-col ng-star-inserted"
-                                      >
-                                        <div
-                                          _ngcontent-serverapp-c107=""
-                                          class="item flex flex-row justify-between items-center p-2"
-                                        >
-                                          <div
-                                            _ngcontent-serverapp-c107=""
-                                            class="flex row gap-1"
-                                          >
-                                            <div
-                                              class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-50"
-                                              :class="{
-                                                'bg-gray-50':
-                                                  selectedRecord &&
-                                                  selectedRecord.patientId ===
-                                                    record.patientId,
-                                              }"
-                                              @click="selectRecord(record)"
-                                            >
-                                              <div class="relative w-12 h-12">
-                                                <img
-                                                  :src="familyBlockIcon"
-                                                  alt="Primary"
-                                                  class="w-12 h-12"
-                                                />
-                                                <div
-                                                  class="absolute inset-0 flex items-center justify-center"
-                                                >
-                                                  <span
-                                                    class="absolute z-10 w-8 h-8 rounded-full bg-[#22d3ee]"
-                                                  ></span>
-                                                  <div
-                                                    class="absolute z-20 text-sm text-white font-bold"
-                                                  >
-                                                    AD
-                                                  </div>
-                                                  <span
-                                                    v-if="idx === 0"
-                                                    class="absolute z-20 text-xs bg-gray-400 rounded-full -top-1 right-0 text-white px-1"
-                                                    >Tôi</span
-                                                  >
-                                                  <span
-                                                    v-else
-                                                    class="absolute z-20 text-xs bg-gray-400 rounded-full -top-1 right-0 text-white px-1"
-                                                    >Cha</span
-                                                  >
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div
-                                              _ngcontent-serverapp-c107=""
-                                              class="flex flex-col justify-center items-start"
-                                            >
-                                              <span
-                                                _ngcontent-serverapp-c107=""
-                                                class="font-medium text-base text-gray-800"
-                                              >
-                                                adsadasd </span
-                                              ><span
-                                                _ngcontent-serverapp-c107=""
-                                                class="font-normal text-sm text-gray-600"
-                                              >
-                                                01/01/1990
-                                              </span>
-                                            </div>
-                                          </div>
-                                          <button
-                                            _ngcontent-serverapp-c107=""
-                                            class="p-2"
-                                          >
-                                            <img
-                                              _ngcontent-serverapp-c107=""
-                                              :src="arrowDownIcon"
-                                              title="Xem thêm thông tin"
-                                              class="cursor-pointer w-4 h-4"
-                                            />
-                                          </button>
-                                        </div>
-                                        <div
-                                          _ngcontent-serverapp-c107=""
-                                          class="flex flex-col gap-4 p-4 hidden"
-                                        >
-                                          <ul
-                                            _ngcontent-serverapp-c107=""
-                                            class="divide-y divide-gray-100"
-                                          >
-                                            <li
-                                              _ngcontent-serverapp-c107=""
-                                              class="flex justify-between flex-wrap text-gray-800 py-1 ng-star-inserted"
-                                            >
-                                              <p _ngcontent-serverapp-c107="">
-                                                Mã bệnh nhân
-                                              </p>
-                                              <p
-                                                _ngcontent-serverapp-c107=""
-                                                class="font-medium"
-                                              >
-                                                YMP252173792
-                                              </p>
-                                            </li>
 
-                                            <li
-                                              _ngcontent-serverapp-c107=""
-                                              class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                            >
-                                              <p _ngcontent-serverapp-c107="">
-                                                Họ và tên
-                                              </p>
-                                              <p
-                                                _ngcontent-serverapp-c107=""
-                                                class="font-medium"
-                                              >
-                                                adsadasd
-                                              </p>
-                                            </li>
-
-                                            <li
-                                              _ngcontent-serverapp-c107=""
-                                              class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                            >
-                                              <p _ngcontent-serverapp-c107="">
-                                                Giới tính
-                                              </p>
-                                              <p
-                                                _ngcontent-serverapp-c107=""
-                                                class="font-medium"
-                                              >
-                                                Nam
-                                              </p>
-                                            </li>
-
-                                            <li
-                                              _ngcontent-serverapp-c107=""
-                                              class="flex justify-between flex-wrap text-gray-800 py-2"
-                                            >
-                                              <p _ngcontent-serverapp-c107="">
-                                                Ngày sinh
-                                              </p>
-                                              <p
-                                                _ngcontent-serverapp-c107=""
-                                                class="font-medium"
-                                              >
-                                                01/01/1990
-                                              </p>
-                                            </li>
-                                            <li
-                                              _ngcontent-serverapp-c107=""
-                                              class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                            >
-                                              <p _ngcontent-serverapp-c107="">
-                                                Số điện thoại
-                                              </p>
-                                              <p
-                                                _ngcontent-serverapp-c107=""
-                                                class="font-medium"
-                                              >
-                                                0977789898
-                                              </p>
-                                            </li>
-
-                                            <li
-                                              _ngcontent-serverapp-c107=""
-                                              class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                            >
-                                              <p _ngcontent-serverapp-c107="">
-                                                Địa chỉ
-                                              </p>
-                                              <p
-                                                _ngcontent-serverapp-c107=""
-                                                class="font-medium"
-                                              >
-                                                ưerwewtw
-                                              </p>
-                                            </li>
-                                          </ul>
-                                          <div
-                                            _ngcontent-serverapp-c107=""
-                                            class="flex flex-row gap-4 items-start"
-                                          >
-                                            <a
-                                              _ngcontent-serverapp-c107=""
-                                              class="font-semibold text-sm text-primary leading-17 bg-blue-50 border-inherit shadow-sm rounded px-4 py-3"
-                                              >Điều chỉnh</a
-                                            >
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -821,7 +526,7 @@
                       >
                         <img
                           _ngcontent-serverapp-c103=""
-                          class="w-[60px] h-[60px] object-scale-down rounded-full "
+                          class="w-[60px] h-[60px] object-scale-down rounded-full"
                           :alt="doctorName"
                           :src="imageUrl"
                         />
@@ -832,13 +537,13 @@
                           _ngcontent-serverapp-c103=""
                           class="font-medium text-base"
                         >
-                          {{ doctorName || doctor?.name || 'Đang tải...' }}
+                          {{ doctorName || doctor?.name || "Đang tải..." }}
                         </p>
                         <p
                           _ngcontent-serverapp-c103=""
                           class="font-normal text-xs text-gray-500 line-clamp-2"
                         >
-                          {{ clinicName || doctor?.clinics?.[0]?.name || '' }}
+                          {{ clinicName || doctor?.clinics?.[0]?.name || "" }}
                         </p>
                       </div>
                     </div>
@@ -856,7 +561,7 @@
                         >
                           <div _ngcontent-serverapp-c103="">Ngày khám</div>
                           <div _ngcontent-serverapp-c103="" class="font-medium">
-                            {{ appointmentDate || 'Chưa chọn' }}
+                            {{ appointmentDate || "Chưa chọn" }}
                           </div>
                         </div>
 
@@ -883,7 +588,7 @@
                           _ngcontent-serverapp-c103=""
                           class="font-medium ng-star-inserted"
                         >
-                          {{ selectedRecord?.patientName || 'Chưa chọn' }}
+                          {{ selectedRecord?.fullName || "Chưa chọn" }}
                         </div>
                       </div>
                     </div>
@@ -903,7 +608,7 @@
                           :disabled="loading || !selectedRecord"
                           class="w-full button font-semibold text-sm text-white px-4 py-4 bg-primary ng-star-inserted disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          {{ loading ? 'Đang xử lý...' : 'Đặt lịch' }}
+                          {{ loading ? "Đang xử lý..." : "Đặt lịch" }}
                         </button>
                       </div>
                     </div>
@@ -943,6 +648,8 @@ import checkedBgBlueIcon from "@/assets/images/checked-bg-blue.svg";
 import familyBlockIcon from "@/assets/images/family-block.svg";
 import doctorApi from "@/api/doctorApi";
 import appointmentApi from "@/api/appointmentApi";
+import Message from "@/plugins/message";
+import patientRecordApi from "@/api/patientRecordApi";
 
 const route = useRoute();
 const router = useRouter();
@@ -954,6 +661,7 @@ const imageUrl = ref("");
 const selectedRecord = ref(null);
 const loading = ref(false);
 const appointmentNote = ref("");
+const expandedRecords = ref(new Set()); // Track expanded records
 
 // Computed từ query params
 const doctorSlug = computed(() => route.query.doctorSlug || "");
@@ -964,55 +672,89 @@ const timeSlot = computed(() => route.query.timeSlot || "");
 const clinicName = computed(() => route.query.clinicName || "");
 const specialty = computed(() => route.query.specialty || "");
 
-// Mock data cho bệnh nhân (trong thực tế sẽ lấy từ API)
-const patientRecords = ref([
-  {
-    patientId: "YMP252146155",
-    patientName: "Nguyễn Văn Addd",
-    phone: "0978567567",
-    gender: "Nam",
-    dateOfBirth: "23/02/1990",
-    address: "số nhà 234523",
-    relationshipType: "Tôi"
-  },
-  {
-    patientId: "YMP252173792", 
-    patientName: "adsadasd",
-    phone: "0977789898",
-    gender: "Nam",
-    dateOfBirth: "01/01/1990",
-    address: "ưerwewtw",
-    relationshipType: "Cha"
+// Dữ liệu hồ sơ bệnh nhân từ API
+const patientRecords = ref([]);
+
+// Helper functions
+const getInitials = (name) => {
+  if (!name) return "";
+  return name
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+};
+
+const formatDate = (date) => {
+  if (!date) return "--";
+  const d = new Date(date);
+  return d.toLocaleDateString("vi-VN");
+};
+
+// Lấy dữ liệu hồ sơ bệnh nhân
+const fetchPatientRecords = async () => {
+  try {
+    const userId = localStorage.getItem("userId");
+    if (!userId) return;
+
+    const response = await patientRecordApi.getByUserId(userId);
+    patientRecords.value = Array.isArray(response) ? response : [response];
+
+    // Tự động chọn hồ sơ đầu tiên
+    if (patientRecords.value.length > 0) {
+      selectedRecord.value = patientRecords.value[0];
+    }
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách hồ sơ bệnh nhân:", error);
   }
-]);
+};
 
 // Lấy thông tin bác sĩ khi có slug
 const fetchDoctorDetails = async () => {
   if (!doctorSlug.value) return;
-  
+
   try {
     loading.value = true;
     const response = await doctorApi.getBySlug(doctorSlug.value);
     if (response.succeeded && response.data) {
       doctor.value = response.data;
-      imageUrl.value = "https://localhost:7038" + response.data.doctorInfos[0].imageUrl;
+      imageUrl.value =
+        "https://localhost:7038" + response.data.doctorInfos[0].imageUrl;
       console.log(imageUrl.value);
     }
   } catch (error) {
     console.error("Lỗi khi lấy thông tin bác sĩ:", error);
+    patientRecords.value = [];
   } finally {
     loading.value = false;
   }
 };
 
-// Chọn hồ sơ bệnh nhân
+// Chọn hồ sơ bệnh nhân và toggle detail cùng lúc
 const selectRecord = (record) => {
   selectedRecord.value = record;
+  toggleRecordDetails(record.patientId);
+};
+
+// Toggle expand/collapse thông tin chi tiết hồ sơ
+const toggleRecordDetails = (recordId) => {
+  if (expandedRecords.value.has(recordId)) {
+    expandedRecords.value.delete(recordId);
+  } else {
+    // Đóng tất cả hồ sơ khác trước khi mở hồ sơ mới
+    expandedRecords.value.clear();
+    expandedRecords.value.add(recordId);
+  }
+};
+
+// Kiểm tra hồ sơ có đang được expand không
+const isRecordExpanded = (recordId) => {
+  return expandedRecords.value.has(recordId);
 };
 
 // Hàm lấy logo phòng khám
 const getDoctorLogo = () => {
-  
   if (doctorInfo.value?.imageUrl) {
     return "https://localhost:7038" + doctorInfo.value.imageUrl;
   }
@@ -1024,39 +766,60 @@ const getDoctorLogo = () => {
 // Xử lý đặt lịch khám
 const submitAppointment = async () => {
   if (!selectedRecord.value) {
-    alert("Vui lòng chọn hồ sơ bệnh nhân");
+    Message.validationError("hồ sơ bệnh nhân");
     return;
   }
 
   if (!doctor.value) {
-    alert("Không tìm thấy thông tin bác sĩ");
+    Message.error("Không tìm thấy thông tin bác sĩ");
     return;
   }
 
   try {
     loading.value = true;
-    
+    const loadingMessage = Message.loading("Đang đặt lịch khám...");
+
     // Tạo data để gửi API
     const appointmentData = {
-      // patientId: selectedRecord.value.patientId,
+      patientId: selectedRecord.value.patientId,
       doctorId: doctor.value.doctorId,
       appointmentDate: formatDateForAPI(appointmentDate.value),
       timeType: timeSlot.value,
-      reason: appointmentNote.value || ""
+      reason: appointmentNote.value || "",
     };
 
     const response = await appointmentApi.create(appointmentData);
-    
+
+    // Đóng loading message
+    loadingMessage();
+
     if (response.succeeded) {
-      alert("Đặt lịch khám thành công!");
-      // Chuyển về trang chủ hoặc trang lịch hẹn
-      router.push("/");
+      // Hiển thị message thành công với thông tin chi tiết
+      Message.appointmentSuccess(
+        selectedRecord.value.patientName,
+        appointmentDate.value
+      );
+
+      // Chuyển về trang chủ sau 2 giây
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     } else {
-      alert(response.message || "Có lỗi xảy ra khi đặt lịch");
+      Message.apiError(response.message);
     }
   } catch (error) {
     console.error("Lỗi khi đặt lịch:", error);
-    alert("Có lỗi xảy ra khi đặt lịch khám");
+
+    // Xử lý các loại lỗi khác nhau
+    if (error.response?.status === 401) {
+      Message.unauthorized();
+    } else if (error.response?.status >= 500) {
+      Message.error("Lỗi hệ thống, vui lòng thử lại sau!");
+    } else if (error.code === "NETWORK_ERROR") {
+      Message.networkError();
+    } else {
+      Message.apiError("Có lỗi xảy ra khi đặt lịch khám");
+    }
   } finally {
     loading.value = false;
   }
@@ -1064,26 +827,23 @@ const submitAppointment = async () => {
 
 // Format date cho API (chuyển từ "Th 2, 19-05" sang "2024-05-19")
 const formatDateForAPI = (dateLabel) => {
-  if (!dateLabel) return new Date().toISOString().split('T')[0];
-  
+  if (!dateLabel) return new Date().toISOString().split("T")[0];
+
   // Đây là logic đơn giản, trong thực tế cần parse chính xác hơn
   const currentYear = new Date().getFullYear();
-  const dateParts = dateLabel.split(', ')[1]?.split('-');
+  const dateParts = dateLabel.split(", ")[1]?.split("-");
   if (dateParts && dateParts.length === 2) {
-    const day = dateParts[0].padStart(2, '0');
-    const month = dateParts[1].padStart(2, '0');
+    const day = dateParts[0].padStart(2, "0");
+    const month = dateParts[1].padStart(2, "0");
     return `${currentYear}-${month}-${day}`;
   }
-  
-  return new Date().toISOString().split('T')[0];
+
+  return new Date().toISOString().split("T")[0];
 };
 
 // Hook lifecycle
 onMounted(() => {
   fetchDoctorDetails();
-  // Mặc định chọn bệnh nhân đầu tiên
-  if (patientRecords.value.length > 0) {
-    selectedRecord.value = patientRecords.value[0];
-  }
+  fetchPatientRecords();
 });
 </script>

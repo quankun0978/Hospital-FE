@@ -1,0 +1,72 @@
+/* Custom styles cho Ant Design Message */
+.ant-message {
+  z-index: 9999;
+}
+
+.ant-message-notice {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ant-message-success .ant-message-notice {
+  background: linear-gradient(135deg, #52c41a 0%, #73d13d 100%);
+  color: white;
+}
+
+.ant-message-error .ant-message-notice {
+  background: linear-gradient(135deg, #ff4d4f 0%, #ff7875 100%);
+  color: white;
+}
+
+.ant-message-warning .ant-message-notice {
+  background: linear-gradient(135deg, #faad14 0%, #ffc53d 100%);
+  color: white;
+}
+
+.ant-message-info .ant-message-notice {
+  background: linear-gradient(135deg, #1890ff 0%, #40a9ff 100%);
+  color: white;
+}
+
+.ant-message-loading .ant-message-notice {
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  color: white;
+}
+
+/* Custom style cho appointment success message */
+.appointment-success-message .ant-message-notice {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  color: white;
+  border: 2px solid #34d399;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Animation cho message */
+.ant-message-notice {
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ant-message {
+    left: 16px !important;
+    right: 16px !important;
+    width: auto !important;
+  }
+  
+  .ant-message-notice {
+    margin: 0 !important;
+    max-width: none !important;
+  }
+} 
