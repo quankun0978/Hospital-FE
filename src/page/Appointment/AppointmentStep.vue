@@ -332,10 +332,11 @@
                                               _ngcontent-serverapp-c107=""
                                               class="flex flex-row gap-4 items-start"
                                             >
-                                              <a
+                                              <button
                                                 _ngcontent-serverapp-c107=""
-                                                class="font-semibold text-sm text-primary leading-17 bg-blue-50 border-inherit shadow-sm rounded px-4 py-3"
-                                                >Điều chỉnh</a
+                                                @click="openUpdatePopup(record)"
+                                                class="font-semibold text-sm text-primary leading-17 bg-blue-50 border-inherit shadow-sm rounded px-4 py-3 hover:bg-blue-100 transition-colors cursor-pointer"
+                                                >Điều chỉnh</button
                                               >
                                             </div>
                                           </div>
@@ -459,7 +460,7 @@
                                 _ngcontent-serverapp-c113=""
                                 class="flex flex-row justify-between font-semibold"
                               >
-                                <a
+                                <button
                                   _ngcontent-serverapp-c113=""
                                   @click="openAddPopup"
                                   nz-popover=""
@@ -467,8 +468,9 @@
                                   nzpopovertrigger="click"
                                   class="text-sm border border-solid text-primary rounded py-3 px-4"
                                 >
-                                  Thêm hồ sơ mới </a
-                                ><a
+                                  Thêm hồ sơ mới
+                                </button>
+                                <a
                                   _ngcontent-serverapp-c113=""
                                   class="bg-primary border border-primary hover:bg-primary/80 hover:text-white px-4 py-3 rounded text-sm text-white"
                                   hidden=""
@@ -638,11 +640,20 @@
       </div>
     </div>
   </section>
+
+  <!-- Popup Patient Record -->
+  <PopupPatientRecord
+    :visible="showPopup"
+    :mode="popupMode"
+    :record="popupRecord"
+    @close="showPopup = false"
+    @success="reloadRecords"
+  />
 </template>
 
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, defineAsyncComponent } from "vue";
 import arrowDownIcon from "@/assets/images/arrow-down.svg";
 import borderIcon from "@/assets/images/border.svg";
 import checkedBgBlueIcon from "@/assets/images/checked-bg-blue.svg";
@@ -651,6 +662,10 @@ import doctorApi from "@/api/doctorApi";
 import appointmentApi from "@/api/appointmentApi";
 import Message from "@/plugins/message";
 import patientRecordApi from "@/api/patientRecordApi";
+
+const PopupPatientRecord = defineAsyncComponent(
+  () => import("@/components/common/Popup/PopupPatientRecord.vue")
+);
 
 const route = useRoute();
 const router = useRouter();
@@ -663,6 +678,11 @@ const selectedRecord = ref(null);
 const loading = ref(false);
 const appointmentNote = ref("");
 const expandedRecords = ref(new Set()); // Track expanded records
+
+// Popup states
+const showPopup = ref(false);
+const popupMode = ref("add");
+const popupRecord = ref(null);
 
 // Computed từ query params
 const doctorSlug = computed(() => route.query.doctorSlug || "");
@@ -839,6 +859,26 @@ const formatDateForAPI = (dateLabel) => {
   }
 
   return new Date().toISOString().split("T")[0];
+};
+
+// Reload patient records after adding new one
+const reloadRecords = async () => {
+  await fetchPatientRecords();
+};
+
+// Open popup to add new patient record
+const openAddPopup = () => {
+  popupMode.value = "add";
+  popupRecord.value = null;
+  showPopup.value = true;
+};
+
+// Open popup to update patient record
+const openUpdatePopup = (record) => {
+  if (!record) return;
+  popupMode.value = "update";
+  popupRecord.value = { ...record };
+  showPopup.value = true;
 };
 
 // Hook lifecycle

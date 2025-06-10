@@ -76,14 +76,33 @@ const form = ref({
   phone: '',
   email: '',
   healthInsuranceNumber: '',
+  patientId: '',
 });
 
-watch(() => props.record, (val) => {
+// Format date for input type="date" (YYYY-MM-DD)
+const formatDateForInput = (date: any) => {
+  if (!date) return '';
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return '';
+  
+  // Sử dụng getFullYear, getMonth, getDate để tránh timezone offset
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0'); // getMonth() trả về 0-11
+  const day = String(d.getDate()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}`;
+};
+
+watch(() => props.record, (val: any) => {
   if (props.mode === 'update' && val) {
-    Object.assign(form.value, val);
+    Object.assign(form.value, {
+      ...val,
+      dateOfBirth: formatDateForInput(val.dateOfBirth),
+      userId: userId, // Ensure userId is preserved
+    });
   } else if (props.mode === 'add') {
     Object.assign(form.value, {
-      fullName: '', dateOfBirth: '', gender: 'M', address: '', phone: '', email: '', healthInsuranceNumber: '',
+      fullName: '', dateOfBirth: '', gender: 'M', address: '', userId: userId, phone: '', email: '', healthInsuranceNumber: '',
     });
   }
 }, { immediate: true });

@@ -130,7 +130,7 @@ router.beforeEach((to, from, next) => {
 // Middleware đơn giản để kiểm tra đăng nhập
 router.beforeEach((to, from, next) => {
   // Danh sách các route bắt buộc phải đăng nhập
-  const protectedRoutes = ["/profile", "/appointments", "/payment-history"];
+  const protectedRoutes = ["/profile", "/appointments", "/payment-history", "/appointment-step", "/patient-record"];
 
   // Kiểm tra xem route hiện tại có yêu cầu đăng nhập không
   const requiresAuth = protectedRoutes.includes(to.path);
