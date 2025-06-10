@@ -1,4 +1,4 @@
-import { fetchData, fetchDataWithParams, postData } from './commonFunction';
+import { fetchData, fetchDataWithParams, postData, updateData } from './commonFunction';
 import type { PaginatedResponse } from '../model/PaginatedResponse';
 
 export interface CreateAppointmentRequest {
@@ -50,12 +50,16 @@ const appointmentApi = {
     fetchData<AppointmentDetails[]>(`/Appointment/doctor/${doctorId}`),
 
   // Cập nhật trạng thái lịch hẹn
-  // updateStatus: (id: string, data: UpdateStatusRequest) => 
-  //   putData<{ success: boolean }>(`/Appointment/${id}/status`, data),
+  updateStatus: (id: string, data: UpdateStatusRequest) => 
+    updateData<{ success: boolean }>(`/Appointment/${id}/status`, data),
 
-  // // Hủy lịch hẹn
-  // cancel: (id: string) => 
-  //   putData<{ success: boolean }>(`/Appointment/${id}/cancel`, {}),
+  // Hủy lịch hẹn
+  cancel: (id: string) => 
+    updateData<{ success: boolean }>(`/Appointment/${id}/cancel`, {}),
+
+  // Xác nhận lịch hẹn
+  confirm: (id: string) => 
+    updateData<{ success: boolean }>(`/Appointment/${id}/confirm`, {}),
 };
 
 export default appointmentApi; 

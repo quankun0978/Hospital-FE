@@ -306,7 +306,12 @@
                           .timeSlots"
                         :key="index"
                         aria-label="Slot"
-                        class="text-center border rounded-md py-3 tabular-nums transition hover:text-white hover:border-white hover:bg-primary"
+                        :class="[
+                          'text-center border rounded-md py-3 tabular-nums transition',
+                          selectedTimeSlot === slot
+                            ? 'bg-primary text-white border-primary'
+                            : 'hover:text-white hover:border-white hover:bg-primary'
+                        ]"
                         @click="selectTimeSlot(slot)"
                       >
                         {{ slot }}
@@ -338,6 +343,15 @@
             </a>
             <div class="flex flex-1 gap-2">
               <button
+                @click="openAddPopup"
+                class="flex items-center justify-center px-4 py-3 text-primary font-semibold text-sm bg-white border border-primary rounded-md hover:bg-blue-50 transition"
+              >
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                Thêm hồ sơ
+              </button>
+              <button
                 @click="bookAppointment(doctor.doctorInfos?.[0])"
                 class="flex flex-1 truncate hover:text-white justify-center uppercase px-4 py-3 text-white font-semibold text-sm bg-primary rounded-md"
               >
@@ -348,6 +362,15 @@
         </main>
       </template>
     </div>
+    
+    <!-- Popup thêm hồ sơ -->
+    <PopupPatientRecord
+      :visible="showPopup"
+      :mode="popupMode"
+      :record="popupRecord"
+      @close="showPopup = false"
+      @success="reloadRecords"
+    />
   </div>
 </template>
 
@@ -359,6 +382,14 @@ import doctorApi from "../api/doctorApi";
 import markdownApi from "../api/markdownApi";
 import { Markdown } from "../model/Markdown";
 import SunFog from "../assets/images/sun-fog.svg";
+import Message from "@/plugins/message";
+import { defineAsyncComponent } from 'vue';
+
+// Import popup component
+const PopupPatientRecord = defineAsyncComponent(
+  () => import("@/components/common/Popup/PopupPatientRecord.vue")
+);
+
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
@@ -369,6 +400,12 @@ const doctorMarkdownHTML = ref("");
 const loading = ref(true);
 const error = ref("");
 const selectedDate = ref(0);
+const selectedTimeSlot = ref(null);
+
+// Popup state
+const showPopup = ref(false);
+const popupMode = ref("add");
+const popupRecord = ref(null);
 
 // Mock data cho lịch khám
 const availableDates = ref([
@@ -556,6 +593,8 @@ const selectDate = (index) => {
 
 // Xử lý chọn khung giờ
 const selectTimeSlot = (slot) => {
+  selectedTimeSlot.value = slot;
+  
   // Lấy ngày đã chọn
   const dateLabel = availableDates.value[selectedDate.value].label;
   const slug = route.params.slug;
@@ -575,11 +614,26 @@ const selectTimeSlot = (slot) => {
 
 // Hàm đặt lịch khám
 const bookAppointment = (doctorInfo) => {
-  if (!doctor.value) return;
+  if (!doctor.value) {
+    Message.error("Không tìm thấy thông tin bác sĩ");
+    return;
+  }
+
+  // Validate đã chọn thời gian chưa
+  if (!selectedTimeSlot.value) {
+    Message.warning("Vui lòng chọn khung giờ khám trước khi đặt lịch!");
+    // Scroll đến phần chọn giờ
+    document.getElementById('doctor-booking')?.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'center'
+    });
+    return;
+  }
 
   const slug = route.params.slug;
+  const dateLabel = availableDates.value[selectedDate.value].label;
   
-  // Chuyển hướng đến trang appointment-step với thông tin bác sĩ
+  // Chuyển hướng đến trang appointment-step với thông tin đầy đủ
   router.push({
     path: "/appointment-step",
     query: {
@@ -588,8 +642,23 @@ const bookAppointment = (doctorInfo) => {
       doctorName: doctor.value.name,
       clinicName: getDoctorHospital(doctor.value),
       specialty: getDoctorSpecialties(doctor.value)[0] || '',
+      date: dateLabel,
+      timeSlot: selectedTimeSlot.value,
+      time: `${dateLabel} ${selectedTimeSlot.value}`,
     },
   });
+};
+
+// Popup functions
+const openAddPopup = () => {
+  popupMode.value = "add";
+  popupRecord.value = null;
+  showPopup.value = true;
+};
+
+const reloadRecords = () => {
+  // Có thể cần reload danh sách hồ sơ nếu có
+  Message.success("Thêm hồ sơ mới thành công!");
 };
 
 // Hook lifecycle

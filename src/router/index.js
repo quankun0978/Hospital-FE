@@ -9,6 +9,7 @@ import ClinicList from "@/page/ClinicList.vue";
 import ClinicDetail from "@/page/ClinicDetail.vue";
 import PatientRecord from "@/page/PatientRecord.vue";
 import AppointmentStep from "@/page/Appointment/AppointmentStep.vue";
+import ConfirmAppointment from "@/page/ConfirmAppointment.vue";
 const routes = [
   {
     path: "/",
@@ -97,6 +98,14 @@ const routes = [
     component: AppointmentStep,
     meta: {
       title: "Hospital - Đặt lịch khám",
+    },
+  },
+  {
+    path: "/confirm-appointment",
+    name: "confirm-appointment",
+    component: ConfirmAppointment,
+    meta: {
+      title: "Hospital - Xác nhận lịch khám",
     },
   },
   // Thêm các route khác ở đây nếu cần

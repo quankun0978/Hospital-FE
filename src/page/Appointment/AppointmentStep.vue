@@ -461,6 +461,7 @@
                               >
                                 <a
                                   _ngcontent-serverapp-c113=""
+                                  @click="openAddPopup"
                                   nz-popover=""
                                   nzpopoverplacement="right"
                                   nzpopovertrigger="click"
@@ -795,15 +796,14 @@ const submitAppointment = async () => {
 
     if (response.succeeded) {
       // Hiển thị message thành công với thông tin chi tiết
-      Message.appointmentSuccess(
-        selectedRecord.value.patientName,
-        appointmentDate.value
+      Message.success(
+        `Đặt lịch khám thành công! Vui lòng kiểm tra email để xác nhận lịch khám.`
       );
 
-      // Chuyển về trang chủ sau 2 giây
+      // Chuyển về trang chủ sau 3 giây
       setTimeout(() => {
         router.push("/");
-      }, 2000);
+      }, 3000);
     } else {
       Message.apiError(response.message);
     }
