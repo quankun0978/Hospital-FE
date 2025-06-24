@@ -3,9 +3,11 @@ import App from "./App.vue";
 import router from "./router";
 import i18n from "./i18n";
 import pinia from "./store";
+import authPlugin from "./plugins/auth";
 import 'ant-design-vue/dist/reset.css'; // Import pinia instance
 import "@/assets/css/tailwind.css";
 import "@/assets/css/ant.css";
+import constants from "./plugins/constants";
 import "@/assets/css/styles.css";
 import Vue3Toastify from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
@@ -24,7 +26,9 @@ app.use(Vue3Toastify, {
   theme: "colored",
 });
 
-app.use(pinia); // Sử dụng Pinia
+app.use(pinia); // Sử dụng Pinia trước auth plugin
+app.use(authPlugin); // Auth middleware plugin
+app.use(constants);
 app.use(router);
 app.use(i18n);
 app.use(Antd)

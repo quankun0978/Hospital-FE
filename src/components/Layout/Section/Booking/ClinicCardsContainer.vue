@@ -15,7 +15,7 @@
         :address="clinic.address"
         :bannerImage="getClinicImage(clinic)"
         :logoImage="getLogoImage(clinic)"
-        :link="`/clinics/${clinic.clinicId}`"
+        :link="`/clinics/${clinic.slug}`"
         :weekdayHours="clinic.openTime ? clinic.openTime + ' - ' + clinic.closeTime : '7h30 - 16h30'"
         :weekendHours="clinic.openTime ? clinic.openTime + ' - ' + clinic.closeTime : '7h30 - 11h30'"
       />
@@ -27,7 +27,7 @@
         :name="clinic.name" 
         :address="clinic.address"
         :image="getClinicImage(clinic)"
-        :link="`/clinics/${clinic.clinicId}`"
+        :link="`/clinics/${clinic.slug}`"
       />
       
       <div v-if="clinics.length === 0" class="text-center text-gray-500 py-4">
@@ -128,7 +128,7 @@ const getClinicImage = (clinic) => {
 // Hàm lấy hình ảnh phòng khám
 const getLogoImage = (clinic) => {
   // Lấy hình ảnh từ thông tin chi tiết nếu có
-  const imageUrl = clinic.logoImg ? "https://localhost:7038" + clinic.imageUrl : null;
+  const imageUrl = clinic.logoImg ? "https://localhost:7038" + clinic.logoImg : null;
   if (imageUrl) return imageUrl;
   
   // Hình ảnh mặc định nếu không có

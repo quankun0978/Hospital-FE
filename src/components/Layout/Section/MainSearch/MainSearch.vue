@@ -34,11 +34,13 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useI18n } from '@/i18n/useI18n';
 import searchIcon from '@/assets/images/search.svg';
 import InputSearch from '@/components/common/Input/InputSearch.vue';
 
 const { t } = useI18n();
+const router = useRouter();
 const searchQuery = ref('');
 
 // Khai báo emit events
@@ -46,8 +48,20 @@ const emit = defineEmits(['search']);
 
 // Phương thức xử lý tìm kiếm
 const handleSearch = () => {
+  if (!searchQuery.value.trim()) return;
+  
   console.log('Tìm kiếm:', searchQuery.value);
   emit('search', searchQuery.value);
+  
+  // Chuyển hướng đến trang kết quả tìm kiếm
+  router.push({
+    name: 'search',
+    query: {
+      q: searchQuery.value,
+      type: 'all',
+      page: 1
+    }
+  });
 };
 </script>
 

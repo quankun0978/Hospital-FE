@@ -55,6 +55,17 @@
             :key="'post-'+index"
             :post="post"
           />
+          
+          <!-- Hiển thị khi không có bài viết -->
+          <div v-if="posts.length === 0" class="w-full text-center py-8 text-gray-500">
+            <div class="flex flex-col items-center">
+              <svg class="w-16 h-16 mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              <h3 class="text-lg font-medium text-gray-900 mb-2">Chưa có bài viết nào</h3>
+              <p class="text-gray-500">{{ currentTab.label }} hiện tại chưa có bài viết nào để hiển thị.</p>
+            </div>
+          </div>
         </template>
       </div>
     </div>
@@ -65,6 +76,8 @@
 import NewsCard from './NewsCard.vue';
 import searchIcon from '@/assets/images/search.svg';
 import InputSearch from '@/components/common/Input/InputSearch.vue';
+import articleApi from '@/api/articleApi';
+import Message from '@/plugins/message';
 
 export default {
   name: 'NewsSection',
@@ -84,76 +97,31 @@ export default {
       searchText: '',
       tabs: [
         { 
-          label: 'Thuốc', 
-          placeholder: 'Nhập tên thuốc cần tìm...',
-          type: 'duoc' 
+          label: 'Tất cả', 
+          placeholder: 'Nhập từ khóa tìm kiếm...',
+          type: 'all',
+          category: null
         },
         { 
-          label: 'Dược liệu', 
-          placeholder: 'Nhập tên dược liệu cần tìm...',
-          type: 'duoc-lieu' 
+          label: 'Sức khỏe', 
+          placeholder: 'Tìm kiếm bài viết về sức khỏe...',
+          type: 'health',
+          category: 'suc-khoe'
         },
         { 
-          label: 'Bệnh', 
-          placeholder: 'Nhập tên bệnh, triệu chứng cần tìm...',
-          type: 'trieu-chung-benh' 
+          label: 'Kiến thức y khoa', 
+          placeholder: 'Tìm kiếm bài viết về y khoa...',
+          type: 'medical',
+          category: 'kien-thuc-y-khoa'
         },
         { 
-          label: 'Cơ thể', 
-          placeholder: 'Nhập tên bộ phận cơ thể...',
-          type: 'hieu-ve-co-the-ban' 
+          label: 'Dịch vụ', 
+          placeholder: 'Tìm kiếm bài viết về dịch vụ...',
+          type: 'service',
+          category: 'dich-vu'
         }
       ],
-      posts: [
-        {
-          id: 1,
-          title: 'Những điều cần biết về bệnh tiểu đường type 2',
-          link: '#',
-          image: 'https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Dalieu.png?width=300',
-          reviewer: 'BS. Nguyễn Văn A',
-          date: '2023-06-15'
-        },
-        {
-          id: 2,
-          title: 'Phương pháp điều trị cao huyết áp hiệu quả',
-          link: '#',
-          image: 'https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/timmach.png?width=300',
-          reviewer: 'TS. Trần Thị B',
-          date: '2023-06-10'
-        },
-        {
-          id: 3,
-          title: 'Cách phòng ngừa các bệnh về đường hô hấp',
-          link: '#',
-          image: 'https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Hohap.png?width=300',
-          reviewer: 'ThS. Lê Văn C',
-          date: '2023-06-05'
-        },
-        {
-          id: 4,
-          title: 'Chế độ dinh dưỡng cho người mắc bệnh gout',
-          link: '#',
-          image: 'https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Dinhduong.png?width=300',
-          reviewer: 'PGS.TS. Phạm Thị D',
-          date: '2023-06-01'
-        },
-        {
-          id: 5,
-          title: 'Chế độ dinh dưỡng cho người mắc bệnh gout',
-          link: '#',
-          image: 'https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Dinhduong.png?width=300',
-          reviewer: 'PGS.TS. Phạm Thị D',
-          date: '2023-06-01'
-        },
-        {
-          id: 6,
-          title: 'Chế độ dinh dưỡng cho người mắc bệnh gout',
-          link: '#',
-          image: 'https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Dinhduong.png?width=300',
-          reviewer: 'PGS.TS. Phạm Thị D',
-          date: '2023-06-01'
-        }
-      ]
+      posts: []
     };
   },
   computed: {
@@ -168,17 +136,109 @@ export default {
         this.fetchData();
       }
     },
-    fetchData() {
-      // Mô phỏng việc fetch dữ liệu
-      this.loading = true;
-      
-      setTimeout(() => {
+    async fetchData() {
+      try {
+        this.loading = true;
+        
+        const currentTab = this.tabs[this.selectedTab];
+        let response;
+        
+        if (currentTab.category) {
+          // Gọi API theo category
+          response = await articleApi.getArticlesByCategory(currentTab.category, {
+            pageNumber: 1,
+            pageSize: 6,
+            sortBy: 'publishedat',
+            sortOrder: 'desc'
+          });
+        } else {
+          // Gọi API lấy bài viết nổi bật cho tab "Tất cả"
+          response = await articleApi.getFeaturedArticles(6);
+        }
+        
+        if (response.succeeded && response.data) {
+          // Chuyển đổi dữ liệu từ API sang format của component
+          const articles = Array.isArray(response.data) ? response.data : [];
+          this.posts = articles.map(article => ({
+            id: article.articleId,
+            title: article.title,
+            slug: article.slug,
+            link: `/articles/${article.slug}`,
+            image: 'https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Dalieu.png?width=300', // Placeholder image
+            reviewer: article.authorName || 'Admin',
+            date: article.publishedAt,
+            description: article.description
+          }));
+        } else {
+          console.error('Lỗi khi lấy dữ liệu bài viết:', response.message);
+          this.posts = [];
+        }
+      } catch (error) {
+        console.error('Lỗi khi gọi API:', error);
+        this.posts = [];
+      } finally {
         this.loading = false;
-      }, 1000);
+      }
     },
-    handleSearch() {
-      console.log('Tìm kiếm:', this.searchText, 'Loại:', this.currentTab.type);
-      // Xử lý tìm kiếm ở đây
+    async handleSearch() {
+      if (!this.searchText.trim()) {
+        this.fetchData();
+        return;
+      }
+
+      try {
+        this.loading = true;
+        
+        const currentTab = this.tabs[this.selectedTab];
+        let response;
+        
+        if (currentTab.category) {
+          // Tìm kiếm trong category cụ thể
+          response = await articleApi.getArticlesByCategory(currentTab.category, {
+            pageNumber: 1,
+            pageSize: 6,
+            searchTerm: this.searchText,
+            sortBy: 'publishedat',
+            sortOrder: 'desc'
+          });
+        } else {
+          // Tìm kiếm tất cả bài viết
+          response = await articleApi.getArticles({
+            pageNumber: 1,
+            pageSize: 6,
+            searchTerm: this.searchText,
+            sortBy: 'publishedat',
+            sortOrder: 'desc'
+          });
+        }
+        
+        if (response.succeeded && response.data) {
+          const articles = response.data.data || response.data || [];
+          this.posts = articles.map(article => ({
+            id: article.articleId,
+            title: article.title,
+            slug: article.slug,
+            link: `/articles/${article.slug}`,
+            image: 'https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Dalieu.png?width=300',
+            reviewer: article.authorName || 'Admin',
+            date: article.publishedAt,
+            description: article.description
+          }));
+          
+          if (this.posts.length === 0) {
+            Message.info('Không tìm thấy bài viết nào phù hợp');
+          }
+        } else {
+          this.posts = [];
+          Message.info('Không tìm thấy bài viết nào phù hợp');
+        }
+      } catch (error) {
+        console.error('Lỗi khi tìm kiếm:', error);
+        Message.error('Có lỗi xảy ra khi tìm kiếm');
+        this.posts = [];
+      } finally {
+        this.loading = false;
+      }
     }
   },
   mounted() {

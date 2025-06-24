@@ -1,4 +1,6 @@
 <script>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import Header from '@/components/Layout/Header/Header.vue'
 import Footer from '@/components/Layout/Footer/Footer.vue'
 import LanguageSwitcher from './components/LanguageSwitcher.vue'
@@ -9,15 +11,34 @@ export default {
     Header,
     Footer,
     LanguageSwitcher,
+  },
+  setup() {
+    const route = useRoute()
+    
+    // Kiểm tra có phải trang admin không
+    const isAdminPage = computed(() => {
+      return route.path.startsWith('/admin')
+    })
+    
+    return {
+      isAdminPage
+    }
   }
 }
 </script>
 
 <template>
-  <div class="app" >
-    <Header/>
+  <div class="app">
+    <!-- Chỉ hiển thị Header và Footer khi không phải trang admin -->
+    <template v-if="!isAdminPage">
+      <Header/>
+    </template>
+    
     <router-view />
-    <Footer/>
+    
+    <template v-if="!isAdminPage">
+      <Footer/>
+    </template>
   </div>
 </template>
 

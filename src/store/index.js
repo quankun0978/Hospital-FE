@@ -6,5 +6,5 @@ const pinia = createPinia();
 // Export pinia instance để sử dụng trong main.js
 export default pinia;
 
-// Re-export các store để dễ import
-export * from "./auth";
+// Export các store
+export { useAuthStore } from './auth.ts';

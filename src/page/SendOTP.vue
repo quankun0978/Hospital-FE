@@ -68,7 +68,7 @@
                     class="wrapper-otp flex flex-col justify-center items-center"
                   >
                     <p class="text-sm-w500 my-6">
-                      {{ t("pages.sendOTP.verify.enterOtp") }} {{ phoneNumber }}
+                      {{ t("pages.sendOTP.verify.enterOtp") }} {{ email }}
                     </p>
                     <div class="flex gap-2" ref="otpInputContainer">
                       <input
@@ -230,16 +230,6 @@
                         :error="profileErrors.phone"
                       />
                       <Input
-                        v-model="profileForm.email"
-                        id="email"
-                        :label="t('pages.sendOTP.profile.email')"
-                        type="email"
-                        :placeholder="
-                          t('pages.sendOTP.profile.emailPlaceholder')
-                        "
-                        :error="profileErrors.email"
-                      />
-                      <Input
                         v-model="profileForm.healthInsuranceNumber"
                         id="health-insurance"
                         :label="t('pages.sendOTP.profile.healthInsurance')"
@@ -282,24 +272,18 @@ import Input from "../components/common/Input/Input.vue";
 import InputDate from "../components/common/Input/InputDate.vue";
 import Select from "../components/common/Select/Select.vue";
 import AppButton from "../components/common/Button/Button.vue";
-import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
-import { auth } from "@/services/firebase/firebase";
-import axios from "../api/axios";
 import authApi from "../api/authApi";
+import Message from "../plugins/message";
+
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
 
 // Các trạng thái quản lý
 const currentStep = ref(1);
-const phoneNumber = ref("");
+const email = ref("");
 const loading = ref(false);
 const errorMessage = ref("");
-
-// Biến lưu trữ trạng thái Firebase
-const confirmationResult = ref(null);
-const firebaseUser = ref(null);
-const firebaseIdToken = ref("");
 
 // OTP
 const otpDigits = ref(["", "", "", "", "", ""]);
@@ -328,7 +312,6 @@ const profileForm = ref({
   gender: "M",
   address: "",
   phone: "",
-  email: "",
   healthInsuranceNumber: "",
 });
 
@@ -336,7 +319,6 @@ const profileErrors = ref({
   fullName: "",
   address: "",
   phone: "",
-  email: "",
   healthInsuranceNumber: "",
 });
 
@@ -391,88 +373,86 @@ const focusFirstInput = () => {
   });
 };
 
-// Đọc confirmationResult từ localStorage
-const getConfirmationResultFromStorage = () => {
-  try {
-    const savedConfirmationResult = localStorage.getItem(
-      "firebaseConfirmationResult"
-    );
-    if (savedConfirmationResult) {
-      return JSON.parse(savedConfirmationResult);
-    }
-    return null;
-  } catch (error) {
-    console.error("Lỗi khi đọc confirmationResult từ localStorage:", error);
-    return null;
-  }
-};
-
-// Xác thực OTP trực tiếp với Firebase
+// Xác thực OTP với backend API
 const verifyOtp = async () => {
   if (!isOtpComplete.value) return;
 
   try {
     loading.value = true;
+    errorMessage.value = "";
     const otpCode = otpDigits.value.join("");
 
-    // Lấy thông tin xác thực từ localStorage
-    const savedConfirmationResult = getConfirmationResultFromStorage();
+    console.log("Verifying OTP:", { email: email.value, verificationCode: otpCode });
 
-    if (!savedConfirmationResult || !savedConfirmationResult.verificationId) {
-      errorMessage.value =
-        "Phiên xác thực không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.";
-      loading.value = false;
+    if (!email.value) {
+      errorMessage.value = "Email không hợp lệ";
+      Message.error(errorMessage.value);
       return;
     }
 
-    try {
-      // Tạo credential với verificationId và OTP
-      const credential = PhoneAuthProvider.credential(
-        savedConfirmationResult.verificationId,
-        otpCode
-      );
+    // Gọi API xác thực email
+    const response = await authApi.verifyEmail({
+      email: email.value,
+      verificationCode: otpCode
+    });
 
-      // Đăng nhập với credential
-      const userCredential = await signInWithCredential(auth, credential);
+    console.log("Verify response:", response);
 
-      // Lưu thông tin người dùng
-      firebaseUser.value = userCredential.user;
-
-      // Lấy token ID
-      firebaseIdToken.value = await userCredential.user.getIdToken();
-
-      // Xóa thông tin xác thực khỏi localStorage sau khi xác thực thành công
-      localStorage.removeItem("firebaseConfirmationResult");
-
+    if (response && response.succeeded) {
       // Chuyển sang bước tiếp theo
       currentStep.value = 2;
       errorMessage.value = "";
-
-      loading.value = false;
-    } catch (otpError) {
-      console.error("Lỗi xác thực OTP:", otpError);
-      errorMessage.value = "Mã OTP không chính xác hoặc đã hết hạn.";
-      loading.value = false;
+      Message.success("Xác thực email thành công!");
+    } else {
+      errorMessage.value = response?.message || "Mã OTP không chính xác hoặc đã hết hạn.";
+      Message.error(errorMessage.value);
     }
   } catch (error) {
     console.error("Lỗi xác thực OTP:", error);
-    errorMessage.value =
-      "Có lỗi xảy ra trong quá trình xác thực. Vui lòng thử lại.";
+    console.error("Error details:", error.response);
+    
+    if (error.response?.data) {
+      if (error.response.data.errors && error.response.data.errors.length > 0) {
+        errorMessage.value = error.response.data.errors[0];
+      } else if (error.response.data.message) {
+        errorMessage.value = error.response.data.message;
+      } else {
+        errorMessage.value = "Mã OTP không chính xác hoặc đã hết hạn.";
+      }
+    } else {
+      errorMessage.value = "Có lỗi xảy ra trong quá trình xác thực. Vui lòng thử lại.";
+    }
+    Message.error(errorMessage.value);
+  } finally {
     loading.value = false;
   }
 };
 
-// Gửi lại OTP (trở về trang đăng ký)
-const resendOtp = () => {
-  // Trở về trang đăng ký để gửi lại OTP
-  router.push({
-    path: "/login",
-    query: {
-      action: "register",
-      phone: phoneNumber.value,
-      resend: "true",
-    },
-  });
+// Gửi lại OTP
+const resendOtp = async () => {
+  try {
+    loading.value = true;
+    errorMessage.value = "";
+
+    // Gọi API gửi lại email verification
+    const response = await authApi.sendEmailVerification({ email: email.value });
+
+    if (response.succeeded) {
+      Message.success("Đã gửi lại mã xác thực đến email của bạn!");
+      // Reset OTP inputs
+      otpDigits.value = ["", "", "", "", "", ""];
+      focusFirstInput();
+    } else {
+      errorMessage.value = response.message || "Không thể gửi lại mã xác thực.";
+      Message.error(errorMessage.value);
+    }
+  } catch (error) {
+    console.error("Lỗi gửi lại OTP:", error);
+    errorMessage.value = error.response?.data?.message || "Có lỗi xảy ra khi gửi lại mã xác thực.";
+    Message.error(errorMessage.value);
+  } finally {
+    loading.value = false;
+  }
 };
 
 // Xác thực và gửi mật khẩu
@@ -510,7 +490,7 @@ const validatePassword = () => {
 const submitPassword = () => {
   if (!validatePassword()) return;
 
-  // Không cần gọi API, chỉ lưu mật khẩu vào biến cục bộ để gửi sau cùng với profile
+  // Chuyển sang bước tiếp theo
   currentStep.value = 3;
 };
 
@@ -521,7 +501,6 @@ const validateProfile = () => {
     fullName: "",
     address: "",
     phone: "",
-    email: "",
     healthInsuranceNumber: "",
   };
 
@@ -540,14 +519,6 @@ const validateProfile = () => {
     isValid = false;
   }
 
-  if (
-    profileForm.value.email &&
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profileForm.value.email)
-  ) {
-    profileErrors.value.email = t("pages.sendOTP.profile.errors.emailInvalid");
-    isValid = false;
-  }
-
   return isValid;
 };
 
@@ -555,19 +526,10 @@ const submitProfile = async () => {
   if (!validateProfile()) return;
 
   try {
-    // Tránh gọi lại API nếu đang loading
-    if (loading.value) {
-      return;
-    }
+    if (loading.value) return;
 
     loading.value = true;
     errorMessage.value = "";
-
-    if (!firebaseUser.value || !firebaseIdToken.value) {
-      errorMessage.value = "Xác thực Firebase không hợp lệ. Vui lòng thử lại.";
-      loading.value = false;
-      return;
-    }
 
     // Format dateOfBirth đúng định dạng ISO nếu có
     const formattedDateOfBirth = profileForm.value.dateOfBirth
@@ -576,100 +538,72 @@ const submitProfile = async () => {
 
     // Chuẩn bị dữ liệu gửi
     const registerData = {
-      // Thông tin User (sử dụng số điện thoại ban đầu dùng để xác thực OTP)
+      // Thông tin User
       password: passwordForm.value.password,
       name: profileForm.value.fullName,
-      phone: phoneNumber.value, // Số điện thoại ban đầu dùng cho User và user.Phone
+      email: email.value, // Sử dụng email thay vì phone
       roleId: "R3", // R3 là vai trò bệnh nhân
-      PhonePatient: profileForm.value.phone,
+      
       // Thông tin PatientRecord
       fullName: profileForm.value.fullName,
       dateOfBirth: formattedDateOfBirth,
       gender: profileForm.value.gender,
       address: profileForm.value.address,
-      email: profileForm.value.email,
-      // Phone của PatientRecord sẽ được backend sử dụng từ PatientRecord.Phone
-      // Trong trường hợp backend không có trường riêng, đảm bảo phone của user sẽ được dùng
+      phone: profileForm.value.phone, // Phone của bệnh nhân
       healthInsuranceNumber: profileForm.value.healthInsuranceNumber,
     };
 
-    try {
-      // Sử dụng authApi.register để đăng ký người dùng
-      const response = await authApi.register(registerData);
+    console.log("Register data:", registerData);
 
-      if (response.succeeded) {
-        // Lưu token vào localStorage nếu backend trả về token
-        // if (response.data && response.data.token) {
-        //   localStorage.setItem('accessToken', response.data.token);
-        // }
+    const response = await authApi.register(registerData);
 
-        // Lưu thông tin người dùng vào localStorage
-        if (response.data && response.data.phone) {
-          localStorage.setItem("Phone", response.data.phone);
-          localStorage.setItem("userId", response.data.userId);
-
-          // Lưu thêm email người dùng vào localStorage
-        }
-
-        // Chuyển hướng đến trang chủ
-       // window.location.reload();
-        router.push("/login");
-      } else {
-        errorMessage.value = response.message || "Không thể đăng ký tài khoản.";
+    if (response.succeeded) {
+      // Lưu thông tin vào localStorage
+      if (response.data) {
+        localStorage.setItem("Email", response.data.email || email.value);
+        localStorage.setItem("userId", response.data.userId);
       }
-    } catch (apiError) {
-      console.error("API Error:", apiError);
 
-      // Hiển thị thông báo lỗi chi tiết
-      if (apiError.response) {
-        // Server trả về response với status code nằm ngoài range 2xx
-        console.error("Error data:", apiError.response.data);
-        console.error("Error status:", apiError.response.status);
-
-        //  errorMessage.value = `Lỗi: ${apiError.response.status} - ${apiError.response.data.message || 'Không thể kết nối đến server'}`;
-        errorMessage.value = apiError.response.data.errors[0];
-      } else if (apiError.request) {
-        // Request được gửi nhưng không nhận được response
-        console.error("No response received:", apiError.request);
-        errorMessage.value =
-          "Không nhận được phản hồi từ server. Vui lòng kiểm tra kết nối mạng.";
-      } else {
-        // Có lỗi khi thiết lập request
-        console.error("Request error:", apiError.message);
-        errorMessage.value = `Lỗi khi gửi yêu cầu: ${apiError.message}`;
-      }
-    } finally {
-      // Đảm bảo loading được set về false trong mọi trường hợp
-      loading.value = false;
+      Message.success("Đăng ký tài khoản thành công!");
+      router.push("/login");
+    } else {
+      errorMessage.value = response.message || "Không thể đăng ký tài khoản.";
+      Message.error(errorMessage.value);
     }
   } catch (error) {
-    console.error("General error:", error);
-    errorMessage.value = "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.";
+    console.error("Register error:", error);
+    
+    if (error.response?.data?.errors?.length > 0) {
+      errorMessage.value = error.response.data.errors[0];
+    } else if (error.response?.data?.message) {
+      errorMessage.value = error.response.data.message;
+    } else {
+      errorMessage.value = "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.";
+    }
+    Message.error(errorMessage.value);
+  } finally {
     loading.value = false;
   }
 };
 
 onMounted(async () => {
   try {
-    // Lấy số điện thoại từ query params
-    if (route.query.phone) {
-      phoneNumber.value = route.query.phone;
+    // Lấy email từ query params
+    if (route.query.email) {
+      email.value = route.query.email;
+    } else {
+      errorMessage.value = 'Không tìm thấy thông tin email. Vui lòng quay lại trang đăng ký.';
+      Message.error(errorMessage.value);
     }
 
-    // Kiểm tra xem có confirmationResult trong localStorage không
-    // const savedConfirmationResult = getConfirmationResultFromStorage();
-    // if (!savedConfirmationResult) {
-    //   errorMessage.value = 'Không tìm thấy thông tin xác thực. Vui lòng quay lại trang đăng ký.';
-    // }
-
-    // Đảm bảo DOM đã được render trước khi focus
+    // Tự động focus vào ô nhập OTP đầu tiên
     nextTick(() => {
-      // Tự động focus vào ô nhập OTP đầu tiên sau khi component được mount
       focusFirstInput();
     });
   } catch (error) {
     console.error("Lỗi trong onMounted:", error);
     errorMessage.value = "Đã xảy ra lỗi khi khởi tạo trang.";
+    Message.error(errorMessage.value);
   }
 });
 </script>

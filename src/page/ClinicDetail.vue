@@ -60,64 +60,89 @@
             </div>
           </div>
 
-          <div class="flex w-2/5 flex-wrap gap-2">
-            <div
-              v-for="(image, index) in additionalImages.slice(0, 4)"
-              :key="`additional-${index}`"
-              class="cursor-zoom-in hidden md:block"
-            >
-              <img
+          <!-- Tất cả ảnh trong một preview group -->
+          <a-image-preview-group>
+            <!-- Hiển thị ảnh fallback -->
+            <div class="flex w-2/5 flex-wrap gap-2">
+              <div
+                v-for="(image, index) in getFallbackImages().slice(0, 4)"
+                :key="`fallback-${index}`"
+                class="cursor-zoom-in hidden md:block"
+                style="width: 49%; height: 50%;"
+              >
+                <a-image
+                  :src="image"
+                  :alt="`${clinic.name} - Hình phụ ${index + 1}`"
+                  class="fallback-bg w-full h-full object-cover rounded-lg"
+                  :preview="true"
+                />
+              </div>
+            </div>
+
+            <!-- View all button -->
+            <div class="hidden md:block">
+              <button
+                @click="showAllImages"
+                aria-label="View all"
+                class="bg-black/70 flex gap-1 items-center px-2 py-0.5 absolute bottom-1 right-1 rounded-xl text-white hover:bg-black/80 transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 512 512"
+                  class="ionicon"
+                >
+                  <path
+                    d="M350.54 148.68l-26.62-42.06C318.31 100.08 310.62 96 302 96h-92c-8.62 0-16.31 4.08-21.92 10.62l-26.62 42.06C155.85 155.23 148.62 160 140 160H80a32 32 0 00-32 32v192a32 32 0 0032 32h352a32 32 0 0032-32V192a32 32 0 00-32-32h-59c-8.65 0-16.85-4.77-22.46-11.32z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="32"
+                  ></path>
+                  <circle
+                    cx="256"
+                    cy="272"
+                    r="80"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-miterlimit="10"
+                    stroke-width="32"
+                  ></circle>
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="32"
+                    d="M124 158v-22h-24v22"
+                  ></path>
+                </svg>
+                <span class="text-xs font-medium">{{
+                  getTotalImagesCount()
+                }}</span>
+              </button>
+            </div>
+
+            <!-- Ảnh ẩn cho preview (carousel + fallback còn lại) -->
+            <div style="display: none;">
+              <!-- Ảnh carousel (background) -->
+              <a-image
+                v-for="(image, index) in getCarouselImages()"
+                :key="`carousel-hidden-${index}`"
                 :src="image"
-                :alt="`${clinic.name} - Hình phụ ${index + 1}`"
-                class="fallback-bg w-full h-full object-fill"
+                :preview="true"
+              />
+              <!-- Ảnh fallback còn lại -->
+              <a-image
+                v-for="(image, index) in getFallbackImages().slice(4)"
+                :key="`fallback-hidden-${index}`"
+                :src="image"
+                :preview="true"
               />
             </div>
-          </div>
-
-          <!-- View all button -->
-          <div class="hidden md:block">
-            <button
-              aria-label="View all"
-              class="bg-black/70 flex gap-1 items-center px-2 py-0.5 absolute bottom-1 right-1 rounded-xl text-white"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 512 512"
-                class="ionicon"
-              >
-                <path
-                  d="M350.54 148.68l-26.62-42.06C318.31 100.08 310.62 96 302 96h-92c-8.62 0-16.31 4.08-21.92 10.62l-26.62 42.06C155.85 155.23 148.62 160 140 160H80a32 32 0 00-32 32v192a32 32 0 0032 32h352a32 32 0 0032-32V192a32 32 0 00-32-32h-59c-8.65 0-16.85-4.77-22.46-11.32z"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="32"
-                ></path>
-                <circle
-                  cx="256"
-                  cy="272"
-                  r="80"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-miterlimit="10"
-                  stroke-width="32"
-                ></circle>
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="32"
-                  d="M124 158v-22h-24v22"
-                ></path>
-              </svg>
-              <span class="text-xs font-medium">{{
-                getTotalImagesCount()
-              }}</span>
-            </button>
-          </div>
+          </a-image-preview-group>
         </div>
       </div>
 
@@ -250,9 +275,12 @@
                     <h2 class="text-lg font-semibold">Giới thiệu</h2>
                     <div class="mt-4 prose max-w-none">
                       <div
-                        v-if="clinic.description"
-                        v-html="clinic.description"
+                        v-if="clinic.contentHTML"
+                        v-html="clinic.contentHTML"
                       ></div>
+                      <div v-else-if="clinic.description">
+                        <p>{{ clinic.description }}</p>
+                      </div>
                       <div v-else>
                         <h2>Đặt khám {{ clinic.name }}</h2>
                         <p>
@@ -423,7 +451,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "@/i18n/useI18n";
 import ClinicCardsContainer from "@/components/Layout/Section/Booking/ClinicCardsContainer.vue";
@@ -460,15 +488,15 @@ const fetchClinicDetails = async () => {
   error.value = "";
 
   try {
-    const clinicId = route.params.id;
-    if (!clinicId) {
+    const slug = route.params.slug;
+    if (!slug) {
       error.value = "Không tìm thấy thông tin phòng khám";
       loading.value = false;
       return;
     }
 
     // Gọi API
-    const response = await clinicApi.getById(clinicId);
+    const response = await clinicApi.getClinicBySlug(slug);
 
     if (response.succeeded && response.data) {
       clinic.value = response.data;
@@ -484,13 +512,13 @@ const fetchClinicDetails = async () => {
   }
 };
 
-// Hàm lấy hình ảnh carousel
+// Hàm lấy hình ảnh carousel (background)
 const getCarouselImages = () => {
   if (clinic.value?.clinicImages && clinic.value.clinicImages.length > 0) {
     // Lọc ra các hình ảnh background cho carousel
     const backgroundImages = clinic.value.clinicImages
       .filter((img) => img.isBackground)
-      .map((img) => "https://localhost:7038" + img.imageFallbackUrl);
+      .map((img) => "https://localhost:7038/" + img.imageFallbackUrl);
 
     if (backgroundImages.length > 0) {
       return backgroundImages;
@@ -499,6 +527,30 @@ const getCarouselImages = () => {
 
   // Sử dụng hình ảnh mặc định nếu không có
   return defaultCarouselImages;
+};
+
+// Hàm lấy hình ảnh fallback
+const getFallbackImages = () => {
+  if (clinic.value?.clinicImages && clinic.value.clinicImages.length > 0) {
+    // Lọc ra các hình ảnh fallback
+    const fallbackImages = clinic.value.clinicImages
+      .filter((img) => !img.isBackground)
+      .map((img) => "https://localhost:7038/" + img.imageFallbackUrl);
+
+    if (fallbackImages.length > 0) {
+      return fallbackImages;
+    }
+  }
+
+  // Sử dụng hình ảnh mặc định nếu không có
+  return additionalImages.value;
+};
+
+// Hàm lấy tất cả hình ảnh cho preview
+const getAllImages = () => {
+  const carouselImages = getCarouselImages();
+  const fallbackImages = getFallbackImages();
+  return [...carouselImages, ...fallbackImages];
 };
 
 // Hàm lấy logo phòng khám
@@ -513,24 +565,32 @@ const getClinicLogo = () => {
 
 // Hàm tính tổng số hình ảnh
 const getTotalImagesCount = () => {
-  let count = getCarouselImages().length;
-  if (clinic.value?.clinicImages) {
-    count += clinic.value.clinicImages.filter(
-      (img) => !img.isBackground
-    ).length;
+  const carouselCount = getCarouselImages().length;
+  const fallbackCount = getFallbackImages().length;
+  return carouselCount + fallbackCount;
+};
+
+// Hàm hiển thị tất cả ảnh bắt đầu từ ảnh đầu tiên
+const showAllImages = async () => {
+  await nextTick();
+  
+  // Tìm và click vào ảnh ẩn đầu tiên để bắt đầu preview từ ảnh carousel
+  const hiddenImages = document.querySelectorAll('[style="display: none;"] .ant-image img');
+  if (hiddenImages.length > 0) {
+    hiddenImages[0].click();
+  } else {
+    // Fallback: click vào ảnh fallback đầu tiên nếu có
+    const fallbackImages = document.querySelectorAll('.ant-image img');
+    if (fallbackImages.length > 0) {
+      fallbackImages[0].click();
+    }
   }
-  return count;
 };
 
 // Hàm đặt lịch khám
 const bookAppointment = () => {
-  // Chuyển hướng đến trang đặt lịch khám với thông tin phòng khám
-  router.push({
-    path: "/book-appointment",
-    query: {
-      clinicId: clinic.value.clinicId,
-    },
-  });
+  // Chuyển hướng đến trang danh sách bác sĩ của clinic
+  router.push(`/clinics/${route.params.slug}/doctors`);
 };
 
 // Hàm scroll xuống phần thông tin
@@ -572,6 +632,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
+:deep(.ant-image){
+  height: 100% ;
+}
+:deep(.ant-image-img){
+  height: 100% ;
+}
 /* Carousel styles */
 .carousel-wrapper {
   position: relative;
@@ -744,4 +810,5 @@ onMounted(() => {
   width: 49%;
   height: 50%;
 }
+
 </style>

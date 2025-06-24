@@ -49,6 +49,10 @@ const appointmentApi = {
   getByDoctorId: (doctorId: string) => 
     fetchData<AppointmentDetails[]>(`/Appointment/doctor/${doctorId}`),
 
+  // Lấy danh sách lịch hẹn theo người dùng
+  getByUserId: (userId: string) => 
+    fetchData<AppointmentDetails[]>(`/Appointment/user/${userId}`),
+
   // Cập nhật trạng thái lịch hẹn
   updateStatus: (id: string, data: UpdateStatusRequest) => 
     updateData<{ success: boolean }>(`/Appointment/${id}/status`, data),

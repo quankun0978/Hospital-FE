@@ -63,8 +63,8 @@
                 <li
                   class="mt-4 menu-item menu-item-type-custom menu-item-object-custom nav-item"
                 >
-                  <a
-                    href="#"
+                  <router-link
+                    :to="{ name: 'search', query: { type: 'doctor' } }"
                     class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
                   >
                     {{ t("components.header.booking.doctor") }}
@@ -73,13 +73,13 @@
                     >
                       {{ t("components.header.booking.doctorDesc") }}
                     </p>
-                  </a>
+                  </router-link>
                 </li>
                 <li
                   class="menu-item menu-item-type-custom menu-item-object-custom nav-item"
                 >
-                  <a
-                    href="#"
+                  <router-link
+                    :to="{ name: 'search', query: { type: 'hospital' } }"
                     class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
                   >
                     {{ t("components.header.booking.hospital") }}
@@ -88,13 +88,13 @@
                     >
                       {{ t("components.header.booking.hospitalDesc") }}
                     </p>
-                  </a>
+                  </router-link>
                 </li>
                 <li
                   class="menu-item menu-item-type-custom menu-item-object-custom nav-item"
                 >
-                  <a
-                    href="#"
+                  <router-link
+                    :to="{ name: 'search', query: { type: 'clinic' } }"
                     class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
                   >
                     {{ t("components.header.booking.clinic") }}
@@ -103,13 +103,13 @@
                     >
                       {{ t("components.header.booking.clinicDesc") }}
                     </p>
-                  </a>
+                  </router-link>
                 </li>
                 <li
                   class="menu-item menu-item-type-custom menu-item-object-custom nav-item"
                 >
-                  <a
-                    href="#"
+                  <router-link
+                    :to="{ name: 'search', query: { type: 'all', specialty: 'Tiêm chủng' } }"
                     class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
                   >
                     {{ t("components.header.booking.vaccination") }}
@@ -118,13 +118,13 @@
                     >
                       {{ t("components.header.booking.vaccinationDesc") }}
                     </p>
-                  </a>
+                  </router-link>
                 </li>
                 <li
                   class="menu-item menu-item-type-custom menu-item-object-custom nav-item"
                 >
-                  <a
-                    href="#"
+                  <router-link
+                    :to="{ name: 'search', query: { type: 'all', specialty: 'Xét nghiệm' } }"
                     class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
                   >
                     {{ t("components.header.booking.labTest") }}
@@ -133,7 +133,7 @@
                     >
                       {{ t("components.header.booking.labTestDesc") }}
                     </p>
-                  </a>
+                  </router-link>
                 </li>
                 <li
                   class="mt-4 dropdown-footer menu-item menu-item-type-custom menu-item-object-custom nav-item"
@@ -231,20 +231,20 @@
               <p class="text-xs text-gray-600 truncate">{{ userEmail }}</p>
             </div>
             <ul>
+              <li v-if="isAdminOrDoctor" class="border-b border-gray-100">
+                <router-link
+                  to="/admin"
+                  class="block px-4 py-2 text-sm hover:bg-gray-50"
+                >
+                  Trang quản lý
+                </router-link>
+              </li>
               <li class="border-b border-gray-100">
                 <router-link
                   to="/appointments"
                   class="block px-4 py-2 text-sm hover:bg-gray-50"
                 >
-                  Lịch khám
-                </router-link>
-              </li>
-              <li class="border-b border-gray-100">
-                <router-link
-                  to="/payment-history"
-                  class="block px-4 py-2 text-sm hover:bg-gray-50"
-                >
-                  Lịch sử thanh toán
+                  Lịch khám của tôi
                 </router-link>
               </li>
               <li class="border-b border-gray-100">
@@ -253,6 +253,14 @@
                   class="block px-4 py-2 text-sm hover:bg-gray-50"
                 >
                   Hồ sơ
+                </router-link>
+              </li>
+              <li class="border-b border-gray-100">
+                <router-link
+                  to="/change-password"
+                  class="block px-4 py-2 text-sm hover:bg-gray-50"
+                >
+                  Đổi mật khẩu
                 </router-link>
               </li>
               <li>
@@ -281,7 +289,6 @@ import downloadAppIcon from "@/assets/images/download-app.svg";
 import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 import arrowDownIcon from "@/assets/images/arrow-down.svg";
 import AppButton from "@/components/common/Button/Button.vue";
-import userApi from "../../../api/userApi";
 import { useAuthStore } from "@/store/auth";
 import { nextTick } from "vue";
 
@@ -298,6 +305,12 @@ const isUserDropdownOpen = ref(false);
 const isLoggedIn = computed(() => authStore.isAuthenticated);
 const userName = computed(() => authStore.getUserName);
 const userEmail = computed(() => authStore.getUserEmail);
+const userRole = computed(() => authStore.getUserRole);
+
+// Kiểm tra quyền admin hoặc doctor
+const isAdminOrDoctor = computed(() => {
+  return userRole.value === 'R1' || userRole.value === 'R2';
+});
 
 watch(isMenuOpen, async (newVal) => {
   const menu = document.getElementById("primary-menu");
@@ -328,25 +341,10 @@ const userInitials = computed(() => {
 function logout() {
   // Sử dụng Pinia store để đăng xuất
   authStore.logout();
-
+  
   // Đóng dropdown nếu đang mở
   isUserDropdownOpen.value = false;
-
-  // Chuyển hướng về trang đăng nhập mà không refresh trang
-  router.push("/login");
-}
-
-// Hàm lấy thông tin người dùng từ API
-async function fetchUserProfile() {
-  // try {
-  //   const response = await userApi.getProfile();
-  //   if (response.success && response.data) {
-  //     // Cập nhật thông tin người dùng vào Pinia store
-  //     authStore.setUser(response.data);
-  //   }
-  // } catch (error) {
-  //   console.error('Lỗi khi lấy thông tin người dùng:', error);
-  // }
+  router.push("/");
 }
 
 // Xử lý sự kiện click bên ngoài để đóng menu
@@ -377,20 +375,21 @@ function handleOutsideClick(e) {
 }
 
 // Hook lifecycle
-onMounted(() => {
-  // Khởi tạo trạng thái từ localStorage
-  authStore.initializeFromLocalStorage();
-
-  // Nếu đã đăng nhập, lấy thông tin người dùng từ API
-  if (isLoggedIn.value) {
-    fetchUserProfile();
-  }
-
+onMounted(async () => {
+  // Auth store đã được khởi tạo từ plugin, chỉ cần validate
+  await authStore.validateAuthState(route.path);
+  
   document.addEventListener("click", handleOutsideClick);
 });
 
 onUnmounted(() => {
   document.removeEventListener("click", handleOutsideClick);
+});
+
+watch(userEmail, async (newVal) => {
+  if (!newVal) {
+    isUserDropdownOpen.value = false;
+  }
 });
 </script>
 

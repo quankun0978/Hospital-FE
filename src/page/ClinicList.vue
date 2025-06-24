@@ -77,7 +77,7 @@
       <div v-else>
         <div v-if="filteredClinics.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div v-for="clinic in filteredClinics" :key="clinic.clinicId" class="bg-white rounded-lg shadow-sm overflow-hidden transition-shadow hover:shadow-md">
-            <router-link :to="`/clinics/${clinic.clinicId}`" class="block">
+            <router-link :to="`/clinics/${clinic.slug}`" class="block">
               <div class="w-full h-48 overflow-hidden">
                 <img 
                   :src="getClinicImage(clinic)" 
@@ -87,7 +87,7 @@
               </div>
             </router-link>
             <div class="p-4">
-              <router-link :to="`/clinics/${clinic.clinicId}`" class="block">
+              <router-link :to="`/clinics/${clinic.slug}`" class="block">
                 <h3 class="text-lg font-semibold text-gray-800 hover:text-primary transition-colors">
                   {{ clinic.name }}
                 </h3>
@@ -102,7 +102,7 @@
                 <span>{{ clinic.openTime || '08:00' }} - {{ clinic.closeTime || '17:00' }}</span>
               </div>
               <router-link 
-                :to="`/clinics/${clinic.clinicId}`" 
+                :to="`/clinics/${clinic.slug}`" 
                 class="mt-3 inline-flex items-center text-primary text-sm font-medium hover:underline"
               >
                 Xem chi tiết
