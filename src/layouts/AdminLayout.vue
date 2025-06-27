@@ -41,7 +41,7 @@
           </a-menu-item>
         </a-sub-menu>
 
-        <a-sub-menu key="clinic-management">
+        <a-sub-menu v-if="userRole === 'R1'" key="clinic-management">
           <template #title>
             <span>
               <desktop-outlined />

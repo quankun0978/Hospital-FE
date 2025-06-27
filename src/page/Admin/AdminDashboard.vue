@@ -74,7 +74,7 @@
               </div>
             </div>
             <div class="ml-4">
-              <p class="text-sm font-medium text-gray-500">Chờ xử lý</p>
+              <p class="text-sm font-medium text-gray-500">Đã khám xong hôm nay</p>
               <p class="text-2xl font-semibold text-gray-900">
                 <span v-if="loading" class="animate-pulse bg-gray-200 rounded w-16 h-8 inline-block"></span>
                 <span v-else>{{ stats.pendingAppointments }}</span>
@@ -247,10 +247,7 @@ const navigateTo = (path) => {
 
 // Helper functions
 const formatCurrency = (amount) => {
-  return new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND'
-  }).format(amount)
+  return new Intl.NumberFormat('vi-VN').format(amount)
 }
 
 const formatTime = (time) => {

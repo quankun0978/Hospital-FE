@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="doctor-detail-page bg-slate-100">
     <div class="max-w-4xl mx-auto py-8">
       <div v-if="loading" class="flex justify-center items-center py-16">
@@ -432,7 +432,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useI18n } from "@/i18n/useI18n";
 import doctorApi from "../api/doctorApi";
 import scheduleApi from "../api/scheduleApi";
 import { Markdown } from "../model/Markdown";
@@ -445,7 +444,6 @@ const PopupPatientRecord = defineAsyncComponent(() =>
   import("@/components/common/Popup/PopupPatientRecord.vue")
 );
 
-const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
@@ -824,3 +822,4 @@ onMounted(async () => {
   margin-bottom: 0.5em;
 }
 </style>
+

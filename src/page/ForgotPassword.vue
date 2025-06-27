@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="forgot-password-page">
     <div class="max-w-7xl mx-auto md:px-6 py-10 lg:py-32 md:grid md:grid-cols-12">
       <div class="md:flex md:col-span-6 lg:col-span-7">
@@ -15,7 +15,7 @@
       </div>
       <div class="md:col-span-6 lg:col-span-5">
         <div class="bg-white md:rounded-lg p-6 md:ring-1 ring-slate-100 md:max-w-md">
-          <h1 class="text-2xl font-bold mb-6 text-center">{{ t('pages.forgotPassword.title') }}</h1>
+          <h1 class="text-2xl font-bold mb-6 text-center">Quên mật khẩu</h1>
           
           <!-- Thông báo lỗi chung -->
           <div v-if="formError" class="message error">
@@ -33,8 +33,8 @@
                 v-model="email"
                 id="forgot-password-email"
                 type="email"
-                :label="t('pages.forgotPassword.form.email')"
-                :placeholder="t('pages.forgotPassword.form.emailPlaceholder')"
+                :label="'Địa chỉ email'"
+                :placeholder="'Nhập email của bạn'"
               />
             </div>
             
@@ -44,13 +44,13 @@
               :fullWidth="true"
               :disabled="isLoading"
             >
-              <span v-if="isLoading">{{ t('common.loading') }}...</span>
-              <span v-else>{{ t('pages.forgotPassword.form.submitButton') }}</span>
+              <span v-if="isLoading">Đang gửi...</span>
+              <span v-else>Gửi link đặt lại mật khẩu</span>
             </AppButton>
 
             <div class="text-center text-sm p-6 border-t mt-8">
               <router-link to="/login" class="font-medium cursor-pointer text-primary">
-                {{ t('pages.forgotPassword.navigation.backToLogin') }}
+                Quay lại đăng nhập
               </router-link>
             </div>
           </form>
@@ -64,11 +64,9 @@
 import { ref } from 'vue';
 import Input from '../components/common/Input/Input.vue';
 import AppButton from '../components/common/Button/Button.vue';
-import { useI18n } from '../i18n/useI18n';
 import { authApi } from '../api/authApi';
 import Message from '../plugins/message.ts';
 
-const { t } = useI18n();
 const email = ref('');
 const isLoading = ref(false);
 const successMessage = ref('');
@@ -78,13 +76,13 @@ const validateForm = () => {
   formError.value = '';
   
   if (!email.value) {
-    formError.value = t('pages.forgotPassword.validation.emailRequired');
+    formError.value = 'Vui lòng nhập địa chỉ email';
     return false;
   }
   
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email.value)) {
-    formError.value = t('pages.forgotPassword.validation.emailInvalid');
+    formError.value = 'Địa chỉ email không hợp lệ';
     return false;
   }
   
@@ -148,3 +146,4 @@ const handleSubmit = async () => {
   color: #2563eb;
 }
 </style> 
+

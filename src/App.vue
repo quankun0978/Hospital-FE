@@ -3,14 +3,12 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Header from '@/components/Layout/Header/Header.vue'
 import Footer from '@/components/Layout/Footer/Footer.vue'
-import LanguageSwitcher from './components/LanguageSwitcher.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
     Footer,
-    LanguageSwitcher,
   },
   setup() {
     const route = useRoute()

@@ -6,14 +6,14 @@
         <div class="grid grid-cols-12 gap-px p-6 md:p-8 bg-primary rounded-2xl">
           <div class="col-span-12 lg:col-span-4 flex items-center">
             <p class="font-bold font-serif md:text-xl text-white mb-6 md:mb-0">
-              {{ t('components.section.about.promise.title') }}
+              Cam kết của chúng tôi
             </p>
           </div>
           <a href="#"
             class="col-span-12 md:col-span-3 lg:col-span-2 flex gap-1 md:flex-col md:justify-center items-center">
             <img width="100" height="100" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis.svg" alt="Biên soạn bởi Bác sĩ và Dược sĩ">
             <h3 class="font-medium text-base text-white md:text-center">
-              {{ t('components.section.about.promise.item1') }}
+              Biên soạn bởi Bác sĩ và Dược sĩ
             </h3>
           </a>
           <a href="#"
@@ -21,21 +21,21 @@
             <img width="100" height="100" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-2.svg"
               alt="Chính sách biên tập nội dung minh bạch">
             <h3 class="font-medium text-base text-white md:text-center">
-              {{ t('components.section.about.promise.item2') }}
+              Chính sách biên tập minh bạch
             </h3>
           </a>
           <a href="#"
             class="col-span-12 md:col-span-3 lg:col-span-2 flex gap-1 md:flex-col md:justify-center items-center">
             <img width="100" height="100" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-3.svg" alt="Chính sách quảng cáo">
             <h3 class="font-medium text-base text-white md:text-center">
-              {{ t('components.section.about.promise.item3') }}
+              Chính sách quảng cáo
             </h3>
           </a>
           <a href="#"
             class="col-span-12 md:col-span-3 lg:col-span-2 flex gap-1 md:flex-col md:justify-center items-center">
             <img width="100" height="100" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-4.svg" alt="Chính sách bảo mật">
             <h3 class="font-medium text-base text-white md:text-center">
-              {{ t('components.section.about.promise.item4') }}
+              Chính sách bảo mật
             </h3>
           </a>
         </div>
@@ -52,7 +52,7 @@
               width="100%" 
               height="100%" 
               src="https://www.youtube.com/embed/MftRcZCHbwI" 
-              :title="t('components.section.about.video.title')"
+              title="Giới thiệu YouMed"
               frameborder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
               allowfullscreen
@@ -60,11 +60,11 @@
             ></iframe>
           </div>
           <h2 class="font-semibold p-4 m-0 text-xl">
-            {{ t('components.section.about.video.title') }}
+            Giới thiệu YouMed
           </h2>
         </div>
         <div class="cols-span-1 lg:col-span-3 relative flex flex-col">
-          <h2 class="text-xl font-semibold px-4 mb-0">{{ t('components.section.about.press.title') }}</h2>
+          <h2 class="text-xl font-semibold px-4 mb-0">Báo chí nói về chúng tôi</h2>
           <div class="flex-1">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-px bg-slate-100">
               <a v-for="(press, index) in pressReferences" :key="index" 
@@ -92,30 +92,30 @@
     <section id="download" class="bg-primary">
       <div class="max-w-7xl mx-auto md:grid md:grid-cols-12">
         <div class="px-4 py-6 lg:py-12 text-white space-y-6 md:col-span-5 lg:col-span-4">
-          <h2 class="text-2xl md:text-4xl font-bold">{{ t('components.section.about.download.title') }}</h2>
+          <h2 class="text-2xl md:text-4xl font-bold">Tải app YouMed ngay</h2>
           <ul class="space-y-4">
             <li class="flex items-center">
               <img :src="hospitalIcon" class="mr-1" alt="Hospital Icon" />
-              {{ t('components.section.about.download.feature1') }}
+              Đặt lịch khám nhanh chóng, tiện lợi
             </li>
             <li class="flex items-center">
               <img :src="thumbsUpIcon" class="mr-1" alt="Thumbs Up Icon" />
-              {{ t('components.section.about.download.feature2') }}
+              Chất lượng dịch vụ đảm bảo
             </li>
             <li class="flex items-center">
               <img :src="shieldSecurityIcon" class="mr-1" alt="Shield Security Icon" />
-              {{ t('components.section.about.download.feature3') }}
+              Bảo mật thông tin tuyệt đối
             </li>
             <li class="flex items-center">
               <img :src="walletIcon" class="mr-1" alt="Wallet Icon" />
-              {{ t('components.section.about.download.feature4') }}
+              Thanh toán an toàn, đa dạng
             </li>
           </ul>
           <div class="flex gap-4 justify-center md:justify-start">
-            <a href="#" :title="t('components.section.about.download.googlePlay')">
+            <a href="#" title="Tải về từ Google Play">
               <img width="135" height="40" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/google-play.svg" alt="Google Play">
             </a>
-            <a href="#" :title="t('components.section.about.download.appleStore')">
+            <a href="#" title="Tải về từ App Store">
               <img width="120" height="40" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/apple-store.svg" alt="Apple Store">
             </a>
           </div>
@@ -134,13 +134,10 @@
 </template>
 
 <script setup>
-import { useI18n } from '@/i18n/useI18n';
 import hospitalIcon from '@/assets/images/hospital.svg';
 import thumbsUpIcon from '@/assets/images/thumbs-up.svg';
 import shieldSecurityIcon from '@/assets/images/shield-security.svg';
 import walletIcon from '@/assets/images/wallet.svg';
-
-const { t } = useI18n();
 
 const pressReferences = [
   {

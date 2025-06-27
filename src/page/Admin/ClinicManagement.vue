@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <AdminLayout 
     page-title="Quản lý cơ sở y tế"
     :breadcrumbs="[{ name: 'Quản lý cơ sở y tế' }]"
@@ -84,8 +84,6 @@
         </AppTable>
       </AppCard>
     </div>
-
-
 
     <!-- Delete Confirmation Modal -->
     <AppModal
@@ -184,8 +182,6 @@ const paginationConfig = computed(() => ({
     `Hiển thị ${range[0]}-${range[1]} trong tổng số ${total} cơ sở y tế`,
   pageSizeOptions: ['10', '20', '50', '100']
 }))
-
-
 
 // Methods
 const loadClinics = async () => {

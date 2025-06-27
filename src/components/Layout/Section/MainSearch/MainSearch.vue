@@ -3,9 +3,9 @@
     <div class="relative z-20 max-w-7xl mx-auto px-4 py-16 lg:px-6 md:min-h-[520px] flex flex-col justify-center">
       <div class="max-w-4xl w-full mx-auto">
         <div class="flex flex-col justify-center items-center text-center">
-          <h1 class="text-white text-xl md:text-4xl">{{ t('components.section.mainSearch.title') }}</h1>
+          <h1 class="text-white text-xl md:text-4xl">Đặt lịch khám bệnh trực tuyến</h1>
           <p class="text-white text-sm md:text-lg mt-2 mb-0">
-            {{ t('components.section.mainSearch.description') }}
+            Nhanh chóng, tiện lợi, an toàn
           </p>
         </div>
         <div class="wrapper-search flex flex-col gap-3 pt-6">
@@ -13,7 +13,7 @@
             <InputSearch
               v-model="searchQuery"
               name="q"
-              :placeholder="t('components.section.mainSearch.placeholder')"
+              placeholder="Tìm kiếm bác sĩ, bệnh viện, phòng khám..."
               :icon="searchIcon"
               iconPosition="right"
               borderType="transparent"
@@ -35,11 +35,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useI18n } from '@/i18n/useI18n';
 import searchIcon from '@/assets/images/search.svg';
 import InputSearch from '@/components/common/Input/InputSearch.vue';
-
-const { t } = useI18n();
 const router = useRouter();
 const searchQuery = ref('');
 

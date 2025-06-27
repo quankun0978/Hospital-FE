@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import i18n from "./i18n";
 import pinia from "./store";
 import authPlugin from "./plugins/auth";
 import 'ant-design-vue/dist/reset.css'; // Import pinia instance
@@ -30,6 +29,5 @@ app.use(pinia); // Sử dụng Pinia trước auth plugin
 app.use(authPlugin); // Auth middleware plugin
 app.use(constants);
 app.use(router);
-app.use(i18n);
 app.use(Antd)
 app.mount("#app");

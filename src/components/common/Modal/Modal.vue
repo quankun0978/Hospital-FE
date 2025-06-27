@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <teleport to="body">
     <div
       v-if="visible"
@@ -159,8 +159,8 @@ const handleOk = () => {
 }
 
 const handleCancel = () => {
-  emit('update:visible', false)
   emit('cancel')
+  emit('update:visible', false)
 }
 
 const handleMaskClick = () => {

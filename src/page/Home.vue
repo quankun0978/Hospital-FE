@@ -3,8 +3,8 @@
     <!-- Main Search Section -->
     <MainSearch />
     <MainHeading
-      :title="t('pages.home.mainHeading.bookingOnline')"
-      :subtitle="t('pages.home.mainHeading.bookingSubtitle')"
+      title="Đặt khám trực tuyến"
+      subtitle="Nhanh chóng, tiện lợi, an toàn với hệ thống đặt lịch khám hiện đại"
     />
     <main class="container-full mx-auto  py-8">
       <!-- Booking Section for Doctors -->
@@ -54,8 +54,8 @@
 
       <!-- News Section -->
       <MainHeading
-        :title="t('pages.home.mainHeading.newsTitle')"
-        :subtitle="t('pages.home.mainHeading.newsSubtitle')"
+        title="Tin tức y tế"
+        subtitle="Cập nhật những thông tin y tế mới nhất, hữu ích cho sức khỏe của bạn"
       />
       <NewsSection />
       <ProfessionalSection/>
@@ -70,7 +70,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { useI18n } from "@/i18n/useI18n";
 import MainSearch from "@/components/Layout/Section/MainSearch/MainSearch.vue";
 import Booking from "@/components/Layout/Section/Booking/Booking.vue";
 import DoctorCardsContainer from "@/components/Layout/Section/Booking/DoctorCardsContainer.vue";
@@ -81,7 +80,6 @@ import SecuritySection from "@/components/Layout/Section/Security/SecuritySectio
 import MainHeading from "@/components/Layout/Heading/MainHeading.vue";
 import SpecialtyContainer from "../components/Layout/Section/Booking/SpecialtyContainer.vue";
 import ProfessionalSection from "../components/Layout/Section/Professional/ProfessionalSection.vue";
-const { t } = useI18n();
 </script>
 
 <style scoped>

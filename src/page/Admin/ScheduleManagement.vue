@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <AdminLayout 
     page-title="Quản lý lịch khám"
     :breadcrumbs="[{ name: 'Quản lý lịch khám' }]"
@@ -116,8 +116,6 @@
         </AppTable>
       </AppCard>
     </div>
-
-
 
     <!-- Delete Confirmation Modal -->
     <AppModal
@@ -287,8 +285,6 @@ const loadDoctors = async () => {
     Message.error('Lỗi khi tải danh sách bác sĩ')
   }
 }
-
-
 
 const handlePaginationChange = ({ pageNumber, pageSize }) => {
   pagination.current = pageNumber

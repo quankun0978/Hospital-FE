@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="doctor-list-page">
     <div class="container mx-auto px-4 py-8">
       <h1 class="text-3xl font-bold text-gray-800 mb-6">Bác sĩ</h1>
@@ -134,9 +134,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useI18n } from '@/i18n/useI18n';
 import doctorApi from '../api/doctorApi';
-const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
@@ -154,7 +152,7 @@ const totalItems = ref(0);
 onMounted(() => {
   const { search, page } = route.query;
   if (search) searchTerm.value = search.toString();
-  if (page) currentPage.value = parseInt(page.toString()) || 1;
+  if (page) currentPage.value = parseInt(page) || 1;
   
   fetchDoctors();
 });
@@ -183,11 +181,11 @@ const fetchDoctors = async () => {
       // Cập nhật URL với tham số tìm kiếm và trang
       updateUrlParams();
     } else {
-      error.value = response.message || t('common.errors.dataFetchError');
+      error.value = response.message || "Không thể tải danh sách bác sĩ";
     }
   } catch (err) {
     console.error('Lỗi khi lấy dữ liệu bác sĩ:', err);
-    error.value = t('common.errors.dataFetchError');
+    error.value = "Có lỗi xảy ra khi tải danh sách bác sĩ";
   } finally {
     loading.value = false;
   }
@@ -352,3 +350,4 @@ const getDoctorHospital = (doctor) => {
   border-color: #2563eb;
 }
 </style> 
+

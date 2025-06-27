@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="otp-page">
     <div
       class="max-w-7xl mx-auto md:px-6 py-10 lg:py-32 md:grid md:grid-cols-12"
@@ -33,7 +33,7 @@
                 'text-gray-500': currentStep !== 1,
               }"
             >
-              {{ t("pages.sendOTP.steps.verify") }}
+              Xác thực OTP
             </div>
             <div
               class="w-1/3 py-2 text-center font-medium"
@@ -42,7 +42,7 @@
                 'text-gray-500': currentStep !== 2,
               }"
             >
-              {{ t("pages.sendOTP.steps.password") }}
+              Mật khẩu
             </div>
             <div
               class="w-1/3 py-2 text-center font-medium"
@@ -51,7 +51,7 @@
                 'text-gray-500': currentStep !== 3,
               }"
             >
-              {{ t("pages.sendOTP.steps.profile") }}
+              Hoàn tất
             </div>
           </div>
 
@@ -68,7 +68,7 @@
                     class="wrapper-otp flex flex-col justify-center items-center"
                   >
                     <p class="text-sm-w500 my-6">
-                      {{ t("pages.sendOTP.verify.enterOtp") }} {{ email }}
+                      Mã xác thực đã được gửi đến email {{ email }}
                     </p>
                     <div class="flex gap-2" ref="otpInputContainer">
                       <input
@@ -95,8 +95,8 @@
                     >
                       {{
                         loading
-                          ? t("pages.home.common.loading")
-                          : t("pages.sendOTP.verify.continue")
+                          ? "Đang xác thực..."
+                          : "Xác thực OTP"
                       }}
                     </AppButton>
                   </div>
@@ -104,11 +104,11 @@
                 <div
                   class="flex flex-col gap-2 items-center text-sm-w500 mt-6 mb-[60px] text-center"
                 >
-                  {{ t("pages.sendOTP.verify.notReceived") }}
+                  Không nhận được mã?
                   <span
                     class="text-primary cursor-pointer"
                     @click="resendOtp"
-                    >{{ t("pages.sendOTP.verify.tryAgain") }}</span
+                    >Gửi lại mã</span
                   >
                 </div>
               </div>
@@ -121,27 +121,23 @@
                 <div class="border-bottom">
                   <div class="flex flex-col gap-6 px-4">
                     <h2 class="text-lg font-medium text-center">
-                      {{ t("pages.sendOTP.password.title") }}
+                      Tạo mật khẩu
                     </h2>
                     <div class="space-y-4">
                       <Input
                         v-model="passwordForm.password"
                         id="password"
                         type="password"
-                        :label="t('pages.sendOTP.password.password')"
-                        :placeholder="
-                          t('pages.sendOTP.password.passwordPlaceholder')
-                        "
+                        :label="'Mật khẩu'"
+                        :placeholder="'Nhập mật khẩu mới'"
                         :error="passwordErrors.password"
                       />
                       <Input
                         v-model="passwordForm.confirmPassword"
                         id="confirm-password"
                         type="password"
-                        :label="t('pages.sendOTP.password.confirmPassword')"
-                        :placeholder="
-                          t('pages.sendOTP.password.confirmPasswordPlaceholder')
-                        "
+                        :label="'Xác nhận mật khẩu'"
+                        :placeholder="'Nhập lại mật khẩu'"
                         :error="passwordErrors.confirmPassword"
                       />
                     </div>
@@ -154,8 +150,8 @@
                       >
                         {{
                           loading
-                            ? t("pages.home.common.loading")
-                            : t("pages.sendOTP.password.continue")
+                            ? "Đang xử lý..."
+                            : "Tiếp tục"
                         }}
                       </AppButton>
                     </div>
@@ -171,41 +167,35 @@
                 <div class="border-bottom">
                   <div class="flex flex-col gap-6 px-4">
                     <h2 class="text-lg font-medium text-center">
-                      {{ t("pages.sendOTP.profile.title") }}
+                      Tạo hồ sơ bệnh nhân
                     </h2>
                     <div class="space-y-4">
                       <Input
                         v-model="profileForm.fullName"
                         id="full-name"
-                        :label="t('pages.sendOTP.profile.fullName')"
-                        :placeholder="
-                          t('pages.sendOTP.profile.fullNamePlaceholder')
-                        "
+                        :label="'Họ và tên'"
+                        :placeholder="'Nhập họ và tên đầy đủ'"
                         :error="profileErrors.fullName"
                       />
                       <div class="grid grid-cols-2 gap-4">
                         <div>
                           <InputDate
                             v-model="profileForm.dateOfBirth"
-                            :label="t('pages.sendOTP.profile.dateOfBirth')"
+                            :label="'Ngày sinh'"
                           />
                         </div>
                         <div>
                           <Select
                             v-model="profileForm.gender"
-                            :label="t('pages.sendOTP.profile.gender')"
+                            :label="'Giới tính'"
                             :options="[
                               {
                                 value: 'M',
-                                label: t(
-                                  'pages.sendOTP.profile.genderOptions.male'
-                                ),
+                                label: 'Nam',
                               },
                               {
                                 value: 'F',
-                                label: t(
-                                  'pages.sendOTP.profile.genderOptions.female'
-                                ),
+                                label: 'Nữ',
                               },
                             ]"
                           />
@@ -214,28 +204,22 @@
                       <Input
                         v-model="profileForm.address"
                         id="address"
-                        :label="t('pages.sendOTP.profile.address')"
-                        :placeholder="
-                          t('pages.sendOTP.profile.addressPlaceholder')
-                        "
+                        :label="'Địa chỉ'"
+                        :placeholder="'Nhập địa chỉ'"
                         :error="profileErrors.address"
                       />
                       <Input
                         v-model="profileForm.phone"
                         id="phone"
-                        :label="t('pages.sendOTP.profile.phone')"
-                        :placeholder="
-                          t('pages.sendOTP.profile.phonePlaceholder')
-                        "
+                        :label="'Số điện thoại'"
+                        :placeholder="'Nhập số điện thoại'"
                         :error="profileErrors.phone"
                       />
                       <Input
                         v-model="profileForm.healthInsuranceNumber"
                         id="health-insurance"
-                        :label="t('pages.sendOTP.profile.healthInsurance')"
-                        :placeholder="
-                          t('pages.sendOTP.profile.healthInsurancePlaceholder')
-                        "
+                        :label="'Số bảo hiểm y tế'"
+                        :placeholder="'Nhập số bảo hiểm y tế (nếu có)'"
                         :error="profileErrors.healthInsuranceNumber"
                       />
                     </div>
@@ -248,8 +232,8 @@
                       >
                         {{
                           loading
-                            ? t("pages.home.common.loading")
-                            : t("pages.sendOTP.profile.complete")
+                            ? "Đang tạo tài khoản..."
+                            : "Hoàn tất đăng ký"
                         }}
                       </AppButton>
                     </div>
@@ -267,7 +251,6 @@
 <script setup>
 import { ref, computed, onMounted, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
 import Input from "../components/common/Input/Input.vue";
 import InputDate from "../components/common/Input/InputDate.vue";
 import Select from "../components/common/Select/Select.vue";
@@ -277,8 +260,6 @@ import Message from "../plugins/message";
 
 const route = useRoute();
 const router = useRouter();
-const { t } = useI18n();
-
 // Các trạng thái quản lý
 const currentStep = ref(1);
 const email = ref("");
@@ -461,26 +442,20 @@ const validatePassword = () => {
   passwordErrors.value = { password: "", confirmPassword: "" };
 
   if (!passwordForm.value.password) {
-    passwordErrors.value.password = t("pages.sendOTP.password.errors.required");
+    passwordErrors.value.password = "Vui lòng nhập mật khẩu";
     isValid = false;
   } else if (passwordForm.value.password.length < 6) {
-    passwordErrors.value.password = t(
-      "pages.sendOTP.password.errors.minLength"
-    );
+    passwordErrors.value.password = "Mật khẩu phải có ít nhất 6 ký tự";
     isValid = false;
   }
 
   if (!passwordForm.value.confirmPassword) {
-    passwordErrors.value.confirmPassword = t(
-      "pages.sendOTP.password.errors.confirmRequired"
-    );
+    passwordErrors.value.confirmPassword = "Vui lòng xác nhận mật khẩu";
     isValid = false;
   } else if (
     passwordForm.value.password !== passwordForm.value.confirmPassword
   ) {
-    passwordErrors.value.confirmPassword = t(
-      "pages.sendOTP.password.errors.notMatch"
-    );
+    passwordErrors.value.confirmPassword = "Mật khẩu xác nhận không khớp";
     isValid = false;
   }
 
@@ -505,17 +480,15 @@ const validateProfile = () => {
   };
 
   if (!profileForm.value.fullName) {
-    profileErrors.value.fullName = t(
-      "pages.sendOTP.profile.errors.fullNameRequired"
-    );
+    profileErrors.value.fullName = "Vui lòng nhập họ và tên";
     isValid = false;
   }
 
   if (!profileForm.value.phone) {
-    profileErrors.value.phone = t("pages.sendOTP.profile.errors.phoneRequired");
+    profileErrors.value.phone = "Vui lòng nhập số điện thoại";
     isValid = false;
   } else if (!/^\d{10,11}$/.test(profileForm.value.phone)) {
-    profileErrors.value.phone = t("pages.sendOTP.profile.errors.phoneInvalid");
+    profileErrors.value.phone = "Số điện thoại không hợp lệ";
     isValid = false;
   }
 
@@ -663,3 +636,5 @@ onMounted(async () => {
   font-weight: 500;
 }
 </style>
+
+

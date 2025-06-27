@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="min-h-screen bg-gray-50">
     <!-- Header tìm kiếm -->
     <section class="bg-white sticky top-0 md:top-14 z-[90] border-b">
@@ -10,7 +10,7 @@
           <input
             v-model="searchQuery"
             type="search"
-            :placeholder="t('pages.searchResult.placeholder')"
+            :placeholder="'Tìm kiếm bác sĩ, phòng khám, bệnh viện...'"
             class="w-full pl-6 pr-10 py-3 border-0 rounded-full bg-gray-100 focus:bg-white ring-inset focus:ring-2 ring-primary"
           />
           <button
@@ -59,12 +59,12 @@
             />
           </svg>
           <div class="min-h-[20px] w-full">
-            <p>{{ t('pages.searchResult.aiTip') }}</p>
+            <p>Tìm kiếm thông minh với AI</p>
           </div>
         </div>
 
         <!-- Bộ lọc -->
-        <div class="flex whitespace-nowrap gap-2   py-2">
+        <div class="flex whitespace-nowrap gap-2 py-2">
           <!-- Sort dropdown -->
           <div class="relative">
             <button
@@ -104,7 +104,7 @@
                 <circle cx="176" cy="256" r="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
                 <circle cx="336" cy="384" r="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
               </svg>
-              {{ t('pages.searchResult.filters') }}
+              Bộ lọc
               <span v-if="activeFiltersCount > 0" class="bg-red-500 text-white text-xs rounded-full px-1 min-w-[16px] h-4 flex items-center justify-center">
                 {{ activeFiltersCount }}
               </span>
@@ -117,8 +117,8 @@
               @click="toggleLocationFilter"
               class="flex h-9 justify-center px-3 text-sm items-center gap-1 border rounded-full bg-gray-100 border-gray-50"
             >
-              <span class="hidden sm:block">{{ t('pages.searchResult.location') }}:</span>
-              {{ selectedLocation || t('pages.searchResult.all') }}
+              <span class="hidden sm:block">Nơi khám:</span>
+              {{ selectedLocation || "Tất cả" }}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="14"
@@ -144,7 +144,7 @@
                 class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 :class="{ 'bg-blue-50 text-blue-600': !selectedLocation }"
               >
-                {{ t('pages.searchResult.all') }}
+                Tất cả
               </div>
               <div 
                 v-for="location in locationOptions" 
@@ -173,7 +173,7 @@
                   d="M432 96h-48V80a48.05 48.05 0 00-48-48H176a48.05 48.05 0 00-48 48v16H80a64.07 64.07 0 00-64 64v256a64 64 0 0064 64h352a64 64 0 0064-64V160a64.07 64.07 0 00-64-64z"
                 />
               </svg>
-              {{ selectedSpecialty || t('pages.searchResult.selectSpecialty') }}
+              {{ selectedSpecialty || "Chuyên khoa" }}
             </button>
             
             <!-- Specialty dropdown menu -->
@@ -183,7 +183,7 @@
                 class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 :class="{ 'bg-blue-50 text-blue-600': !selectedSpecialty }"
               >
-                {{ t('pages.searchResult.all') }}
+                Tất cả chuyên khoa
               </div>
               <div 
                 v-for="specialty in specialtyOptions" 
@@ -191,11 +191,11 @@
                 @click="selectSpecialty(specialty)"
                 class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 :class="{ 'bg-blue-50 text-blue-600': selectedSpecialty === specialty }"
-                             >
-                 {{ specialty }}
-               </div>
-             </div>
-           </div>
+              >
+                {{ specialty }}
+              </div>
+            </div>
+          </div>
 
           <!-- Loại -->
           <div class="relative">
@@ -229,28 +229,28 @@
                 class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 :class="{ 'bg-blue-50 text-blue-600': selectedType === 'all' }"
               >
-                {{ t('pages.searchResult.all') }}
+                Tất cả
               </div>
               <div 
                 @click="selectType('doctor')"
                 class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 :class="{ 'bg-blue-50 text-blue-600': selectedType === 'doctor' }"
               >
-                {{ t('pages.searchResult.doctors') }}
+                Bác sĩ
               </div>
               <div 
                 @click="selectType('clinic')"
                 class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 :class="{ 'bg-blue-50 text-blue-600': selectedType === 'clinic' }"
               >
-                {{ t('pages.searchResult.clinics') }}
+                Phòng khám
               </div>
               <div 
                 @click="selectType('hospital')"
                 class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 :class="{ 'bg-blue-50 text-blue-600': selectedType === 'hospital' }"
               >
-                {{ t('pages.searchResult.hospitals') }}
+                Bệnh viện
               </div>
             </div>
           </div>
@@ -258,21 +258,21 @@
 
         <!-- Advanced Filters Panel -->
         <div v-if="showAdvancedFilters" class="mt-2 p-4 bg-gray-50 rounded-lg border">
-                      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <!-- Rating filter -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">{{ t('pages.searchResult.minRating') }}</label>
-                <select v-model="filters.minRating" class="w-full px-3 py-2 border border-gray-300 rounded-md">
-                  <option value="0">{{ t('pages.searchResult.any') }}</option>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Rating filter -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Đánh giá tối thiểu</label>
+              <select v-model="filters.minRating" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                <option value="0">Tất cả đánh giá</option>
                 <option value="3">3+ ⭐</option>
                 <option value="4">4+ ⭐</option>
                 <option value="4.5">4.5+ ⭐</option>
               </select>
             </div>
 
-                          <!-- Price range -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">{{ t('pages.searchResult.priceRange') }}</label>
+            <!-- Price range -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Khoảng giá</label>
               <div class="flex gap-2">
                 <input 
                   v-model="filters.minPrice" 
@@ -297,7 +297,7 @@
                   type="checkbox"
                   class="rounded border-gray-300 text-primary focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
                 />
-                <span class="text-sm font-medium text-gray-700">{{ t('pages.searchResult.onlineConsultationOnly') }}</span>
+                <span class="text-sm font-medium text-gray-700">Chỉ khám online</span>
               </label>
             </div>
           </div>
@@ -307,13 +307,13 @@
               @click="applyFilters"
               class="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-600"
             >
-              {{ t('pages.searchResult.applyFilters') }}
+              Áp dụng
             </button>
             <button 
               @click="clearFilters"
               class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
             >
-              {{ t('pages.searchResult.clearFilters') }}
+              Xóa bộ lọc
             </button>
           </div>
         </div>
@@ -326,14 +326,14 @@
         <!-- Header kết quả -->
         <div class="p-4 border-b" v-if="searchResults">
           <h1 class="text-sm text-gray-700 font-normal">
-            {{ t('pages.searchResult.foundResults', { count: searchResults.totalResults }) }}
+            Tìm thấy {{ searchResults.totalResults }} kết quả cho "{{ searchQuery }}"
           </h1>
         </div>
 
         <!-- Loading -->
         <div v-if="loading" class="p-8 text-center">
           <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p class="mt-4 text-gray-600">{{ t('pages.searchResult.loading') }}</p>
+          <p class="mt-4 text-gray-600">Đang tìm kiếm...</p>
         </div>
 
         <!-- Danh sách kết quả -->
@@ -403,7 +403,7 @@
                     </svg>
                   </div>
                   <span class="text-sm text-gray-600">
-                    ({{ result.reviewCount }} {{ t('pages.searchResult.reviews') }})
+                    ({{ result.reviewCount }} đánh giá)
                   </span>
                 </div>
               </div>
@@ -416,13 +416,13 @@
                 @click.stop="bookOnlineAppointment(result)"
                 class="w-36 bg-green-500 text-center hover:bg-green-600 hover:text-white px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white lg:flex-initial truncate ml-auto"
               >
-                {{ t('pages.searchResult.bookOnlineConsultation') }}
+                Khám online
               </button>
               <button
                 @click.stop="bookAppointment(result)"
                 class="w-36 bg-primary text-center hover:bg-blue-600 hover:text-white px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white lg:flex-initial truncate ml-auto"
               >
-                {{ t('pages.searchResult.bookAppointment') }}
+                Đặt khám
               </button>
             </div>
           </div>
@@ -435,8 +435,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
           </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ t('pages.searchResult.noResults') }}</h3>
-          <p class="text-gray-600">{{ t('pages.searchResult.noResultsDesc') }}</p>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Không tìm thấy kết quả</h3>
+          <p class="text-gray-600">Thử tìm kiếm với từ khóa khác hoặc điều chỉnh bộ lọc</p>
         </div>
 
         <!-- Phân trang -->
@@ -456,12 +456,10 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useI18n } from '@/i18n/useI18n';
 import { searchService } from '@/services/searchService';
 import Pagination from '@/components/common/Pagination/Pagination.vue';
 import { getImage } from '@/common/function';
 
-const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
@@ -488,13 +486,13 @@ const filters = ref({
 const pageSize = 12;
 
 const sortOptions = computed(() => [
-  { value: 'relevance', order: 'desc', label: t('pages.searchResult.sortByRelevance') },
-  { value: 'rating', order: 'desc', label: t('pages.searchResult.sortByRatingHigh') },
-  { value: 'rating', order: 'asc', label: t('pages.searchResult.sortByRatingLow') },
-  { value: 'price', order: 'asc', label: t('pages.searchResult.sortByPriceLow') },
-  { value: 'price', order: 'desc', label: t('pages.searchResult.sortByPriceHigh') },
-  { value: 'reviewCount', order: 'desc', label: t('pages.searchResult.sortByReviews') },
-  { value: 'distance', order: 'asc', label: t('pages.searchResult.sortByDistance') }
+  { value: 'relevance', order: 'desc', label: 'Liên quan nhất' },
+  { value: 'rating', order: 'desc', label: 'Đánh giá cao nhất' },
+  { value: 'rating', order: 'asc', label: 'Đánh giá thấp nhất' },
+  { value: 'price', order: 'asc', label: 'Giá thấp nhất' },
+  { value: 'price', order: 'desc', label: 'Giá cao nhất' },
+  { value: 'reviewCount', order: 'desc', label: 'Nhiều đánh giá nhất' },
+  { value: 'distance', order: 'asc', label: 'Gần nhất' }
 ]);
 
 const hasActiveFilters = computed(() => {
@@ -508,14 +506,14 @@ const activeFiltersCount = computed(() => {
   let count = 0;
   if (filters.value.minRating > 0) count++;
   if (filters.value.minPrice > 0) count++;
-  if (filters.value.maxPrice > 0) count++;
+  if (filters.value.maxPrice > 0) count++;  
   if (filters.value.onlineOnly) count++;
   return count;
 });
 
 const getSortLabel = (sortBy, sortOrder) => {
   const option = sortOptions.value.find(opt => opt.value === sortBy && opt.order === sortOrder);
-  return option ? option.label : t('pages.searchResult.sortByRelevance');
+  return option ? option.label : 'Liên quan nhất';
 };
 
 const getHighlightedText = (text, highlights) => {
@@ -543,7 +541,7 @@ const handleSearch = async () => {
   await performSearch();
 };
 
-const performSearch = async () => {
+const performSearch = async () => {  
   try {
     loading.value = true;
     
@@ -629,10 +627,10 @@ const getDefaultImage = (type) => {
 
 const getTypeLabel = (type) => {
   const labels = {
-    all: t('pages.searchResult.all'),
-    doctor: t('pages.searchResult.doctors'),
-    clinic: t('pages.searchResult.clinics'),
-    hospital: t('pages.searchResult.hospitals')
+    all: 'Tất cả',
+    doctor: 'Bác sĩ',
+    clinic: 'Phòng khám',
+    hospital: 'Bệnh viện'
   };
   return labels[type] || labels.all;
 };  
@@ -851,3 +849,4 @@ const handleClickOutside = (event) => {
   overflow: hidden;
 }
 </style> 
+

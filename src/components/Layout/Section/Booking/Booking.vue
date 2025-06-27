@@ -17,7 +17,7 @@
           additionalClasses="group hover:bg-blue-900 py-1.5 px-3 text-sm"
           @click="goToViewMore"
         >
-          <span class="font-semibold whitespace-nowrap">{{ t('components.section.booking.viewMore') }}</span>
+          <span class="font-semibold whitespace-nowrap">Xem thêm</span>
           <template #icon-right>
             <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" class="">
               <g fill-rule="evenodd">
@@ -35,7 +35,7 @@
           ref="prevButton"
           aria-label="prev" 
           class="prev w-9 h-9 flex items-center justify-center z-20 absolute left-0 inset-y-1/2 bg-white rounded-full shadow-th disabled:hidden hover:bg-primary hover:text-white"
-          :title="t('components.section.booking.navigation.prev')"
+          title="Trang trước"
           @click="scrollPrev"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="14"><path d="M6.94 1.082 8.363 2.603l-4.318 4.619 4.318 4.619-1.423 1.522-5.741-6.141z" fill="currentColor"></path></svg>
@@ -44,7 +44,7 @@
           ref="nextButton"
           aria-label="next" 
           class="next w-9 h-9 flex items-center justify-center z-20 absolute right-0 inset-y-1/2 bg-white rounded-full shadow-th disabled:hidden hover:bg-primary hover:text-white"
-          :title="t('components.section.booking.navigation.next')"
+          title="Trang sau"
           @click="scrollNext"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="14"><path d="M4.06 1.082 2.637 2.603l4.318 4.619-4.318 4.619 1.423 1.522 5.741-6.141z" fill="currentColor"></path></svg>
@@ -71,11 +71,8 @@
 
 <script setup>
 import { onMounted, onBeforeUnmount, ref } from 'vue';
-import { useI18n } from '@/i18n/useI18n';
 import bookingIcon from '@/assets/images/booking.svg';
 import AppButton from '@/components/common/Button/Button.vue';
-
-const { t } = useI18n();
 
 // Template refs
 const scrollContainer = ref(null);

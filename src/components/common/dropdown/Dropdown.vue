@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="dropdown" ref="dropdownRef">
     <button
       @click="toggleDropdown"
@@ -72,7 +72,7 @@ defineOptions({
 });
 
 const props = defineProps({
-  // Dữ liệu
+  // Dá»¯ liá»‡u
   options: {
     type: Array,
     default: () => []
@@ -82,7 +82,7 @@ const props = defineProps({
     default: null
   },
   
-  // Hiển thị
+  // Hiá»ƒn thá»‹
   placeholder: {
     type: String,
     default: 'Select an option'
@@ -169,7 +169,7 @@ const displayText = computed(() => {
 });
 
 const positionClass = computed(() => {
-  const [vertical, horizontal] = props.position.split('-');
+  const [vertical, horizontal] = props.position.spli"Text";
   return `dropdown-${vertical} dropdown-${horizontal}`;
 });
 
@@ -217,13 +217,13 @@ const toggleDropdown = () => {
 
 const openDropdown = () => {
   isOpen.value = true;
-  emit('open');
+  emi"Text";
 };
 
 const closeDropdown = () => {
   isOpen.value = false;
   searchQuery.value = '';
-  emit('close');
+  emi"Text";
 };
 
 const selectOption = (option) => {
@@ -248,8 +248,8 @@ const selectOption = (option) => {
     newValue = value;
   }
   
-  emit('update:modelValue', newValue);
-  emit('change', newValue, option);
+  emi"Text";
+  emi"Text";
   
   if (props.closeOnSelect && !props.multiple) {
     closeDropdown();
@@ -267,7 +267,7 @@ onMounted(() => {
   document.addEventListener('click', handleClickOutside);
 });
 
-onBeforeUnmount(() => {
+onBeforeUnmoun"Text" => {
   document.removeEventListener('click', handleClickOutside);
 });
 
@@ -400,3 +400,4 @@ watch(() => props.modelValue, (newValue) => {
   transform: scale(1);
 }
 </style>
+

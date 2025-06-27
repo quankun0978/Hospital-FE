@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="login-page">
     <div
       class="max-w-7xl mx-auto md:px-6 py-10 lg:py-32 md:grid md:grid-cols-12"
@@ -36,7 +36,7 @@
               }"
               @click="handleTabChange('login')"
             >
-              {{ t("pages.login.tabNavigation.login") }}
+              Đăng nhập
             </router-link>
             <router-link
               to="/login?action=register"
@@ -47,7 +47,7 @@
               }"
               @click="handleTabChange('register')"
             >
-              {{ t("pages.login.tabNavigation.register") }}
+              Đăng ký
             </router-link>
           </div>
 
@@ -74,8 +74,8 @@
                 v-model="loginForm.password"
                 id="login-password"
                 type="password"
-                :label="t('pages.login.loginForm.password')"
-                :placeholder="t('pages.login.validation.passwordRequired')"
+                :label="'Mật khẩu'"
+                :placeholder="'Nhập mật khẩu'"
                 minlength="6"
               />
             </div>
@@ -87,30 +87,28 @@
                   v-model="loginForm.remember"
                   class="mr-2"
                 />
-                <span class="text-sm text-gray-700">{{
-                  t("pages.login.loginForm.rememberPassword")
-                }}</span>
+                <span class="text-sm text-gray-700">Ghi nhớ đăng nhập</span>
               </label>
               <router-link
                 to="/forgot-password"
                 class="cursor-pointer text-sm text-primary"
               >
-                {{ t("pages.login.loginForm.forgotPassword") }}
+                Quên mật khẩu?
               </router-link>
             </div>
 
             <AppButton type="submit" variant="primary" :disabled="isLoading">
               <span v-if="isLoading">Đang xử lý...</span>
-              <span v-else>{{ t("pages.login.loginForm.loginButton") }}</span>
+              <span v-else>Đăng nhập</span>
             </AppButton>
 
             <div class="text-center text-sm p-6 border-t mt-8">
-              {{ t("pages.login.loginForm.noAccount") }}
+              Chưa có tài khoản?
               <span
                 class="font-medium cursor-pointer text-primary"
                 @click="handleTabChange('register')"
               >
-                {{ t("pages.login.loginForm.registerNow") }}
+                Đăng ký ngay
               </span>
             </div>
           </form>
@@ -179,12 +177,10 @@ import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Input from "../components/common/Input/Input.vue";
 import AppButton from "../components/common/Button/Button.vue";
-import { useI18n } from "../i18n/useI18n";
 import authApi from "../api/authApi.ts";
 import Message from "../plugins/message.ts";
 import { useAuthStore } from "@/store/auth";
 
-const { t } = useI18n();
 const authStore = useAuthStore();
 
 const route = useRoute();
@@ -387,3 +383,5 @@ const handleTabChange = (tab) => {
   color: #e53935;
 }
 </style>
+
+

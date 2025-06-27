@@ -1,16 +1,16 @@
-<template>
+﻿<template>
   <section id="expert-board" class="bg-white">
     <div class="max-w-7xl mx-auto px-4 py-3 md:py-4">
-      <h3 class="text-xl font-bold mb-4">{{ t('components.section.professional.title') }}</h3>
+      <h3 class="text-xl font-bold mb-4">Đội ngũ chuyên gia</h3>
       <div class="bg-white p-4 lg:p-6 border-2 border-primary rounded-xl flex flex-col md:flex-row-reverse gap-6">
         <div class="md:basis-1/3 flex flex-col justify-center items-center">
           <div class="lg:max-w-sm">
             <p class="font-bold text-gray-700 font-serif md:text-lg mb-6">
-              {{ t('components.section.professional.description') }}
+              Đội ngũ bác sĩ giỏi chuyên môn, tận tâm với nghề
             </p>
             <button 
               class="bg-primary inline-flex text-white items-center rounded-full px-5 py-2 group cursor-pointer hover:bg-blue-900">
-              <p class="font-medium mr-1">{{ t('components.section.professional.viewTeam') }}</p>
+              <p class="font-medium mr-1">Xem đội ngũ</p>
               <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" class="ml-2">
                 <g fill-rule="evenodd">
                   <path stroke-width="2" stroke="currentColor" fill="none" d="M0 5h8"
@@ -40,10 +40,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useI18n } from '@/i18n/useI18n';
-
-const { t } = useI18n();
-
 const doctors = ref([
   {
     id: 1,
@@ -93,3 +89,4 @@ const doctors = ref([
 <style scoped>
 /* Styles riêng cho ProfessionalSection nếu cần */
 </style>
+

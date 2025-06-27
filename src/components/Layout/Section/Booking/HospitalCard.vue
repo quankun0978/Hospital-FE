@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <a :href="link" class="select-none snap-start group relative shrink-0 sm:last:mr-6 w-[280px] flex flex-col rounded-xl border-overflow overflow-hidden hover:shadow-md">
     <div class="h-32 relative overflow-hidden bg-gray-100">
       <img 
@@ -42,8 +42,6 @@
 </template>
 
 <script>
-import { useI18n } from '../../../../i18n/useI18n';
-
 export default {
   name: 'HospitalCard',
   props: {
@@ -85,8 +83,7 @@ export default {
     }
   },
   setup() {
-    const { t } = useI18n();
-    return { t };
+    return {};
   }
 }
 </script>

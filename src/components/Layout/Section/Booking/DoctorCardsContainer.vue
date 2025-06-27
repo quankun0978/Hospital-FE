@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="doctor-cards-container" :class="{ 'loading': loading }">
     <div v-if="loading" class="flex justify-center items-center py-8">
       <div class="loader"></div>
@@ -18,7 +18,7 @@
         :hospital="getDoctorHospital(doctor)"
       />
       <div v-if="doctors.length === 0" class="text-center text-gray-500 py-4">
-        {{ t('components.section.booking.doctor.noDoctors') }}
+        Không có bác sĩ nào
       </div>
     </template>
   </div>
@@ -26,11 +26,8 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { useI18n } from '@/i18n/useI18n';
 import DoctorCard from './DoctorCard.vue';
 import doctorApi from '../../../../api/doctorApi';
-const { t } = useI18n();
-
 // Props
 const props = defineProps({
   limit: {
@@ -67,11 +64,11 @@ const fetchDoctors = async () => {
     if (response.data) {
       doctors.value = response.data || [];
     } else {
-      error.value = response.message || t('common.errors.dataFetchError');
+      error.value = response.message || 'Lỗi khi tải dữ liệu';
     }
   } catch (err) {
     console.error('Lỗi khi lấy dữ liệu bác sĩ:', err);
-    error.value = t('common.errors.dataFetchError');
+    error.value = 'Lỗi khi tải dữ liệu';
   } finally {
     loading.value = false;
   }

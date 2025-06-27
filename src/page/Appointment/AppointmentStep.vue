@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div>
   <section _ngcontent-serverapp-c115="" class="bg-gray-100 py-5 text-gray-800">
     <div _ngcontent-serverapp-c115="" class="max-w-7xl mx-auto md:px-2">
@@ -344,7 +344,6 @@
                                         </div>
                                       </div>
                                     </div>
-
 
                                   </div>
                                 </div>
@@ -889,3 +888,4 @@ onMounted(() => {
   fetchPatientRecords();
 });
 </script>
+

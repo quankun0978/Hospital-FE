@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <section class="bg-white">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="max-w-5xl mx-auto block">
@@ -453,11 +453,9 @@
 <script setup>
 import { ref, onMounted, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useI18n } from "@/i18n/useI18n";
 import ClinicCardsContainer from "@/components/Layout/Section/Booking/ClinicCardsContainer.vue";
 import clinicApi from "../api/clinicApi";
 
-const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
@@ -812,3 +810,4 @@ onMounted(() => {
 }
 
 </style>
+

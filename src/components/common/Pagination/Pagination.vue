@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="flex justify-center flex-wrap gap-1 text-xs font-medium p-4">
     <!-- Nút Previous -->
     <button
@@ -71,10 +71,6 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useI18n } from '@/i18n/useI18n';
-
-const { t } = useI18n();
-
 // Props
 const props = defineProps({
   currentPage: {

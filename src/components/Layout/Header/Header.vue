@@ -54,7 +54,7 @@
                 aria-expanded="false"
                 class="dropdown-toggle nav-link"
                 id="menu-item-dropdown-51"
-                >{{ t("components.header.booking.title") }}</a
+                >Đặt khám</a
               >
               <ul
                 class="dropdown-menu group-hover:block group-hover:block overflow-hidden lg:hidden lg:absolute lg:top-75 lg:bg-white lg:rounded-xl lg:shadow-yu"
@@ -67,11 +67,11 @@
                     :to="{ name: 'search', query: { type: 'doctor' } }"
                     class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
                   >
-                    {{ t("components.header.booking.doctor") }}
+                    Đặt khám theo bác sĩ
                     <p
                       class="hidden md:block text-sm font-normal text-gray-700"
                     >
-                      {{ t("components.header.booking.doctorDesc") }}
+                      Tìm kiếm và đặt lịch khám với bác sĩ chuyên khoa
                     </p>
                   </router-link>
                 </li>
@@ -82,11 +82,11 @@
                     :to="{ name: 'search', query: { type: 'hospital' } }"
                     class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
                   >
-                    {{ t("components.header.booking.hospital") }}
+                    Đặt khám theo bệnh viện
                     <p
                       class="hidden md:block text-sm font-normal text-gray-700"
                     >
-                      {{ t("components.header.booking.hospitalDesc") }}
+                      Tìm kiếm và đặt lịch khám tại bệnh viện
                     </p>
                   </router-link>
                 </li>
@@ -97,11 +97,11 @@
                     :to="{ name: 'search', query: { type: 'clinic' } }"
                     class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
                   >
-                    {{ t("components.header.booking.clinic") }}
+                    Đặt khám theo phòng khám
                     <p
                       class="hidden md:block text-sm font-normal text-gray-700"
                     >
-                      {{ t("components.header.booking.clinicDesc") }}
+                      Tìm kiếm và đặt lịch khám tại phòng khám
                     </p>
                   </router-link>
                 </li>
@@ -112,11 +112,11 @@
                     :to="{ name: 'search', query: { type: 'all', specialty: 'Tiêm chủng' } }"
                     class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
                   >
-                    {{ t("components.header.booking.vaccination") }}
+                    Tiêm chủng
                     <p
                       class="hidden md:block text-sm font-normal text-gray-700"
                     >
-                      {{ t("components.header.booking.vaccinationDesc") }}
+                      Đặt lịch tiêm chủng cho trẻ em và người lớn
                     </p>
                   </router-link>
                 </li>
@@ -127,29 +127,25 @@
                     :to="{ name: 'search', query: { type: 'all', specialty: 'Xét nghiệm' } }"
                     class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
                   >
-                    {{ t("components.header.booking.labTest") }}
+                    Xét nghiệm
                     <p
                       class="hidden md:block text-sm font-normal text-gray-700"
                     >
-                      {{ t("components.header.booking.labTestDesc") }}
+                      Đặt lịch xét nghiệm tại nhà hoặc tại cơ sở y tế
                     </p>
                   </router-link>
                 </li>
                 <li
                   class="mt-4 dropdown-footer menu-item menu-item-type-custom menu-item-object-custom nav-item"
                 >
-                  <a href="tel:19002805" class="dropdown-item">{{
-                    t("components.header.booking.support")
-                  }}</a>
+                  <a href="tel:19002805" class="dropdown-item">Hỗ trợ: 1900-2805</a>
                 </li>
               </ul>
             </li>
             <li
               class="menu-item menu-item-type-post_type menu-item-object-page nav-item"
             >
-              <a href="#" class="nav-link">{{
-                t("components.header.other.onlineConsultation")
-              }}</a>
+              <a href="#" class="nav-link">Tư vấn trực tuyến</a>
             </li>
             <li
               class="menu-item menu-item-type-custom menu-item-object-custom nav-item"
@@ -159,15 +155,13 @@
                 rel="noopener noreferrer"
                 href="#"
                 class="nav-link"
-                >{{ t("components.header.other.store") }}</a
+                >Cửa hàng</a
               >
             </li>
             <li
               class="menu-item menu-item-type-custom menu-item-object-custom nav-item"
             >
-              <a href="#" class="nav-link">{{
-                t("components.header.other.news")
-              }}</a>
+              <a href="#" class="nav-link">Tin tức</a>
             </li>
           </ul>
         </div>
@@ -180,17 +174,15 @@
           <img :src="downloadAppIcon" alt="Download App" />
           <div class="block">
             <p class="text-sm font-semibold text-gray-800">
-              {{ t("components.header.other.downloadApp") }}
+              Tải app YouMed
             </p>
             <p class="text-xs font-medium text-gray-500">
-              {{ t("components.header.other.downloadAppDesc") }}
+              Đặt khám nhanh chóng, tiện lợi
             </p>
           </div>
         </a>
       </nav>
-      <div class="language-switcher-container">
-        <LanguageSwitcher />
-      </div>
+
       <div class="inline-flex space-x-3 items-center">
         <!-- Phần user info - khi chưa đăng nhập -->
         <div id="user-info" class="p-3" v-if="!isLoggedIn">
@@ -201,7 +193,7 @@
               size="md"
               rounded="sm"
             >
-              {{ t("components.header.navigation.login") }}
+              Đăng nhập
             </AppButton>
           </router-link>
         </div>
@@ -223,7 +215,7 @@
           >
             <div class="p-3 border-b border-gray-100">
               <p class="text-xs text-gray-500">
-                {{ t("components.header.navigation.myAccount") }}
+                Tài khoản của tôi
               </p>
               <p class="text-sm font-medium text-gray-800 truncate">
                 {{ userName }}
@@ -268,7 +260,7 @@
                   @click="logout"
                   class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-50"
                 >
-                  {{ t("components.header.navigation.logout") }}
+                  Đăng xuất
                 </button>
               </li>
             </ul>
@@ -281,18 +273,15 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from "vue";
-import { useI18n } from "@/i18n/useI18n";
 import { useRoute, useRouter } from "vue-router";
 import menuToggleIcon from "@/assets/images/menu-toggle.svg";
 import closeMenuIcon from "@/assets/images/close-menu.svg";
 import downloadAppIcon from "@/assets/images/download-app.svg";
-import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 import arrowDownIcon from "@/assets/images/arrow-down.svg";
 import AppButton from "@/components/common/Button/Button.vue";
 import { useAuthStore } from "@/store/auth";
 import { nextTick } from "vue";
 
-const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();

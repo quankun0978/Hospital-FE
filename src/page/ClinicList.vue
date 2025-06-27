@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="clinic-list-page">
     <div class="container mx-auto px-4 py-8">
       <h1 class="text-3xl font-bold text-gray-800 mb-6">Cơ sở y tế</h1>
@@ -169,9 +169,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useI18n } from '@/i18n/useI18n';
 import clinicApi from '../api/clinicApi';
-const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
@@ -210,7 +208,7 @@ const filteredClinics = computed(() => {
 onMounted(() => {
   const { search, page, type } = route.query;
   if (search) searchTerm.value = search.toString();
-  if (page) currentPage.value = parseInt(page.toString()) || 1;
+  if (page) currentPage.value = parseInt(page) || 1;
   if (type && ['all', 'hospital', 'clinic'].includes(type.toString())) {
     filter.value = type.toString();
   }
@@ -242,11 +240,11 @@ const fetchClinics = async () => {
       // Cập nhật URL với tham số tìm kiếm và trang
       updateUrlParams();
     } else {
-      error.value = response.message || t('common.errors.dataFetchError');
+      error.value = response.message || "Không thể tải danh sách phòng khám";
     }
   } catch (err) {
     console.error('Lỗi khi lấy dữ liệu phòng khám:', err);
-    error.value = t('common.errors.dataFetchError');
+    error.value = "Có lỗi xảy ra khi tải danh sách phòng khám";
   } finally {
     loading.value = false;
   }
@@ -402,3 +400,4 @@ watch(filter, () => {
   border-color: #2563eb;
 }
 </style> 
+
