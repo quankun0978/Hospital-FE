@@ -434,7 +434,6 @@ import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "@/i18n/useI18n";
 import doctorApi from "../api/doctorApi";
-import markdownApi from "../api/markdownApi";
 import scheduleApi from "../api/scheduleApi";
 import { Markdown } from "../model/Markdown";
 import SunFog from "../assets/images/sun-fog.svg";
@@ -565,22 +564,21 @@ const fetchDoctorDetails = async () => {
     }
 
     // Gọi API lấy thông tin bác sĩ theo slug
-    const response = await doctorApi.getBySlug(slug);
+    const response = await doctorApi.getDoctorBySlug(slug);
     console.log(response);
     if (response.succeeded && response.data) {
       doctor.value = response.data;
       
       // Sau khi lấy được doctor, gọi tiếp API lấy markdown
       try {
-        const markdown = await markdownApi.getMarkdownById(
-          doctor.value.doctorId
-        );
-        if (markdown && markdown.contentHTML) {
-          doctorMarkdownHTML.value = markdown.contentHTML;
+        const response = await doctorApi.getDoctorMarkdown(doctor.value.doctorId);
+        if (response.succeeded && response.data && response.data.contentHTML) {
+          doctorMarkdownHTML.value = response.data.contentHTML;
         } else {
           doctorMarkdownHTML.value = "";
         }
       } catch (err) {
+        console.log("No markdown content found for doctor");
         doctorMarkdownHTML.value = "";
       }
 

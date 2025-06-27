@@ -75,9 +75,26 @@ const articleApi = {
   // Tạo article mới với JSON
   createArticle: async (data: CreateArticleDto) => {
     try {
-      const response = await axios.post('/article', data, {
+      // Đảm bảo data được xử lý đúng encoding UTF-8
+      const encodedData = {
+        ...data,
+        title: data.title?.trim() || '',
+        description: data.description?.trim() || '',
+        content: data.content?.trim() || '',
+        contentHtml: data.contentHtml || '',
+        slug: data.slug?.trim() || ''
+      }
+
+      console.log('=== CREATE ARTICLE DEBUG ===')
+      console.log('Original data:', data)
+      console.log('Encoded data:', encodedData)
+      console.log('ContentHtml has Vietnamese:', /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i.test(encodedData.contentHtml))
+      console.log('============================')
+
+      const response = await axios.post('/article', encodedData, {
         headers: {
-          'Content-Type': 'application/json; charset=utf-8'
+          'Content-Type': 'application/json; charset=utf-8',
+          'Accept': 'application/json'
         }
       });
 
@@ -87,6 +104,7 @@ const articleApi = {
         message: response.data.message
       };
     } catch (error: any) {
+      console.error('Create article error:', error.response?.data || error.message)
       return {
         succeeded: false,
         message: error.response?.data?.message || 'Lỗi khi tạo bài viết'
@@ -97,9 +115,27 @@ const articleApi = {
   // Cập nhật article với JSON
   updateArticle: async (id: string, data: UpdateArticleDto) => {
     try {
-      const response = await axios.put(`/article/${id}`, data, {
+      // Đảm bảo data được xử lý đúng encoding UTF-8
+      const encodedData = {
+        ...data,
+        title: data.title?.trim() || '',
+        description: data.description?.trim() || '',
+        content: data.content?.trim() || '',
+        contentHtml: data.contentHtml || '',
+        slug: data.slug?.trim() || ''
+      }
+
+      console.log('=== UPDATE ARTICLE DEBUG ===')
+      console.log('Article ID:', id)
+      console.log('Original data:', data)
+      console.log('Encoded data:', encodedData)
+      console.log('ContentHtml has Vietnamese:', /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i.test(encodedData.contentHtml))
+      console.log('============================')
+
+      const response = await axios.put(`/article/${id}`, encodedData, {
         headers: {
-          'Content-Type': 'application/json; charset=utf-8'
+          'Content-Type': 'application/json; charset=utf-8',
+          'Accept': 'application/json'
         }
       });
 
@@ -109,6 +145,7 @@ const articleApi = {
         message: response.data.message
       };
     } catch (error: any) {
+      console.error('Update article error:', error.response?.data || error.message)
       return {
         succeeded: false,
         message: error.response?.data?.message || 'Lỗi khi cập nhật bài viết'

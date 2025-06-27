@@ -18,6 +18,15 @@ export interface Clinic {
   updatedAt?: string;
 }
 
+// Interface cho Clinic Markdown
+export interface ClinicMarkdown {
+  id: string;
+  clinicId: string;
+  contentHTML: string;
+  contentMarkdown: string;
+  description?: string;
+}
+
 // Interface cho tạo clinic mới
 export interface CreateClinicDto {
   name: string;
@@ -27,6 +36,8 @@ export interface CreateClinicDto {
   imageUrl?: string;
   logoImg?: string;
   isHospital?: boolean;
+  contentHtml?: string;
+  contentMarkdown?: string;
 }
 
 // Interface cho cập nhật clinic
@@ -38,6 +49,8 @@ export interface UpdateClinicDto {
   imageUrl?: string;
   logoImg?: string;
   isHospital?: boolean;
+  contentHtml?: string;
+  contentMarkdown?: string;
 }
 
 // Interface cho phân trang
@@ -70,12 +83,18 @@ const clinicApi = {
   // Lấy clinic theo slug
   getClinicBySlug: (slug: string) => fetchData<Clinic>(`/clinic/slug/${slug}`),
   
+  // Lấy markdown content của clinic
+  getClinicMarkdown: (id: string) => fetchData<ClinicMarkdown>(`/clinic/${id}/markdown`),
+  
   // Tạo clinic mới với JSON
   createClinic: async (data: CreateClinicDto) => {
     try {
+      console.log('Creating clinic with data:', data);
+      
       const response = await axios.post('/clinic', data, {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json; charset=utf-8',
+          'Accept-Charset': 'utf-8'
         }
       });
 
@@ -85,6 +104,7 @@ const clinicApi = {
         message: response.data.message
       };
     } catch (error: any) {
+      console.error('Create clinic error:', error);
       return {
         succeeded: false,
         message: error.response?.data?.message || 'Lỗi khi tạo cơ sở y tế'
@@ -95,9 +115,12 @@ const clinicApi = {
   // Cập nhật clinic với JSON
   updateClinic: async (id: string, data: UpdateClinicDto) => {
     try {
+      console.log('Updating clinic with data:', data);
+      
       const response = await axios.put(`/clinic/${id}`, data, {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json; charset=utf-8',
+          'Accept-Charset': 'utf-8'
         }
       });
 
@@ -107,6 +130,7 @@ const clinicApi = {
         message: response.data.message
       };
     } catch (error: any) {
+      console.error('Update clinic error:', error);
       return {
         succeeded: false,
         message: error.response?.data?.message || 'Lỗi khi cập nhật cơ sở y tế'

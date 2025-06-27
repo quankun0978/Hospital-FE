@@ -68,6 +68,10 @@ const adminApi = {
   
   // Xóa user
   deleteUser: (id: string) => deleteData(`/user/${id}`),
+
+  getDashboardStats: async () => {
+    return await fetchData<any>('/admin/dashboard-stats');
+  }
 };
 
 export default adminApi; 

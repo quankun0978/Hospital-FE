@@ -55,7 +55,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'ready', 'change'])
 
 const editorElement = ref(null)
-let editorInstance = null // Không reactive để tránh proxy issues
+let editorInstance = null
 const characterCount = ref(0)
 
 // Load CKEditor từ CDN
@@ -128,12 +128,18 @@ const initEditor = async () => {
 
     // Set initial content
     if (props.modelValue) {
+      console.log('CKEditor setting initial content:', props.modelValue.substring(0, 100) + '...')
+      console.log('Initial content has Vietnamese:', /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i.test(props.modelValue))
       editorInstance.setData(props.modelValue)
     }
 
-    // Listen for changes
+    // Listen for changes - đảm bảo encoding UTF-8
     editorInstance.model.document.on('change:data', () => {
       const data = editorInstance.getData()
+      
+      console.log('CKEditor data changed:', data.substring(0, 100) + '...')
+      console.log('Changed data has Vietnamese:', /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i.test(data))
+      
       emit('update:modelValue', data)
       
       // Update character count
@@ -145,6 +151,7 @@ const initEditor = async () => {
     // Listen for focus out to ensure data is synced
     editorInstance.editing.view.document.on('blur', () => {
       const data = editorInstance.getData()
+      console.log('CKEditor blur, syncing data:', data.substring(0, 100) + '...')
       emit('update:modelValue', data)
     })
 
@@ -152,6 +159,7 @@ const initEditor = async () => {
     setTimeout(() => {
       if (editorInstance) {
         const data = editorInstance.getData()
+        console.log('CKEditor initial sync:', data.substring(0, 100) + '...')
         emit('update:modelValue', data)
       }
     }, 100)
@@ -165,6 +173,8 @@ const initEditor = async () => {
 // Watch for external changes
 watch(() => props.modelValue, (newValue) => {
   if (editorInstance && editorInstance.getData() !== newValue) {
+    console.log('CKEditor external change:', newValue?.substring(0, 100) + '...')
+    console.log('External data has Vietnamese:', /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i.test(newValue || ''))
     editorInstance.setData(newValue || '')
   }
 })

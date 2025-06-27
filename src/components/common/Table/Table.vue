@@ -171,4 +171,7 @@ const getNestedValue = (obj, path) => {
 :deep(.ant-pagination .ant-pagination-options) {
   margin-left: 16px;
 }
+:deep(.ant-pagination-total-text) {
+  padding-left: 10px;
+}
 </style> 

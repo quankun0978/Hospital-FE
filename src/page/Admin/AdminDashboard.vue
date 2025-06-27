@@ -18,7 +18,10 @@
             </div>
             <div class="ml-4">
               <p class="text-sm font-medium text-gray-500">Tổng người dùng</p>
-              <p class="text-2xl font-semibold text-gray-900">{{ stats.totalUsers }}</p>
+              <p class="text-2xl font-semibold text-gray-900">
+                <span v-if="loading" class="animate-pulse bg-gray-200 rounded w-16 h-8 inline-block"></span>
+                <span v-else>{{ stats.totalUsers }}</span>
+              </p>
             </div>
           </div>
         </AppCard>
@@ -34,7 +37,10 @@
             </div>
             <div class="ml-4">
               <p class="text-sm font-medium text-gray-500">Lịch hẹn hôm nay</p>
-              <p class="text-2xl font-semibold text-gray-900">{{ stats.todayAppointments }}</p>
+              <p class="text-2xl font-semibold text-gray-900">
+                <span v-if="loading" class="animate-pulse bg-gray-200 rounded w-16 h-8 inline-block"></span>
+                <span v-else>{{ stats.todayAppointments }}</span>
+              </p>
             </div>
           </div>
         </AppCard>
@@ -44,13 +50,16 @@
             <div class="flex-shrink-0">
               <div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                 </svg>
               </div>
             </div>
             <div class="ml-4">
-              <p class="text-sm font-medium text-gray-500">Doanh thu tháng</p>
-              <p class="text-2xl font-semibold text-gray-900">{{ formatCurrency(stats.monthlyRevenue) }}</p>
+              <p class="text-sm font-medium text-gray-500">Bệnh nhân mới</p>
+              <p class="text-2xl font-semibold text-gray-900">
+                <span v-if="loading" class="animate-pulse bg-gray-200 rounded w-16 h-8 inline-block"></span>
+                <span v-else>{{ stats.newPatients }}</span>
+              </p>
             </div>
           </div>
         </AppCard>
@@ -60,20 +69,23 @@
             <div class="flex-shrink-0">
               <div class="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
               </div>
             </div>
             <div class="ml-4">
               <p class="text-sm font-medium text-gray-500">Chờ xử lý</p>
-              <p class="text-2xl font-semibold text-gray-900">{{ stats.pendingRequests }}</p>
+              <p class="text-2xl font-semibold text-gray-900">
+                <span v-if="loading" class="animate-pulse bg-gray-200 rounded w-16 h-8 inline-block"></span>
+                <span v-else>{{ stats.pendingAppointments }}</span>
+              </p>
             </div>
           </div>
         </AppCard>
       </div>
 
       <!-- Quick Actions -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-1 gap-8">
         <!-- Management Menu -->
         <div class="lg:col-span-1">
           <AppCard title="Quản lý hệ thống">
@@ -106,7 +118,7 @@
                 class="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-md hover:bg-gray-100 transition-colors"
               >
                 <svg class="mr-3 h-5 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a4 4 0 118 0v4m-4 8a2 2 0 100-4 2 2 0 000 4z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                 </svg>
                 Quản lý bác sĩ
               </button>
@@ -120,6 +132,17 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                 </svg>
                 Quản lý phòng khám
+              </button>
+              
+              <button
+                v-if="userRole === 'R1'"
+                @click="navigateTo('/admin/specialties')"
+                class="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-md hover:bg-gray-100 transition-colors"
+              >
+                <svg class="mr-3 h-5 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6m-6 4h6"/>
+                </svg>
+                Quản lý chuyên khoa
               </button>
               
               <button
@@ -155,46 +178,6 @@
             </div>
           </AppCard>
         </div>
-
-        <!-- Recent Activities -->
-        <div class="lg:col-span-2">
-          <AppCard title="Hoạt động gần đây">
-            <div class="flow-root">
-              <ul class="-mb-8">
-                <li v-for="(activity, index) in recentActivities" :key="index">
-                  <div class="relative pb-8" :class="index === recentActivities.length - 1 ? 'pb-0' : ''">
-                    <span
-                      v-if="index !== recentActivities.length - 1"
-                      class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                    ></span>
-                    <div class="relative flex space-x-3">
-                      <div>
-                        <span
-                          class="h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white"
-                          :class="activity.type === 'user' ? 'bg-blue-500' : activity.type === 'appointment' ? 'bg-green-500' : 'bg-yellow-500'"
-                        >
-                          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path v-if="activity.type === 'user'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            <path v-else-if="activity.type === 'appointment'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a4 4 0 118 0v4m-4 8a2 2 0 100-4 2 2 0 000 4z"/>
-                            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1"/>
-                          </svg>
-                        </span>
-                      </div>
-                      <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                        <div>
-                          <p class="text-sm text-gray-500">{{ activity.description }}</p>
-                        </div>
-                        <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                          {{ formatTime(activity.time) }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </AppCard>
-        </div>
       </div>
     </div>
   </AdminLayout>
@@ -206,6 +189,8 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import AppCard from '@/components/common/Card/Card.vue'
+import adminApi from '@/api/adminApi'
+import Message from '@/plugins/message'
 
 // Router
 const router = useRouter()
@@ -220,37 +205,40 @@ const userInitials = computed(() => {
   return userName.value.charAt(0).toUpperCase()
 })
 
+// Loading state
+const loading = ref(false)
+
 // Stats data
 const stats = ref({
-  totalUsers: 1248,
-  todayAppointments: 32,
-  monthlyRevenue: 125000000,
-  pendingRequests: 8
+  totalUsers: 0,
+  todayAppointments: 0,
+  newPatients: 0,
+  pendingAppointments: 0
 })
 
-// Recent activities
-const recentActivities = ref([
-  {
-    type: 'user',
-    description: 'Nguyễn Văn A đã đăng ký tài khoản mới',
-    time: new Date(Date.now() - 10 * 60 * 1000) // 10 minutes ago
-  },
-  {
-    type: 'appointment',
-    description: 'Đặt lịch khám với BS. Trần Thị B',
-    time: new Date(Date.now() - 25 * 60 * 1000) // 25 minutes ago
-  },
-  {
-    type: 'payment',
-    description: 'Thanh toán thành công cho lịch hẹn #1234',
-    time: new Date(Date.now() - 45 * 60 * 1000) // 45 minutes ago
-  },
-  {
-    type: 'user',
-    description: 'Cập nhật thông tin hồ sơ bệnh nhân',
-    time: new Date(Date.now() - 60 * 60 * 1000) // 1 hour ago
+// Load dashboard stats
+const loadDashboardStats = async () => {
+  try {
+    loading.value = true
+    const response = await adminApi.getDashboardStats()
+    
+    if (response.succeeded && response.data) {
+      stats.value = {
+        totalUsers: response.data.totalUsers || 0,
+        todayAppointments: response.data.todayAppointments || 0,
+        newPatients: response.data.newPatients || 0,
+        pendingAppointments: response.data.pendingAppointments || 0
+      }
+    } else {
+      Message.error('Không thể tải thống kê dashboard')
+    }
+  } catch (error) {
+    console.error('Load dashboard stats error:', error)
+    Message.error('Lỗi khi tải thống kê dashboard')
+  } finally {
+    loading.value = false
   }
-])
+}
 
 // Navigation methods
 const navigateTo = (path) => {
@@ -282,7 +270,7 @@ const formatTime = (time) => {
 
 onMounted(() => {
   // Load dashboard data
-  // Can add API calls here to load real data
+  loadDashboardStats()
 })
 </script>
 

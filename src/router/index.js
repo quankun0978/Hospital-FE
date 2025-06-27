@@ -233,7 +233,7 @@ const routes = [
     meta: {
       title: "Hospital - Quản lý cơ sở y tế",
       requiresAuth: true,
-      requiresRole: ["R1", "R2"] // Admin hoặc Doctor
+      requiresRole: ["R1"] // Chỉ Admin
     },
   },
   {
@@ -244,7 +244,7 @@ const routes = [
     meta: {
       title: "Hospital - Thêm cơ sở y tế",
       requiresAuth: true,
-      requiresRole: ["R1", "R2"] // Admin hoặc Doctor
+      requiresRole: ["R1"] // Chỉ Admin
     },
   },
   {
@@ -255,7 +255,40 @@ const routes = [
     meta: {
       title: "Hospital - Chỉnh sửa cơ sở y tế",
       requiresAuth: true,
-      requiresRole: ["R1", "R2"] // Admin hoặc Doctor
+      requiresRole: ["R1"] // Chỉ Admin
+    },
+  },
+  {
+    path: "/admin/doctors",
+    name: "admin-doctors",
+    component: () => import("@/page/Admin/DoctorManagement.vue"),
+    beforeEnter: authGuard,
+    meta: {
+      title: "Hospital - Quản lý bác sĩ",
+      requiresAuth: true,
+      requiresRole: ["R1"] // Chỉ Admin
+    },
+  },
+  {
+    path: "/admin/doctors/create",
+    name: "admin-doctors-create",
+    component: () => import("@/page/Admin/DoctorForm.vue"),
+    beforeEnter: authGuard,
+    meta: {
+      title: "Hospital - Thêm thông tin bác sĩ",
+      requiresAuth: true,
+      requiresRole: ["R1"] // Chỉ Admin
+    },
+  },
+  {
+    path: "/admin/doctors/:id/edit",
+    name: "admin-doctors-edit",
+    component: () => import("@/page/Admin/DoctorForm.vue"),
+    beforeEnter: authGuard,
+    meta: {
+      title: "Hospital - Chỉnh sửa thông tin bác sĩ",
+      requiresAuth: true,
+      requiresRole: ["R1"] // Chỉ Admin
     },
   },
   {
@@ -320,6 +353,39 @@ const routes = [
     beforeEnter: authGuard,
     meta: {
       title: "Hospital - Chỉnh sửa bài viết",
+      requiresAuth: true,
+      requiresRole: ["R1"] // Chỉ Admin
+    },
+  },
+  {
+    path: "/admin/specialties",
+    name: "admin-specialties",
+    component: () => import("@/page/Admin/SpecialtyManagement.vue"),
+    beforeEnter: authGuard,
+    meta: {
+      title: "Hospital - Quản lý chuyên khoa",
+      requiresAuth: true,
+      requiresRole: ["R1"] // Chỉ Admin
+    },
+  },
+  {
+    path: "/admin/specialties/create",
+    name: "admin-specialties-create",
+    component: () => import("@/page/Admin/SpecialtyForm.vue"),
+    beforeEnter: authGuard,
+    meta: {
+      title: "Hospital - Thêm chuyên khoa",
+      requiresAuth: true,
+      requiresRole: ["R1"] // Chỉ Admin
+    },
+  },
+  {
+    path: "/admin/specialties/:id/edit",
+    name: "admin-specialties-edit",
+    component: () => import("@/page/Admin/SpecialtyForm.vue"),
+    beforeEnter: authGuard,
+    meta: {
+      title: "Hospital - Chỉnh sửa chuyên khoa",
       requiresAuth: true,
       requiresRole: ["R1"] // Chỉ Admin
     },

@@ -44,12 +44,12 @@
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">
-              Mô tả
+              Mô tả ngắn
             </label>
             <textarea
               v-model="formData.description"
               rows="3"
-              placeholder="Nhập mô tả"
+              placeholder="Nhập mô tả ngắn"
               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             ></textarea>
           </div>
@@ -164,6 +164,20 @@
             </label>
           </div>
 
+          <!-- Nội dung chi tiết -->
+          <div>
+            <CKEditor
+              ref="ckEditorRef"
+              v-model="formData.contentHtml"
+              label="Nội dung chi tiết cơ sở y tế"
+              placeholder="Nhập nội dung chi tiết về cơ sở y tế (dịch vụ, trang thiết bị, đội ngũ bác sĩ, v.v.)"
+              :required="false"
+              :min-height="400"
+              @change="onContentChange"
+              @ready="onEditorReady"
+            />
+          </div>
+
           <!-- Action buttons -->
           <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
             <AppButton
@@ -198,6 +212,7 @@ import AdminLayout from '@/layouts/AdminLayout.vue'
 import AppCard from '@/components/common/Card/Card.vue'
 import AppButton from '@/components/common/Button/Button.vue'
 import AppInput from '@/components/common/Input/Input.vue'
+import CKEditor from '@/components/common/Editor/CKEditor.vue'
 import Message from '@/plugins/message'
 import { generateSlug, getImage } from '@/common/function'
 
@@ -209,6 +224,8 @@ const authStore = useAuthStore()
 const loading = ref(false)
 const isEditing = computed(() => !!route.params.id)
 const clinicId = computed(() => route.params.id)
+const ckEditorRef = ref(null)
+let editorInstance = null // Không reactive để tránh proxy conflict
 
 // Image upload state
 const imageFileList = ref([])
@@ -224,8 +241,33 @@ const formData = reactive({
   slug: '',
   imageUrl: '',
   logoImg: '',
-  isHospital: false
+  isHospital: false,
+  contentHtml: '',
+  contentMarkdown: ''
 })
+
+// Methods
+const onContentChange = (htmlContent) => {
+  // Cập nhật cả contentHtml và contentMarkdown
+  formData.contentHtml = htmlContent
+  formData.contentMarkdown = htmlContent.replace(/<[^>]*>/g, '').trim()
+  
+  console.log('Content changed:', {
+    htmlLength: htmlContent.length,
+    markdownLength: formData.contentMarkdown.length
+  })
+}
+
+const onEditorReady = (editor) => {
+  console.log('CKEditor ready for clinic')
+  editorInstance = editor
+
+  // Nếu đang edit và có content, set lại
+  if (isEditing.value && formData.contentHtml) {
+    console.log('Setting initial clinic content:', formData.contentHtml.substring(0, 100) + '...')
+    editor.setData(formData.contentHtml)
+  }
+}
 
 // Auto-generate slug when name changes
 watch(() => formData.name, (newName) => {
@@ -372,6 +414,9 @@ const loadClinic = async () => {
           url: getImage(clinic.logoImg)
         }]
       }
+
+      // Load markdown content
+      await loadClinicMarkdown()
     } else {
       Message.error('Không thể tải thông tin cơ sở y tế')
       router.push('/admin/clinics')
@@ -385,6 +430,31 @@ const loadClinic = async () => {
   }
 }
 
+const loadClinicMarkdown = async () => {
+  if (!isEditing.value) return
+  
+  try {
+    const response = await clinicApi.getClinicMarkdown(clinicId.value)
+    
+    if (response.succeeded && response.data) {
+      const markdown = response.data
+      formData.contentHtml = markdown.contentHTML || ''
+      formData.contentMarkdown = markdown.contentMarkdown || ''
+      
+      // Set content to editor after a delay to ensure it's ready
+      setTimeout(() => {
+        if (editorInstance && formData.contentHtml) {
+          console.log('Setting clinic content to editor after load:', formData.contentHtml.substring(0, 100) + '...')
+          editorInstance.setData(formData.contentHtml)
+        }
+      }, 200)
+    }
+  } catch (error) {
+    // Không hiển thị lỗi nếu chưa có markdown content
+    console.log('No markdown content found for clinic')
+  }
+}
+
 const validateForm = () => {
   if (!formData.name.trim()) {
     Message.error('Vui lòng nhập tên cơ sở y tế')
@@ -395,10 +465,22 @@ const validateForm = () => {
 }
 
 const handleSubmit = async () => {
+  // Đợi một chút để CKEditor sync dữ liệu
+  await new Promise(resolve => setTimeout(resolve, 100))
+  
   if (!validateForm()) return
   
   try {
     loading.value = true
+    
+    // Lấy nội dung cuối cùng từ CKEditor
+    let finalContentHtml = formData.contentHtml
+    if (editorInstance && editorInstance.getData) {
+      finalContentHtml = editorInstance.getData()
+    }
+
+    // Tạo content markdown từ HTML (loại bỏ tags)
+    const finalContentMarkdown = finalContentHtml.replace(/<[^>]*>/g, '').trim()
     
     const finalImageUrl = uploadedImageUrl.value || formData.imageUrl
     const finalLogoUrl = uploadedLogoUrl.value || formData.logoImg
@@ -411,7 +493,9 @@ const handleSubmit = async () => {
         slug: formData.slug,
         imageUrl: finalImageUrl,
         logoImg: finalLogoUrl,
-        isHospital: formData.isHospital
+        isHospital: formData.isHospital,
+        contentHtml: finalContentHtml,
+        contentMarkdown: finalContentMarkdown
       }
       
       const response = await clinicApi.updateClinic(clinicId.value, updateData)
@@ -430,7 +514,9 @@ const handleSubmit = async () => {
         slug: formData.slug,
         imageUrl: finalImageUrl,
         logoImg: finalLogoUrl,
-        isHospital: formData.isHospital
+        isHospital: formData.isHospital,
+        contentHtml: finalContentHtml,
+        contentMarkdown: finalContentMarkdown
       }
       
       const response = await clinicApi.createClinic(createData)
@@ -471,5 +557,9 @@ onMounted(() => {
 .ant-upload-select-picture-card .ant-upload-text {
   margin-top: 8px;
   color: #666;
+}
+
+:deep(.ant-form-item) {
+  margin-bottom: 0px;
 }
 </style> 

@@ -1,6 +1,15 @@
 <template>
   <div class="col-span-1">
-    <a :href="link" class="flex flex-col items-center p-4 font-medium text-center text-xs md:text-sm hover:shadow-yu rounded-xl transition">
+    <router-link 
+      :to="{ 
+        name: 'search', 
+        query: { 
+          specialty: name,
+          type: 'doctor'
+        } 
+      }" 
+      class="flex flex-col items-center p-4 font-medium text-center text-xs md:text-sm hover:shadow-yu rounded-xl transition"
+    >
       <div class="rounded-full mb-2 w-16 h-16">
         <img
           :src="image"
@@ -10,7 +19,7 @@
         />
       </div>
       <h3>{{ name }}</h3>
-    </a>
+    </router-link>
   </div>
 </template>
 

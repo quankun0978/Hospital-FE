@@ -15,9 +15,9 @@
         </button>
         <router-link to="/">
           <img
-            width="118"
-            height="25"
-            src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg"
+            width="200"
+           style="height: 40px"
+            src="@/assets/images/logo.svg"
             alt="YouMed"
           />
         </router-link>
