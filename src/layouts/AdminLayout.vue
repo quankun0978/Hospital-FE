@@ -1,12 +1,10 @@
 <template>
   <a-layout style="min-height: 100vh">
     <a-layout-sider :collapsed="collapsed" collapsible @collapse="collapsed = $event">
-      <div class="logo">
-        <img 
-          src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg" 
-          alt="Hospital Admin" 
-          style="height: 32px; margin: 16px; filter: brightness(0) invert(1);"
-        />
+      <div class="">
+        <div style="height: 32px; margin: 12px; display: flex; justify-content: center  ; color: white;">
+          <span style="font-size: 26px; font-weight: bold; text-align: center;">Hospital</span>
+        </div>
       </div>
       <a-menu :selectedKeys="selectedKeys" theme="dark" mode="inline" @select="handleMenuSelect">
         <a-menu-item key="dashboard">
@@ -37,7 +35,10 @@
             <span>Danh sách bác sĩ</span>
           </a-menu-item>
           <a-menu-item key="schedules">
-            <span>Lịch trình</span>
+            <span>{{ userRole === 'R1' ? 'Quản lý lịch khám' : 'Lịch khám của tôi' }}</span>
+          </a-menu-item>
+          <a-menu-item key="appointments">
+            <span>Quản lý lịch hẹn</span>
           </a-menu-item>
         </a-sub-menu>
 
@@ -51,15 +52,31 @@
           <a-menu-item key="clinics">
             <span>Danh sách phòng khám</span>
           </a-menu-item>
-          <a-menu-item key="departments">
-            <span>Khoa phòng</span>
+        </a-sub-menu>
+
+        <a-sub-menu v-if="userRole === 'R1'" key="specialty-management">
+          <template #title>
+            <span>
+              <medicine-box-outlined />
+              <span>Quản lý chuyên khoa</span>
+            </span>
+          </template>
+          <a-menu-item key="specialties">
+            <span>Danh sách chuyên khoa</span>
           </a-menu-item>
         </a-sub-menu>
 
-        <a-menu-item key="appointments">
-          <file-outlined />
-          <span>Quản lý lịch hẹn</span>
-        </a-menu-item>
+        <a-sub-menu v-if="userRole === 'R1'" key="article-management">
+          <template #title>
+            <span>
+              <file-text-outlined />
+              <span>Quản lý bài viết</span>
+            </span>
+          </template>
+          <a-menu-item key="articles">
+            <span>Danh sách bài viết</span>
+          </a-menu-item>
+        </a-sub-menu>
 
         <a-menu-item key="reports">
           <bar-chart-outlined />
@@ -117,6 +134,8 @@ import {
   TeamOutlined,
   FileOutlined,
   BarChartOutlined,
+  MedicineBoxOutlined,
+  FileTextOutlined,
 } from '@ant-design/icons-vue'
 
 const props = defineProps({
@@ -156,8 +175,14 @@ watch(() => route.path, (newPath) => {
     selectedKeys.value = ['clinics']
   } else if (newPath.includes('/admin/doctors')) {
     selectedKeys.value = ['doctors']
+  } else if (newPath.includes('/admin/schedules')) {
+    selectedKeys.value = ['schedules']
   } else if (newPath.includes('/admin/appointments')) {
     selectedKeys.value = ['appointments']
+  } else if (newPath.includes('/admin/specialties')) {
+    selectedKeys.value = ['specialties']
+  } else if (newPath.includes('/admin/articles')) {
+    selectedKeys.value = ['articles']
   } else if (newPath.includes('/admin/reports')) {
     selectedKeys.value = ['reports']
   } else {
@@ -183,8 +208,17 @@ const handleMenuSelect = ({ key }) => {
     case 'doctors':
       navigateTo('/admin/doctors')
       break
+    case 'schedules':
+      navigateTo('/admin/schedules')
+      break
     case 'appointments':
       navigateTo('/admin/appointments')
+      break
+    case 'specialties':
+      navigateTo('/admin/specialties')
+      break
+    case 'articles':
+      navigateTo('/admin/articles')
       break
     case 'reports':
       navigateTo('/admin/reports')

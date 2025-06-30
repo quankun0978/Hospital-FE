@@ -52,7 +52,7 @@
               width="100%" 
               height="100%" 
               src="https://www.youtube.com/embed/MftRcZCHbwI" 
-              title="Giới thiệu YouMed"
+              title="Giới thiệu Hospital"
               frameborder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
               allowfullscreen
@@ -60,7 +60,7 @@
             ></iframe>
           </div>
           <h2 class="font-semibold p-4 m-0 text-xl">
-            Giới thiệu YouMed
+            Giới thiệu Hospital
           </h2>
         </div>
         <div class="cols-span-1 lg:col-span-3 relative flex flex-col">
@@ -92,7 +92,7 @@
     <section id="download" class="bg-primary">
       <div class="max-w-7xl mx-auto md:grid md:grid-cols-12">
         <div class="px-4 py-6 lg:py-12 text-white space-y-6 md:col-span-5 lg:col-span-4">
-          <h2 class="text-2xl md:text-4xl font-bold">Tải app YouMed ngay</h2>
+          <h2 class="text-2xl md:text-4xl font-bold">Tải app Hospital ngay</h2>
           <ul class="space-y-4">
             <li class="flex items-center">
               <img :src="hospitalIcon" class="mr-1" alt="Hospital Icon" />

@@ -18,7 +18,7 @@
             width="200"
            style="height: 40px"
             src="@/assets/images/logo.svg"
-            alt="YouMed"
+            alt="Hospital"
           />
         </router-link>
       </div>
@@ -174,7 +174,7 @@
           <img :src="downloadAppIcon" alt="Download App" />
           <div class="block">
             <p class="text-sm font-semibold text-gray-800">
-              Tải app YouMed
+              Tải app Hospital
             </p>
             <p class="text-xs font-medium text-gray-500">
               Đặt khám nhanh chóng, tiện lợi

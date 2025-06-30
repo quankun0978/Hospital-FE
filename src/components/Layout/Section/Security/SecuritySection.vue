@@ -41,7 +41,7 @@
           </div>
         </div>
         <p class="py-6 text-sm max-w-md mx-auto">
-          YouMed cam kết bảo vệ thông tin cá nhân và dữ liệu y tế của bạn với các tiêu chuẩn bảo mật cao nhất.
+          Hospital cam kết bảo vệ thông tin cá nhân và dữ liệu y tế của bạn với các tiêu chuẩn bảo mật cao nhất.
         </p>
       </div>
     </section>

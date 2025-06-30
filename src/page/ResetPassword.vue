@@ -1,6 +1,32 @@
 <template>
-  <div class="max-w-7xl mx-auto px-4 py-10 lg:py-20">
-    <div class="max-w-md mx-auto bg-white rounded-lg p-8 shadow-sm">
+  <section class="bg-gray-100">
+    <div class="max-w-7xl mx-auto md:p-4 grid grid-cols-1 md:grid-cols-12 md:gap-4 lg:py-10">
+      <!-- Sidebar -->
+      <div class="col-span-1 md:col-span-3">
+        <div class="bg-white md:rounded-md">
+          <ul class="flex overflow-y-auto hide-scroll-bar md:py-4 md:flex-col">
+            <li v-if="isAdminOrDoctor">
+              <router-link class="menu-item" to="/admin">Trang quản lý</router-link>
+            </li>
+            <li>
+              <router-link class="menu-item" to="/appointments">Lịch khám của tôi</router-link>
+            </li>
+            <li>
+              <router-link class="menu-item" to="/patient-record">Hồ sơ</router-link>
+            </li>
+            <li>
+              <router-link class="menu-item item-active" to="/change-password">Đổi mật khẩu</router-link>
+            </li>
+            <li>
+              <button class="menu-item w-full text-left" @click="logout">Đăng xuất</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <main class="flex-1 flex flex-col md:col-span-9">
+        <div class="bg-white shadow rounded-lg p-8">
       <h1 class="text-2xl font-bold mb-6 text-center">
         {{ isChangePassword ? 'Đổi mật khẩu' : 'Đặt lại mật khẩu' }}
       </h1>
@@ -117,18 +143,10 @@
         <p class="text-red-700 text-sm">{{ errorMessage }}</p>
       </div>
       
-      <!-- Navigation links -->
-      <div v-if="!successMessage" class="mt-6 text-center space-x-4">
-        <router-link to="/login" class="text-primary text-sm font-medium">
-          Quay lại đăng nhập
-        </router-link>
-        <span class="text-gray-400">|</span>
-        <router-link to="/forgot-password" class="text-primary text-sm font-medium">
-          Yêu cầu liên kết mới
-        </router-link>
       </div>
+      </main>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
@@ -164,6 +182,12 @@ const errorMessage = ref('');
 // Determine mode: reset password (with token) or change password (for logged in user)
 const isChangePassword = computed(() => {
   return !route.query.token && authStore.isAuthenticated;
+});
+
+// Kiểm tra quyền admin hoặc doctor
+const isAdminOrDoctor = computed(() => {
+  const userRole = authStore.getUserRole;
+  return userRole === 'R1' || userRole === 'R2';
 });
 
 // Password validation
@@ -316,6 +340,12 @@ const handleSubmit = async () => {
     isLoading.value = false;
   }
 };
+
+// Đăng xuất
+const logout = () => {
+  authStore.logout();
+  router.push('/');
+};
 </script>
 
 <style scoped>
@@ -338,5 +368,26 @@ const handleSubmit = async () => {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Menu styles */
+.menu-item {
+  display: block;
+  padding: 14px 24px;
+  color: #222;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.menu-item:hover {
+  background: #f1f5f9;
+  color: #2563eb;
+}
+
+.item-active {
+  color: #2563eb;
+  background: #e6f0fd;
+  border-left: 3px solid #2563eb;
 }
 </style> 

@@ -2,7 +2,7 @@
   <footer class="relative site-footer bg-gray-50 py-3">
     <div class="max-w-7xl mx-auto grid grid-cols-12 gap-4 md:pt-10">
       <div class="px-4 py-6 text-sm col-span-12 sm:col-span-6 lg:col-span-4 space-y-2">
-        <p class="font-semibold">Công ty TNHH YouMed</p>
+        <p class="font-semibold">Hospital Management System</p>
         <p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận 1, TP.HCM</p>
         <p>
           <strong>Hotline:</strong> <a href="tel:19002805" class="font-medium hover:underline">1900-2805</a> (8:00 - 17:30 từ T2 đến T7)
@@ -39,9 +39,9 @@
           <li class="menu-item hover:underline"><a href="#">Đặt khám bác sĩ</a></li>
           <li class="menu-item hover:underline"><a href="#">Đặt khám bệnh viện</a></li>
           <li class="menu-item hover:underline"><a href="#">Đặt khám phòng khám</a></li>
-          <li class="menu-item hover:underline"><a href="#">Cửa hàng YouMed</a></li>
+          <li class="menu-item hover:underline"><a href="#">Dịch vụ y tế</a></li>
           <li class="menu-item hover:underline"><a href="#" target="_blank">Y tế 360</a></li>
-          <li class="menu-item hover:underline"><a href="#">Phòng khám YouMed</a></li>
+          <li class="menu-item hover:underline"><a href="#">Phòng khám</a></li>
         </ul>
       </div>
       <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
@@ -55,7 +55,7 @@
           <li class="menu-item hover:underline"><a href="#">Điều khoản sử dụng</a></li>
           <li class="menu-item hover:underline"><a href="#">Chính sách bảo mật</a></li>
           <li class="menu-item hover:underline"><a href="#">Chính sách khiếu nại</a></li>
-          <li>Hỗ trợ khách hàng: <a href="mailto:support@youmed.vn" class="hover:underline">support@youmed.vn</a></li>
+          <li>Hỗ trợ khách hàng: <a href="mailto:support@hospital.vn" class="hover:underline">support@hospital.vn</a></li>
         </ul>
       </div>
       <div class="px-4 py-6 md:py-0 text-sm col-span-12 md:col-span-4 space-y-2">
@@ -114,7 +114,7 @@
         Vui lòng không sử dụng thông tin này để tự chẩn đoán và điều trị.
       </p>
       <p class="mt-1">
-        © {{ new Date().getFullYear() }} YouMed. Tất cả quyền được bảo lưu.
+        © {{ new Date().getFullYear() }} Hospital Management System. Tất cả quyền được bảo lưu.
       </p>
     </div>
   </footer>

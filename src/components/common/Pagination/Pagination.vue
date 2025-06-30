@@ -5,7 +5,7 @@
       v-if="currentPage > 1"
       @click="goToPage(currentPage - 1)"
       class="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 hover:bg-gray-50"
-      :aria-label="t('pagination.prevPage')"
+      aria-label="Trang trước"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -22,10 +22,11 @@
     </button>
 
     <!-- Các trang -->
-    <template v-for="page in visiblePages" :key="page">
+    <template v-for="page in visiblePages">
       <!-- Trang thường -->
       <button
         v-if="typeof page === 'number'"
+        :key="page"
         @click="goToPage(page)"
         :class="[
           'block border h-8 leading-8 rounded text-center w-8',
@@ -40,6 +41,7 @@
       <!-- Dấu ... -->
       <span
         v-else
+        :key="`ellipsis-${page}`"
         class="block h-8 w-8 pt-1 text-center leading-8 text-gray-900"
       >
         ...
@@ -51,7 +53,7 @@
       v-if="currentPage < totalPages"
       @click="goToPage(currentPage + 1)"
       class="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 hover:bg-gray-50"
-      :aria-label="t('pagination.nextPage')"
+      aria-label="Trang sau"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

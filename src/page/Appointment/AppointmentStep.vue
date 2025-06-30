@@ -1,481 +1,473 @@
 ﻿<template>
   <div>
-  <section _ngcontent-serverapp-c115="" class="bg-gray-100 py-5 text-gray-800">
-    <div _ngcontent-serverapp-c115="" class="max-w-7xl mx-auto md:px-2">
-      <div
-        _ngcontent-serverapp-c115=""
-        class="hidden md:block"
-        _nghost-serverapp-c98=""
-      >
+    <section
+      _ngcontent-serverapp-c115=""
+      class="bg-gray-100 py-5 text-gray-800"
+    >
+      <div _ngcontent-serverapp-c115="" class="max-w-7xl mx-auto md:px-2">
         <div
-          _ngcontent-serverapp-c98=""
-          mousescrollhorizontal=""
-          class="px-10 py-6 flex flex-row gap-4 hide-scroll-bar overflow-auto ng-star-inserted"
+          _ngcontent-serverapp-c115=""
+          class="hidden md:block"
+          _nghost-serverapp-c98=""
         >
           <div
             _ngcontent-serverapp-c98=""
-            class="cursor-pointer flex-shrink-0 flex flex-row items-center gap-2 ng-star-inserted"
-          >
-            <img
-              _ngcontent-serverapp-c98=""
-              :src="checkedBgBlueIcon"
-              alt=""
-              class="w-6 h-6 ng-star-inserted"
-            />
-            <div
-              _ngcontent-serverapp-c98=""
-              class="font-normal text-sm text-gray-800 leading-17"
-            >
-              Thời gian khám
-            </div>
-            <img
-              _ngcontent-serverapp-c98=""
-              :src="borderIcon"
-              class="w-6 h-6 ng-star-inserted"
-            />
-          </div>
-
-          <div
-            _ngcontent-serverapp-c98=""
-            class="cursor-pointer flex-shrink-0 flex flex-row items-center gap-2 ng-star-inserted"
+            mousescrollhorizontal=""
+            class="px-10 py-6 flex flex-row gap-4 hide-scroll-bar overflow-auto ng-star-inserted"
           >
             <div
               _ngcontent-serverapp-c98=""
-              class="w-6 h-6 bg-green-500 text-white text-center rounded ng-star-inserted"
+              class="cursor-pointer flex-shrink-0 flex flex-row items-center gap-2 ng-star-inserted"
             >
-              2
+              <img
+                _ngcontent-serverapp-c98=""
+                :src="checkedBgBlueIcon"
+                alt=""
+                class="w-6 h-6 ng-star-inserted"
+              />
+              <div
+                _ngcontent-serverapp-c98=""
+                class="font-normal text-sm text-gray-800 leading-17"
+              >
+                Thời gian khám
+              </div>
+              <img
+                _ngcontent-serverapp-c98=""
+                :src="borderIcon"
+                class="w-6 h-6 ng-star-inserted"
+              />
             </div>
 
             <div
               _ngcontent-serverapp-c98=""
-              class="font-normal text-sm text-gray-800 leading-17"
+              class="cursor-pointer flex-shrink-0 flex flex-row items-center gap-2 ng-star-inserted"
             >
-              Bệnh nhân
+              <div
+                _ngcontent-serverapp-c98=""
+                class="w-6 h-6 bg-green-500 text-white text-center rounded ng-star-inserted"
+              >
+                2
+              </div>
+
+              <div
+                _ngcontent-serverapp-c98=""
+                class="font-normal text-sm text-gray-800 leading-17"
+              >
+                Bệnh nhân
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div _ngcontent-serverapp-c115="" class="grid grid-cols-12 gap-4">
-        <div
-          _ngcontent-serverapp-c115=""
-          class="col-span-12 md:col-span-7 lg:col-span-8 space-y-4 bg-white"
-        >
+        <div _ngcontent-serverapp-c115="" class="grid grid-cols-12 gap-4">
           <div
             _ngcontent-serverapp-c115=""
-            nzsize="small"
-            nzdirection="vertical"
-            class="ant-steps ant-steps-vertical ant-steps-small"
+            class="col-span-12 md:col-span-7 lg:col-span-8 space-y-4 bg-white"
           >
             <div
               _ngcontent-serverapp-c115=""
-              class="ant-steps-item ant-steps-item-wait ant-steps-item-active ng-star-inserted"
+              nzsize="small"
+              nzdirection="vertical"
+              class="ant-steps ant-steps-vertical ant-steps-small"
             >
-              <div class="ant-steps-item-container" tabindex="0" role="button">
-                <div class="ant-steps-item-content">
-                  <div class="ant-steps-item-description">
-                    <div
-                      _ngcontent-serverapp-c115=""
-                      class="p-4 ng-star-inserted"
-                    >
-                      <div
-                        _ngcontent-serverapp-c103=""
-                        class="font-semibold text-base text-gray-800"
-                      >
-                        Hồ sơ bệnh nhân
-                      </div>
+              <div
+                _ngcontent-serverapp-c115=""
+                class="ant-steps-item ant-steps-item-wait ant-steps-item-active ng-star-inserted"
+              >
+                <div
+                  class="ant-steps-item-container"
+                  tabindex="0"
+                  role="button"
+                >
+                  <div class="ant-steps-item-content">
+                    <div class="ant-steps-item-description">
                       <div
                         _ngcontent-serverapp-c115=""
-                        _nghost-serverapp-c114=""
+                        class="p-4 ng-star-inserted"
                       >
-                        <div _ngcontent-serverapp-c114="" class="text-gray-800">
+                        <div
+                          _ngcontent-serverapp-c103=""
+                          class="font-semibold text-base text-gray-800"
+                        >
+                          Hồ sơ bệnh nhân
+                        </div>
+                        <div
+                          _ngcontent-serverapp-c115=""
+                          _nghost-serverapp-c114=""
+                        >
                           <div
                             _ngcontent-serverapp-c114=""
-                            _nghost-serverapp-c108=""
+                            class="text-gray-800"
                           >
                             <div
-                              _ngcontent-serverapp-c108=""
-                              class="border-t border-t-gray-100 mt-3 py-4 space-y-4 ng-star-inserted"
+                              _ngcontent-serverapp-c114=""
+                              _nghost-serverapp-c108=""
                             >
-                              <div _ngcontent-serverapp-c108="" hidden="">
-                                <form
-                                  _ngcontent-serverapp-c108=""
-                                  novalidate=""
-                                  action="."
-                                  class="relative ng-untouched ng-pristine ng-valid"
-                                >
-                                  <img
-                                    _ngcontent-serverapp-c108=""
-                                    width="18"
-                                    height="18"
-                                    src="./assets/img/booking/svg/search-normal.svg"
-                                    class="cursor-pointer absolute left-3 bottom-1/2 translate-y-1/2 object-cover"
-                                  /><input
-                                    _ngcontent-serverapp-c108=""
-                                    type="search"
-                                    formcontrolname="query"
-                                    placeholder="Tìm nhanh"
-                                    class="mt-1 pl-8 pr-3 py-2 focus:ring-primary focus:border-primary block w-full shadow-sm placeholder:text-sm border border-gray-200 rounded-md ng-untouched ng-pristine ng-valid"
-                                  />
-                                </form>
-                              </div>
                               <div
                                 _ngcontent-serverapp-c108=""
-                                class="ant-spin-nested-loading"
+                                class="border-t border-t-gray-100 mt-3 py-4 space-y-4 ng-star-inserted"
                               >
+                                <div _ngcontent-serverapp-c108="" hidden="">
+                                  <form
+                                    _ngcontent-serverapp-c108=""
+                                    novalidate=""
+                                    action="."
+                                    class="relative ng-untouched ng-pristine ng-valid"
+                                  >
+                                    <img
+                                      _ngcontent-serverapp-c108=""
+                                      width="18"
+                                      height="18"
+                                      src="./assets/img/booking/svg/search-normal.svg"
+                                      class="cursor-pointer absolute left-3 bottom-1/2 translate-y-1/2 object-cover"
+                                    /><input
+                                      _ngcontent-serverapp-c108=""
+                                      type="search"
+                                      formcontrolname="query"
+                                      placeholder="Tìm nhanh"
+                                      class="mt-1 pl-8 pr-3 py-2 focus:ring-primary focus:border-primary block w-full shadow-sm placeholder:text-sm border border-gray-200 rounded-md ng-untouched ng-pristine ng-valid"
+                                    />
+                                  </form>
+                                </div>
                                 <div
-                                  class="ant-spin-container ng-star-inserted"
+                                  _ngcontent-serverapp-c108=""
+                                  class="ant-spin-nested-loading"
                                 >
                                   <div
-                                    _ngcontent-serverapp-c108=""
-                                    id="patient"
-                                    infinite-scroll=""
-                                    class="grid gap-4 max-h-96 overflow-y-auto ng-star-inserted"
+                                    class="ant-spin-container ng-star-inserted"
                                   >
                                     <div
-                                      v-for="(record, idx) in patientRecords"
-                                      :key="record.patientId"
+                                      _ngcontent-serverapp-c108=""
+                                      id="patient"
+                                      infinite-scroll=""
+                                      class="grid gap-4 max-h-96 overflow-y-auto ng-star-inserted"
                                     >
-
                                       <div
-                                        _ngcontent-serverapp-c108=""
-                                        _nghost-serverapp-c107=""
-                                        id="patient0"
-                                        class="ng-star-inserted"
+                                        v-for="(record, idx) in patientRecords"
+                                        :key="record.patientId"
                                       >
                                         <div
-                                          _ngcontent-serverapp-c107=""
-                                          class="cursor-pointer border border-gray-300 rounded-lg flex flex-col ng-star-inserted hover:bg-gray-50 transition-colors"
-                                          :class="{ 
-                                            'bg-blue-50 border-blue-300': selectedRecord && selectedRecord.patientId === record.patientId,
-                                            'bg-white': !selectedRecord || selectedRecord.patientId !== record.patientId
-                                          }"
-                                          @click="selectRecord(record)"
+                                          _ngcontent-serverapp-c108=""
+                                          _nghost-serverapp-c107=""
+                                          id="patient0"
+                                          class="ng-star-inserted"
                                         >
                                           <div
                                             _ngcontent-serverapp-c107=""
-                                            class="item flex flex-row justify-between items-center p-2"
+                                            class="cursor-pointer border border-gray-300 rounded-lg flex flex-col ng-star-inserted hover:bg-gray-50 transition-colors"
+                                            :class="{
+                                              'bg-blue-50 border-blue-300':
+                                                selectedRecord &&
+                                                selectedRecord.patientId ===
+                                                  record.patientId,
+                                              'bg-white':
+                                                !selectedRecord ||
+                                                selectedRecord.patientId !==
+                                                  record.patientId,
+                                            }"
+                                            @click="selectRecord(record)"
                                           >
                                             <div
                                               _ngcontent-serverapp-c107=""
-                                              class="flex row gap-1"
+                                              class="item flex flex-row justify-between items-center p-2"
                                             >
-                                                                                            <div
-                                                class="flex items-center gap-3 px-4 py-3"
-                                              >
-                                                <div class="relative w-12 h-12">
-                                                  <img
-                                                    :src="familyBlockIcon"
-                                                    alt="Primary"
-                                                    class="w-12 h-12"
-                                                  />
-                                                  <div
-                                                    class="absolute inset-0 flex items-center justify-center"
-                                                  >
-                                                    <span
-                                                      class="absolute z-10 w-8 h-8 rounded-full bg-[#22d3ee]"
-                                                    ></span>
-                                                    <div
-                                                      class="absolute z-20 text-sm text-white font-bold"
-                                                    >
-                                                      {{
-                                                        getInitials(
-                                                          record.fullName
-                                                        )
-                                                      }}
-                                                    </div>
-                                                    <span
-                                                      v-if="idx === 0"
-                                                      class="absolute z-20 text-xs bg-gray-400 rounded-full -top-1 right-0 text-white px-1"
-                                                      >Tôi</span
-                                                    >
-                                                    <span
-                                                      v-else
-                                                      class="absolute z-20 text-xs bg-gray-400 rounded-full -top-1 right-0 text-white px-1"
-                                                      >{{
-                                                        record.relationshipType ||
-                                                        "Khác"
-                                                      }}</span
-                                                    >
-                                                  </div>
-                                                </div>
-                                              </div>
                                               <div
                                                 _ngcontent-serverapp-c107=""
-                                                class="flex flex-col justify-center items-start"
+                                                class="flex row gap-1"
                                               >
-                                                <span
-                                                  _ngcontent-serverapp-c107=""
-                                                  class="font-medium text-base text-gray-800"
+                                                <div
+                                                  class="flex items-center gap-3 px-4 py-3"
                                                 >
-                                                  {{ record.fullName }}
-                                                </span>
-                                                <span
+                                                  <div
+                                                    class="relative w-12 h-12"
+                                                  >
+                                                    <img
+                                                      :src="familyBlockIcon"
+                                                      alt="Primary"
+                                                      class="w-12 h-12"
+                                                    />
+                                                    <div
+                                                      class="absolute inset-0 flex items-center justify-center"
+                                                    >
+                                                      <span
+                                                        class="absolute z-10 w-8 h-8 rounded-full bg-[#22d3ee]"
+                                                      ></span>
+                                                      <div
+                                                        class="absolute z-20 text-sm text-white font-bold"
+                                                      >
+                                                        {{
+                                                          getInitials(
+                                                            record.fullName
+                                                          )
+                                                        }}
+                                                      </div>
+                                                      <span
+                                                        v-if="idx === 0"
+                                                        class="absolute z-20 text-xs bg-gray-400 rounded-full -top-1 right-0 text-white px-1"
+                                                        >Tôi</span
+                                                      >
+                                                      <span
+                                                        v-else
+                                                        class="absolute z-20 text-xs bg-gray-400 rounded-full -top-1 right-0 text-white px-1"
+                                                        >{{
+                                                          record.relationshipType ||
+                                                          "Khác"
+                                                        }}</span
+                                                      >
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div
                                                   _ngcontent-serverapp-c107=""
-                                                  class="font-normal text-sm text-gray-600"
+                                                  class="flex flex-col justify-center items-start"
                                                 >
-                                                  {{
-                                                    formatDate(
-                                                      record.dateOfBirth
-                                                    )
-                                                  }}
-                                                </span>
+                                                  <span
+                                                    _ngcontent-serverapp-c107=""
+                                                    class="font-medium text-base text-gray-800"
+                                                  >
+                                                    {{ record.fullName }}
+                                                  </span>
+                                                  <span
+                                                    _ngcontent-serverapp-c107=""
+                                                    class="font-normal text-sm text-gray-600"
+                                                  >
+                                                    {{
+                                                      formatDate(
+                                                        record.dateOfBirth
+                                                      )
+                                                    }}
+                                                  </span>
+                                                </div>
+                                              </div>
+                                              <div class="p-2">
+                                                <img
+                                                  _ngcontent-serverapp-c107=""
+                                                  :src="arrowDownIcon"
+                                                  title="Xem thêm thông tin"
+                                                  class="cursor-pointer w-4 h-4 transition-transform"
+                                                  :class="{
+                                                    'rotate-180':
+                                                      isRecordExpanded(
+                                                        record.patientId
+                                                      ),
+                                                  }"
+                                                />
                                               </div>
                                             </div>
-                                                                                      <div class="p-2">
-                                            <img
-                                              _ngcontent-serverapp-c107=""
-                                              :src="arrowDownIcon"
-                                              title="Xem thêm thông tin"
-                                              class="cursor-pointer w-4 h-4 transition-transform"
-                                              :class="{ 'rotate-180': isRecordExpanded(record.patientId) }"
-                                            />
-                                          </div>
-                                          </div>
-                                          <div
-                                            _ngcontent-serverapp-c107=""
-                                            class="flex flex-col gap-4 p-4"
-                                            v-show="isRecordExpanded(record.patientId)"
-                                          >
-                                            <ul
-                                              _ngcontent-serverapp-c107=""
-                                              class="divide-y divide-gray-100"
-                                            >
-                                              <li
-                                                _ngcontent-serverapp-c107=""
-                                                class="flex justify-between flex-wrap text-gray-800 py-1 ng-star-inserted"
-                                              >
-                                                <p _ngcontent-serverapp-c107="">
-                                                  Mã bệnh nhân
-                                                </p>
-                                                <p
-                                                  _ngcontent-serverapp-c107=""
-                                                  class="font-medium"
-                                                >
-                                                  {{ record.patientCode || "Chưa có" }}
-                                                </p>
-                                              </li>
-
-                                              <li
-                                                _ngcontent-serverapp-c107=""
-                                                class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                              >
-                                                <p _ngcontent-serverapp-c107="">
-                                                  Họ và tên
-                                                </p>
-                                                <p
-                                                  _ngcontent-serverapp-c107=""
-                                                  class="font-medium"
-                                                >
-                                                  {{ record.fullName }}
-                                                </p>
-                                              </li>
-
-                                              <li
-                                                _ngcontent-serverapp-c107=""
-                                                class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                              >
-                                                <p _ngcontent-serverapp-c107="">
-                                                  Giới tính
-                                                </p>
-                                                <p
-                                                  _ngcontent-serverapp-c107=""
-                                                  class="font-medium"
-                                                >
-                                                  {{ record.gender === "M" ? "Nam" : record.gender === "F" ? "Nữ" : "--" }}
-                                                </p>
-                                              </li>
-
-                                              <li
-                                                _ngcontent-serverapp-c107=""
-                                                class="flex justify-between flex-wrap text-gray-800 py-2"
-                                              >
-                                                <p _ngcontent-serverapp-c107="">
-                                                  Ngày sinh
-                                                </p>
-                                                <p
-                                                  _ngcontent-serverapp-c107=""
-                                                  class="font-medium"
-                                                >
-                                                  {{ formatDate(record.dateOfBirth) }}
-                                                </p>
-                                              </li>
-                                              <li
-                                                _ngcontent-serverapp-c107=""
-                                                class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                              >
-                                                <p _ngcontent-serverapp-c107="">
-                                                  Số điện thoại
-                                                </p>
-                                                <p
-                                                  _ngcontent-serverapp-c107=""
-                                                  class="font-medium"
-                                                >
-                                                  {{ record.phone }}
-                                                </p>
-                                              </li>
-
-                                              <li
-                                                _ngcontent-serverapp-c107=""
-                                                class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
-                                              >
-                                                <p _ngcontent-serverapp-c107="">
-                                                  Địa chỉ
-                                                </p>
-                                                <p
-                                                  _ngcontent-serverapp-c107=""
-                                                  class="font-medium"
-                                                >
-                                                  {{ record.address }}
-                                                </p>
-                                              </li>
-                                            </ul>
                                             <div
                                               _ngcontent-serverapp-c107=""
-                                              class="flex flex-row gap-4 items-start"
+                                              class="flex flex-col gap-4 p-4"
+                                              v-show="
+                                                isRecordExpanded(
+                                                  record.patientId
+                                                )
+                                              "
                                             >
-                                              <button
+                                              <ul
                                                 _ngcontent-serverapp-c107=""
-                                                @click="openUpdatePopup(record)"
-                                                class="font-semibold text-sm text-primary leading-17 bg-blue-50 border-inherit shadow-sm rounded px-4 py-3 hover:bg-blue-100 transition-colors cursor-pointer"
-                                                >Điều chỉnh</button
+                                                class="divide-y divide-gray-100"
                                               >
+                                                <li
+                                                  _ngcontent-serverapp-c107=""
+                                                  class="flex justify-between flex-wrap text-gray-800 py-1 ng-star-inserted"
+                                                >
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                  >
+                                                    Mã bệnh nhân
+                                                  </p>
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                    class="font-medium"
+                                                  >
+                                                    {{
+                                                      record.patientCode ||
+                                                      "Chưa có"
+                                                    }}
+                                                  </p>
+                                                </li>
+
+                                                <li
+                                                  _ngcontent-serverapp-c107=""
+                                                  class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
+                                                >
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                  >
+                                                    Họ và tên
+                                                  </p>
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                    class="font-medium"
+                                                  >
+                                                    {{ record.fullName }}
+                                                  </p>
+                                                </li>
+
+                                                <li
+                                                  _ngcontent-serverapp-c107=""
+                                                  class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
+                                                >
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                  >
+                                                    Giới tính
+                                                  </p>
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                    class="font-medium"
+                                                  >
+                                                    {{
+                                                      record.gender === "M"
+                                                        ? "Nam"
+                                                        : record.gender === "F"
+                                                        ? "Nữ"
+                                                        : "--"
+                                                    }}
+                                                  </p>
+                                                </li>
+
+                                                <li
+                                                  _ngcontent-serverapp-c107=""
+                                                  class="flex justify-between flex-wrap text-gray-800 py-2"
+                                                >
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                  >
+                                                    Ngày sinh
+                                                  </p>
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                    class="font-medium"
+                                                  >
+                                                    {{
+                                                      formatDate(
+                                                        record.dateOfBirth
+                                                      )
+                                                    }}
+                                                  </p>
+                                                </li>
+                                                <li
+                                                  _ngcontent-serverapp-c107=""
+                                                  class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
+                                                >
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                  >
+                                                    Số điện thoại
+                                                  </p>
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                    class="font-medium"
+                                                  >
+                                                    {{ record.phone }}
+                                                  </p>
+                                                </li>
+
+                                                <li
+                                                  _ngcontent-serverapp-c107=""
+                                                  class="flex justify-between flex-wrap text-gray-800 py-2 ng-star-inserted"
+                                                >
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                  >
+                                                    Địa chỉ
+                                                  </p>
+                                                  <p
+                                                    _ngcontent-serverapp-c107=""
+                                                    class="font-medium"
+                                                  >
+                                                    {{ record.address }}
+                                                  </p>
+                                                </li>
+                                              </ul>
+                                              <div
+                                                _ngcontent-serverapp-c107=""
+                                                class="flex flex-row gap-4 items-start"
+                                              >
+                                                <button
+                                                  _ngcontent-serverapp-c107=""
+                                                  @click="
+                                                    openUpdatePopup(record)
+                                                  "
+                                                  class="font-semibold text-sm text-primary leading-17 bg-blue-50 border-inherit shadow-sm rounded px-4 py-3 hover:bg-blue-100 transition-colors cursor-pointer"
+                                                >
+                                                  Điều chỉnh
+                                                </button>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div
-                            _ngcontent-serverapp-c114=""
-                            _nghost-serverapp-c113=""
-                            class="ng-star-inserted"
-                          >
                             <div
-                              _ngcontent-serverapp-c113=""
-                              class="space-y-4 text-gray-800 ng-star-inserted"
+                              _ngcontent-serverapp-c114=""
+                              _nghost-serverapp-c113=""
+                              class="ng-star-inserted"
                             >
                               <div
                                 _ngcontent-serverapp-c113=""
-                                class="font-medium text-sm"
+                                class="space-y-4 text-gray-800 ng-star-inserted"
                               >
-                                Thông tin bổ sung (không bắt buộc)
-                              </div>
-                              <div
-                                _ngcontent-serverapp-c113=""
-                                class="flex flex-col"
-                              >
-                                <label
-                                  _ngcontent-serverapp-c113=""
-                                  for="note"
-                                  class="font-medium text-sm"
-                                  >Ghi chú</label
-                                >
-                                <form
-                                  _ngcontent-serverapp-c113=""
-                                  novalidate=""
-                                  class="ng-untouched ng-pristine ng-valid"
-                                >
-                                  <textarea
-                                    _ngcontent-serverapp-c113=""
-                                    rows="1"
-                                    v-model="appointmentNote"
-                                    nz-input=""
-                                    class="ant-input rounded mt-1 ng-untouched ng-pristine ng-valid"
-                                    placeholder="Triệu chứng, thuốc đang dùng, tiền sử, ..."
-                                    style="
-                                      max-height: 120px;
-                                      min-height: 76px;
-                                      height: 76px;
-                                    "
-                                  ></textarea>
-                                </form>
-                              </div>
-                              <div
-                                _ngcontent-serverapp-c113=""
-                                class="flex flex-col"
-                              >
-                                <label
-                                  _ngcontent-serverapp-c113=""
-                                  class="font-medium text-sm"
-                                  >Tập tin đính kèm (0/5)</label
-                                >
                                 <div
                                   _ngcontent-serverapp-c113=""
-                                  nztype="drag"
-                                  nzfiletype="image/png,image/jpeg"
-                                  nzlisttype="picture-card"
-                                  class="rounded mt-1 ant-upload-picture-card-wrapper"
+                                  class="font-medium text-sm"
                                 >
-                                  <div
-                                    class="ant-upload ant-upload-drag ng-star-inserted"
-                                  >
-                                    <div
-                                      class="ant-upload ant-upload-btn"
-                                      tabindex="0"
-                                      role="button"
-                                    >
-                                      <input
-                                        type="file"
-                                        style="display: none"
-                                        multiple=""
-                                      />
-                                      <div class="ant-upload-drag-container">
-                                        <div
-                                          _ngcontent-serverapp-c113=""
-                                          class="flex flex-col gap-2 ng-star-inserted"
-                                        >
-                                          <p
-                                            _ngcontent-serverapp-c113=""
-                                            class="font-normal text-sm"
-                                          >
-                                            <span
-                                              _ngcontent-serverapp-c113=""
-                                              class="text-primary"
-                                              >Chọn tập tin</span
-                                            >
-                                            hoặc kéo thả vào đây
-                                          </p>
-                                          <p
-                                            _ngcontent-serverapp-c113=""
-                                            class="font-normal text-xs text-gray-400"
-                                          >
-                                            .PNG, .JPG tối đa 15MB
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="ant-upload-list ng-tns-c85-1 ant-upload-list-picture-card ng-star-inserted"
-                                    dir="ltr"
-                                  ></div>
+                                  Thông tin bổ sung (không bắt buộc)
                                 </div>
-                              </div>
-                              <div
-                                _ngcontent-serverapp-c113=""
-                                class="flex flex-row justify-between font-semibold"
-                              >
-                                <button
+                                <div
                                   _ngcontent-serverapp-c113=""
-                                  @click="openAddPopup"
-                                  nz-popover=""
-                                  nzpopoverplacement="right"
-                                  nzpopovertrigger="click"
-                                  class="text-sm border border-solid text-primary rounded py-3 px-4"
+                                  class="flex flex-col"
                                 >
-                                  Thêm hồ sơ mới
-                                </button>
-                                <a
+                                  <label
+                                    _ngcontent-serverapp-c113=""
+                                    for="note"
+                                    class="font-medium text-sm"
+                                    >Ghi chú</label
+                                  >
+                                  <form
+                                    _ngcontent-serverapp-c113=""
+                                    novalidate=""
+                                    class="ng-untouched ng-pristine ng-valid"
+                                  >
+                                    <textarea
+                                      _ngcontent-serverapp-c113=""
+                                      rows="2"
+                                      v-model="appointmentNote"
+                                      nz-input=""
+                                      class="ant-input rounded mt-1 ng-untouched ng-pristine ng-valid"
+                                      placeholder="Triệu chứng, thuốc đang dùng, tiền sử, ..."
+                                      style="
+                                        height: 120px;
+                                      "
+                                    ></textarea>
+                                  </form>
+                                </div>
+
+                                <div
                                   _ngcontent-serverapp-c113=""
-                                  class="bg-primary border border-primary hover:bg-primary/80 hover:text-white px-4 py-3 rounded text-sm text-white"
-                                  hidden=""
-                                  >Xác nhận</a
+                                  class="flex flex-row justify-between font-semibold"
                                 >
+                                  <button
+                                    _ngcontent-serverapp-c113=""
+                                    @click="openAddPopup"
+                                    nz-popover=""
+                                    nzpopoverplacement="right"
+                                    nzpopovertrigger="click"
+                                    class="text-sm border border-solid text-primary rounded py-3 px-4"
+                                  >
+                                    Thêm hồ sơ mới
+                                  </button>
+                                  <a
+                                    _ngcontent-serverapp-c113=""
+                                    class="bg-primary border border-primary hover:bg-primary/80 hover:text-white px-4 py-3 rounded text-sm text-white"
+                                    hidden=""
+                                    >Xác nhận</a
+                                  >
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -487,168 +479,173 @@
               </div>
             </div>
           </div>
-        </div>
-        <div
-          _ngcontent-serverapp-c115=""
-          class="col-span-12 md:p-0 md:z-auto px-4 md:col-span-5 lg:col-span-4 bg-white md:bg-transparent"
-        >
-          <div _ngcontent-serverapp-c115="" class="sticky top-20">
-            <div
-              _ngcontent-serverapp-c115=""
-              class="bg-white md:rounded-lg overflow-hidden ng-star-inserted"
-            >
-              <div>
-                <div class="ng-star-inserted">
-                  <div
-                    _ngcontent-serverapp-c103=""
-                    class="hidden md:block divide-y divide-gray-100"
-                  >
+          <div
+            _ngcontent-serverapp-c115=""
+            class="col-span-12 md:p-0 md:z-auto px-4 md:col-span-5 lg:col-span-4 bg-white md:bg-transparent"
+          >
+            <div _ngcontent-serverapp-c115="" class="sticky top-20">
+              <div
+                _ngcontent-serverapp-c115=""
+                class="bg-white md:rounded-lg overflow-hidden ng-star-inserted"
+              >
+                <div>
+                  <div class="ng-star-inserted">
                     <div
                       _ngcontent-serverapp-c103=""
-                      class="flex items-center flex-row justify-between px-4 lg:px-6 py-4 bg-white rounded-t-md"
+                      class="hidden md:block divide-y divide-gray-100"
                     >
                       <div
                         _ngcontent-serverapp-c103=""
-                        class="font-semibold text-base text-gray-800"
+                        class="flex items-center flex-row justify-between px-4 lg:px-6 py-4 bg-white rounded-t-md"
                       >
-                        Thông tin đặt khám
-                      </div>
-                      <img
-                        :src="arrowDownIcon"
-                        alt="Arrow Down 1"
-                        class="w-[18px] h-[18px] rotate-180"
-                      />
-                    </div>
-                    <div
-                      _ngcontent-serverapp-c103=""
-                      class="flex flex-row items-center gap-4 px-4 lg:px-6 py-2"
-                    >
-                      <div
-                        _ngcontent-serverapp-c103=""
-                        class="flex-none ng-star-inserted"
-                      >
-                        <img
+                        <div
                           _ngcontent-serverapp-c103=""
-                          class="w-[60px] h-[60px] object-scale-down rounded-full"
-                          :alt="doctorName"
-                          :src="imageUrl"
+                          class="font-semibold text-base text-gray-800"
+                        >
+                          Thông tin đặt khám
+                        </div>
+                        <img
+                          :src="arrowDownIcon"
+                          alt="Arrow Down 1"
+                          class="w-[18px] h-[18px] rotate-180"
                         />
                       </div>
+                      <div
+                        _ngcontent-serverapp-c103=""
+                        class="flex flex-row items-center gap-4 px-4 lg:px-6 py-2"
+                      >
+                        <div
+                          _ngcontent-serverapp-c103=""
+                          class="flex-none ng-star-inserted"
+                        >
+                          <img
+                            _ngcontent-serverapp-c103=""
+                            class="w-[60px] h-[60px] object-scale-down rounded-full"
+                            :alt="doctorName"
+                            :src="imageUrl"
+                          />
+                        </div>
 
-                      <div _ngcontent-serverapp-c103="">
-                        <p
+                        <div _ngcontent-serverapp-c103="">
+                          <p
+                            _ngcontent-serverapp-c103=""
+                            class="font-medium text-base"
+                          >
+                            {{ doctorName || doctor?.name || "Đang tải..." }}
+                          </p>
+                          <p
+                            _ngcontent-serverapp-c103=""
+                            class="font-normal text-xs text-gray-500 line-clamp-2"
+                          >
+                            {{ clinicName || doctor?.clinics?.[0]?.name || "" }}
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        _ngcontent-serverapp-c103=""
+                        class="p-4 lg:px-6 bg-white"
+                      >
+                        <div
                           _ngcontent-serverapp-c103=""
-                          class="font-medium text-base"
+                          class="ng-star-inserted"
                         >
-                          {{ doctorName || doctor?.name || "Đang tải..." }}
-                        </p>
-                        <p
+                          <div
+                            _ngcontent-serverapp-c103=""
+                            class="flex flex-row justify-between py-2 text-gray-800 ng-star-inserted"
+                          >
+                            <div _ngcontent-serverapp-c103="">Ngày khám</div>
+                            <div
+                              _ngcontent-serverapp-c103=""
+                              class="font-medium"
+                            >
+                              {{ appointmentDate || "Chưa chọn" }}
+                            </div>
+                          </div>
+
+                          <div
+                            _ngcontent-serverapp-c103=""
+                            class="flex flex-row justify-between py-2 text-gray-800 ng-star-inserted"
+                            v-if="timeSlot"
+                          >
+                            <div _ngcontent-serverapp-c103="">Khung giờ</div>
+                            <div
+                              _ngcontent-serverapp-c103=""
+                              class="font-medium"
+                            >
+                              {{ timeSlot }}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
                           _ngcontent-serverapp-c103=""
-                          class="font-normal text-xs text-gray-500 line-clamp-2"
+                          class="flex flex-row justify-between py-2 text-gray-800 ng-star-inserted"
                         >
-                          {{ clinicName || doctor?.clinics?.[0]?.name || "" }}
-                        </p>
+                          <div _ngcontent-serverapp-c103="" class="flex-none">
+                            Bệnh nhân
+                          </div>
+                          <div
+                            _ngcontent-serverapp-c103=""
+                            class="font-medium ng-star-inserted"
+                          >
+                            {{ selectedRecord?.fullName || "Chưa chọn" }}
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div
                       _ngcontent-serverapp-c103=""
-                      class="p-4 lg:px-6 bg-white"
+                      class="ant-spin-nested-loading"
                     >
-                      <div
-                        _ngcontent-serverapp-c103=""
-                        class="ng-star-inserted"
-                      >
+                      <div class="ant-spin-container ng-star-inserted">
                         <div
                           _ngcontent-serverapp-c103=""
-                          class="flex flex-row justify-between py-2 text-gray-800 ng-star-inserted"
+                          class="md:p-4 bg-white ng-star-inserted"
                         >
-                          <div _ngcontent-serverapp-c103="">Ngày khám</div>
-                          <div _ngcontent-serverapp-c103="" class="font-medium">
-                            {{ appointmentDate || "Chưa chọn" }}
-                          </div>
-                        </div>
-
-                        <div
-                          _ngcontent-serverapp-c103=""
-                          class="flex flex-row justify-between py-2 text-gray-800 ng-star-inserted"
-                          v-if="timeSlot"
-                        >
-                          <div _ngcontent-serverapp-c103="">Khung giờ</div>
-                          <div _ngcontent-serverapp-c103="" class="font-medium">
-                            {{ timeSlot }}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div
-                        _ngcontent-serverapp-c103=""
-                        class="flex flex-row justify-between py-2 text-gray-800 ng-star-inserted"
-                      >
-                        <div _ngcontent-serverapp-c103="" class="flex-none">
-                          Bệnh nhân
-                        </div>
-                        <div
-                          _ngcontent-serverapp-c103=""
-                          class="font-medium ng-star-inserted"
-                        >
-                          {{ selectedRecord?.fullName || "Chưa chọn" }}
+                          <button
+                            _ngcontent-serverapp-c103=""
+                            @click="submitAppointment"
+                            :disabled="loading || !selectedRecord"
+                            class="w-full button font-semibold text-sm text-white px-4 py-4 bg-primary ng-star-inserted disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {{ loading ? "Đang xử lý..." : "Đặt lịch" }}
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div
-                    _ngcontent-serverapp-c103=""
-                    class="ant-spin-nested-loading"
-                  >
-                    <div class="ant-spin-container ng-star-inserted">
-                      <div
-                        _ngcontent-serverapp-c103=""
-                        class="md:p-4 bg-white ng-star-inserted"
-                      >
-                        <button
-                          _ngcontent-serverapp-c103=""
-                          @click="submitAppointment"
-                          :disabled="loading || !selectedRecord"
-                          class="w-full button font-semibold text-sm text-white px-4 py-4 bg-primary ng-star-inserted disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {{ loading ? "Đang xử lý..." : "Đặt lịch" }}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                    _ngcontent-serverapp-c104=""
+                    class="p-6 pt-2 text-center"
+                  ></div>
                 </div>
-                <div
-                  _ngcontent-serverapp-c104=""
-                  class="p-6 pt-2 text-center"
-                ></div>
               </div>
-            </div>
 
-            <div _ngcontent-serverapp-c115="" class="mt-2">
-              <p
-                _ngcontent-serverapp-c115=""
-                class="font-normal text-xs text-gray-600"
-              >
-                Bằng cách nhấn nút xác nhận, bạn đã đồng ý với
-                <a _ngcontent-serverapp-c115="" href="#" target="_blank"
-                  >các điều khoản và điều kiện đặt khám</a
+              <div _ngcontent-serverapp-c115="" class="mt-2">
+                <p
+                  _ngcontent-serverapp-c115=""
+                  class="font-normal text-xs text-gray-600"
                 >
-              </p>
+                  Bằng cách nhấn nút xác nhận, bạn đã đồng ý với
+                  <a _ngcontent-serverapp-c115="" href="#" target="_blank"
+                    >các điều khoản và điều kiện đặt khám</a
+                  >
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Popup Patient Record -->
-  <PopupPatientRecord
-    :visible="showPopup"
-    :mode="popupMode"
-    :record="popupRecord"
-    @close="showPopup = false"
-    @success="reloadRecords"
-  />
+    <!-- Popup Patient Record -->
+    <PopupPatientRecord
+      :visible="showPopup"
+      :mode="popupMode"
+      :record="popupRecord"
+      @close="showPopup = false"
+      @success="reloadRecords"
+    />
   </div>
 </template>
 
@@ -664,8 +661,8 @@ import appointmentApi from "@/api/appointmentApi";
 import Message from "@/plugins/message";
 import patientRecordApi from "@/api/patientRecordApi";
 
-const PopupPatientRecord = defineAsyncComponent(
-  () => import("@/components/common/Popup/PopupPatientRecord.vue")
+const PopupPatientRecord = defineAsyncComponent(() =>
+  import("@/components/common/Popup/PopupPatientRecord.vue")
 );
 
 const route = useRoute();
@@ -690,9 +687,14 @@ const doctorSlug = computed(() => route.query.doctorSlug || "");
 const doctorName = computed(() => route.query.doctorName || "");
 const appointmentTime = computed(() => route.query.time || "");
 const appointmentDate = computed(() => route.query.date || "");
-const timeSlot = computed(() => route.query.timeSlot || "");
+const rawDate = computed(() => route.query.rawDate || ""); // ISO format date từ DoctorDetail
+const timeSlot = computed(() => route.query.timeSlot || ""); // Text hiển thị
+const timeSlotId = computed(() => route.query.timeSlotId || ""); // CodeKey cho API
 const clinicName = computed(() => route.query.clinicName || "");
 const specialty = computed(() => route.query.specialty || "");
+
+// Thêm selectedDateValue để lưu raw date
+const selectedDateValue = ref("");
 
 // Dữ liệu hồ sơ bệnh nhân từ API
 const patientRecords = ref([]);
@@ -711,7 +713,10 @@ const getInitials = (name) => {
 const formatDate = (date) => {
   if (!date) return "--";
   const d = new Date(date);
-  return d.toLocaleDateString("vi-VN");
+  const day = d.getDate().toString().padStart(2, '0');
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`; // Định dạng dd/mm/yyyy
 };
 
 // Lấy dữ liệu hồ sơ bệnh nhân
@@ -738,7 +743,7 @@ const fetchDoctorDetails = async () => {
 
   try {
     loading.value = true;
-    const response = await doctorApi.getBySlug(doctorSlug.value);
+    const response = await doctorApi.getDoctorBySlug(doctorSlug.value);
     if (response.succeeded && response.data) {
       doctor.value = response.data;
       imageUrl.value =
@@ -801,16 +806,59 @@ const submitAppointment = async () => {
     loading.value = true;
     const loadingMessage = Message.loading("Đang đặt lịch khám...");
 
-    // Tạo data để gửi API
+    // Enhanced date handling với validation
+    const formattedDate = formatDateForAPI(appointmentDate.value);
+    
+    // Validate all required fields before API call
+    if (!selectedRecord.value.patientId) {
+      Message.error("Không tìm thấy ID bệnh nhân");
+      return;
+    }
+    
+    if (!doctor.value.doctorId) {
+      Message.error("Không tìm thấy ID bác sĩ");
+      return;
+    }
+    
+    if (!formattedDate || formattedDate === 'Invalid Date') {
+      Message.error("Ngày khám không hợp lệ");
+      return;
+    }
+    
+    // Check timeType availability - prefer timeSlotId (CodeKey) over timeSlot (text)
+    const finalTimeType = timeSlotId.value || timeSlot.value;
+    if (!finalTimeType) {
+      Message.error("Vui lòng chọn khung giờ khám");
+      return;
+    }
+    
+    console.log('🔍 TimeType validation:');
+    console.log('- timeSlotId (CodeKey):', timeSlotId.value);
+    console.log('- timeSlot (text):', timeSlot.value);
+    console.log('- finalTimeType used:', finalTimeType);
+
+    console.log('=== APPOINTMENT DATA PREPARATION ===');
+    console.log('Original date from query:', appointmentDate.value);
+    console.log('Raw date from query:', rawDate.value);
+    console.log('Formatted date for API:', formattedDate);
+    console.log('Patient ID:', selectedRecord.value.patientId);
+    console.log('Doctor ID:', doctor.value.doctorId);
+    console.log('Time slot (display):', timeSlot.value);
+    console.log('Time slot ID (CodeKey):', timeSlotId.value);
+    console.log('All query params:', route.query);
+    console.log('=====================================');
+
     const appointmentData = {
       patientId: selectedRecord.value.patientId,
       doctorId: doctor.value.doctorId,
-      appointmentDate: formatDateForAPI(appointmentDate.value),
-      timeType: timeSlot.value,
+      appointmentDate: formattedDate,
+      timeType: finalTimeType, // Sử dụng finalTimeType đã validated
       reason: appointmentNote.value || "",
     };
 
-    const response = await appointmentApi.create(appointmentData);
+    console.log('📤 Sending appointment data to API:', appointmentData);
+    const response = await appointmentApi.createAppointment(appointmentData);
+    console.log('📥 API Response:', response);
 
     // Đóng loading message
     loadingMessage();
@@ -846,20 +894,69 @@ const submitAppointment = async () => {
   }
 };
 
-// Format date cho API (chuyển từ "Th 2, 19-05" sang "2024-05-19")
+// Enhanced date formatting với comprehensive validation
 const formatDateForAPI = (dateLabel) => {
-  if (!dateLabel) return new Date().toISOString().split("T")[0];
-
-  // Đây là logic đơn giản, trong thực tế cần parse chính xác hơn
-  const currentYear = new Date().getFullYear();
-  const dateParts = dateLabel.split(", ")[1]?.split("-");
-  if (dateParts && dateParts.length === 2) {
-    const day = dateParts[0].padStart(2, "0");
-    const month = dateParts[1].padStart(2, "0");
-    return `${currentYear}-${month}-${day}`;
+  console.log('🔍 Starting formatDateForAPI with:', dateLabel);
+  
+  if (!dateLabel) {
+    console.warn('⚠️ No dateLabel provided, using today');
+    return new Date().toISOString().split("T")[0];
   }
 
-  return new Date().toISOString().split("T")[0];
+  try {
+    // Strategy 1: Ưu tiên rawDate từ query parameter (most reliable)
+    if (rawDate.value) {
+      console.log('✅ Strategy 1: Using rawDate from query:', rawDate.value);
+      
+      if (/^\d{4}-\d{2}-\d{2}/.test(rawDate.value)) {
+        const isoDate = rawDate.value.split('T')[0];
+        console.log('✅ rawDate converted to ISO:', isoDate);
+        return isoDate;
+      }
+    }
+    
+    // Strategy 2: Check if dateLabel is already ISO format
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateLabel)) {
+      console.log('✅ Strategy 2: dateLabel is already ISO format:', dateLabel);
+      return dateLabel;
+    }
+    
+    // Strategy 3: Parse Vietnamese format "Th 2, 19/05/2024"
+    const vietnameseFormatMatch = dateLabel.match(/,\s*(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if (vietnameseFormatMatch) {
+      const day = vietnameseFormatMatch[1].padStart(2, "0");
+      const month = vietnameseFormatMatch[2].padStart(2, "0");
+      const year = vietnameseFormatMatch[3];
+      const formattedDate = `${year}-${month}-${day}`;
+      
+      // Validate the constructed date
+      const testDate = new Date(formattedDate);
+      if (!isNaN(testDate.getTime())) {
+        console.log('✅ Strategy 3: Vietnamese format parsed:', formattedDate);
+        return formattedDate;
+      }
+    }
+
+    // Strategy 4: Try to parse as a standard date string
+    const parsedDate = new Date(dateLabel);
+    if (!isNaN(parsedDate.getTime())) {
+      const isoFormat = parsedDate.toISOString().split('T')[0];
+      console.log('✅ Strategy 4: Standard date parsing:', isoFormat);
+      return isoFormat;
+    }
+
+    // Strategy 5: Emergency fallback - use today
+    console.error('❌ All parsing strategies failed for:', dateLabel);
+    const today = new Date().toISOString().split("T")[0];
+    console.warn('⚠️ Using today as emergency fallback:', today);
+    return today;
+    
+  } catch (error) {
+    console.error('💥 Exception in formatDateForAPI:', error, 'dateLabel:', dateLabel);
+    const today = new Date().toISOString().split("T")[0];
+    console.warn('⚠️ Using today due to exception:', today);
+    return today;
+  }
 };
 
 // Reload patient records after adding new one
@@ -888,4 +985,3 @@ onMounted(() => {
   fetchPatientRecords();
 });
 </script>
-

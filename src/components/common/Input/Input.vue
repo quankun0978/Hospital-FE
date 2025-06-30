@@ -22,6 +22,8 @@
           :inputmode="inputmode"
           :required="required"
           :disabled="disabled"
+          :min="min"
+          :max="max"
           :class="[
             'px-3 py-2 focus:ring-primary focus:border-primary block w-full shadow-sm rounded-md placeholder:text-sm border border-gray-200',
             { 'border-red-500': error },
@@ -67,7 +69,7 @@ export default {
     type: {
       type: String,
       default: 'text',
-      validator: (value) => ['text', 'password', 'email', 'number', 'tel', 'search'].includes(value)
+      validator: (value) => ['text', 'password', 'email', 'number', 'tel', 'search', 'date', 'datetime-local'].includes(value)
     },
     placeholder: {
       type: String,
@@ -112,6 +114,14 @@ export default {
     additionalClasses: {
       type: String,
       default: ''
+    },
+    min: {
+      type: String,
+      default: undefined
+    },
+    max: {
+      type: String,
+      default: undefined
     }
   },
   emits: ['update:modelValue'],

@@ -23,11 +23,11 @@
           <div v-if="appointmentDetails" class="text-left space-y-2">
             <div class="flex justify-between">
               <span class="text-gray-600">Bệnh nhân:</span>
-              <span class="font-medium">{{ appointmentDetails.patientName }}</span>
+              <span class="font-medium">{{ appointmentDetails.patient.fullName }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-gray-600">Bác sĩ:</span>
-              <span class="font-medium">{{ appointmentDetails.doctorName }}</span>
+              <span class="font-medium">{{ appointmentDetails.doctor.name }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-gray-600">Ngày khám:</span>
@@ -35,7 +35,7 @@
             </div>
             <div class="flex justify-between">
               <span class="text-gray-600">Giờ khám:</span>
-              <span class="font-medium">{{ appointmentDetails.timeType }}</span>
+              <span class="font-medium">{{ appointmentDetails.timeTypeText || appointmentDetails.timeType }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-gray-600">Trạng thái:</span>
@@ -128,12 +128,12 @@ const confirmAppointment = async () => {
     loading.value = true;
     
     // Gọi API xác nhận
-    const confirmResponse = await appointmentApi.confirm(appointmentId);
+    const confirmResponse = await appointmentApi.confirmAppointment(appointmentId);
     
     if (confirmResponse.succeeded) {
       // Lấy thông tin chi tiết lịch khám
-      const detailResponse = await appointmentApi.getById(appointmentId);
-      
+      const detailResponse = await appointmentApi.getAppointmentById(appointmentId);
+      console.log(detailResponse);
       if (detailResponse.succeeded) {
         appointmentDetails.value = detailResponse.data;
         confirmed.value = true;

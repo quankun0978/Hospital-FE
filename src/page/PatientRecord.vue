@@ -6,21 +6,21 @@
       <div class="col-span-1 md:col-span-3">
         <div class="bg-white md:rounded-md">
           <ul class="flex overflow-y-auto hide-scroll-bar md:py-4 md:flex-col">
-            <li>
-              <a class="menu-item" href="/dat-kham/lich-kham">Lịch khám</a>
+            <li v-if="isAdminOrDoctor">
+              <router-link class="menu-item" to="/admin">Trang quản lý</router-link>
             </li>
             <li>
-              <a class="menu-item" href="/dat-kham/thanh-toan"
-                >Lịch sử thanh toán</a
-              >
+              <router-link class="menu-item" to="/appointments">Lịch khám của tôi</router-link>
             </li>
             <li>
-              <a class="menu-item item-active" href="/dat-kham/ho-so">Hồ sơ</a>
+              <router-link class="menu-item item-active" to="/patient-record">Hồ sơ</router-link>
             </li>
             <li>
-              <a class="menu-item" href="/dat-kham/tai-khoan">Tài khoản</a>
+              <router-link class="menu-item" to="/change-password">Đổi mật khẩu</router-link>
             </li>
-            <li><a class="menu-item" href="/dat-kham/logout">Đăng xuất</a></li>
+            <li>
+              <button class="menu-item w-full text-left" @click="logout">Đăng xuất</button>
+            </li>
           </ul>
         </div>
       </div>
@@ -49,11 +49,7 @@
               @click="selectRecord(record)"
             >
               <div class="relative w-12 h-12">
-                <img
-                  :src=BlockFamily
-                  alt="Primary"
-                  class="w-12 h-12"
-                />
+                <img :src="BlockFamily" alt="Primary" class="w-12 h-12" />
                 <!-- <img :src="idx === 0 ? '/assets/img/booking/svg/Family-Block.svg' : '/assets/img/booking/svg/bulkFolder.svg'" alt="Primary" class="w-12 h-12" /> -->
                 <div class="absolute inset-0 flex items-center justify-center">
                   <span
@@ -224,11 +220,16 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, defineAsyncComponent } from "vue";
+import { useRouter } from 'vue-router';
 import patientRecordApi from "../api/patientRecordApi";
-import BlockFamily from "../assets/images/family-block.svg"
+import { useAuthStore } from '../store/auth';
+import BlockFamily from "../assets/images/family-block.svg";
 const PopupPatientRecord = defineAsyncComponent(
   () => import("../components/common/Popup/PopupPatientRecord.vue")
 );
+
+const router = useRouter();
+const authStore = useAuthStore();
 
 const searchQuery = ref("");
 const patientRecords = ref<any[]>([]);
@@ -238,6 +239,18 @@ const showPopup = ref(false);
 const popupMode = ref<"add" | "update">("add");
 const userId = localStorage.getItem("userId");
 const popupRecord = ref<any>(null);
+
+// Kiểm tra quyền admin hoặc doctor
+const isAdminOrDoctor = computed(() => {
+  const userRole = authStore.getUserRole;
+  return userRole === 'R1' || userRole === 'R2';
+});
+
+// Đăng xuất
+const logout = () => {
+  authStore.logout();
+  router.push('/');
+};
 
 function getInitials(name: string) {
   if (!name) return "";

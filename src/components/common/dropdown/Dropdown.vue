@@ -169,7 +169,7 @@ const displayText = computed(() => {
 });
 
 const positionClass = computed(() => {
-  const [vertical, horizontal] = props.position.spli"Text";
+  const [vertical, horizontal] = props.position.split('-');
   return `dropdown-${vertical} dropdown-${horizontal}`;
 });
 
@@ -217,13 +217,13 @@ const toggleDropdown = () => {
 
 const openDropdown = () => {
   isOpen.value = true;
-  emi"Text";
+  emit('open');
 };
 
 const closeDropdown = () => {
   isOpen.value = false;
   searchQuery.value = '';
-  emi"Text";
+  emit('close');
 };
 
 const selectOption = (option) => {
@@ -248,8 +248,8 @@ const selectOption = (option) => {
     newValue = value;
   }
   
-  emi"Text";
-  emi"Text";
+  emit('update:modelValue', newValue);
+  emit('change', newValue);
   
   if (props.closeOnSelect && !props.multiple) {
     closeDropdown();
@@ -267,7 +267,7 @@ onMounted(() => {
   document.addEventListener('click', handleClickOutside);
 });
 
-onBeforeUnmoun"Text" => {
+onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside);
 });
 

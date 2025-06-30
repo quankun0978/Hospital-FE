@@ -9,6 +9,8 @@ export interface Article {
   description?: string;
   contentHtml?: string;
   content?: string;
+  category?: string;
+  imageUrl?: string;
   authorId: string;
   authorName?: string;
   publishedAt: string;
@@ -22,6 +24,8 @@ export interface CreateArticleDto {
   description?: string;
   contentHtml?: string;
   content?: string;
+  category?: string;
+  imageUrl?: string;
   authorId: string;
 }
 
@@ -32,6 +36,8 @@ export interface UpdateArticleDto {
   description?: string;
   contentHtml?: string;
   content?: string;
+  category?: string;
+  imageUrl?: string;
 }
 
 // Interface cho phân trang
@@ -82,7 +88,9 @@ const articleApi = {
         description: data.description?.trim() || '',
         content: data.content?.trim() || '',
         contentHtml: data.contentHtml || '',
-        slug: data.slug?.trim() || ''
+        slug: data.slug?.trim() || '',
+        category: data.category?.trim() || '',
+        imageUrl: data.imageUrl?.trim() || ''
       }
 
       console.log('=== CREATE ARTICLE DEBUG ===')
@@ -122,7 +130,9 @@ const articleApi = {
         description: data.description?.trim() || '',
         content: data.content?.trim() || '',
         contentHtml: data.contentHtml || '',
-        slug: data.slug?.trim() || ''
+        slug: data.slug?.trim() || '',
+        category: data.category?.trim() || '',
+        imageUrl: data.imageUrl?.trim() || ''
       }
 
       console.log('=== UPDATE ARTICLE DEBUG ===')
@@ -177,6 +187,31 @@ const articleApi = {
       return {
         succeeded: false,
         message: error.response?.data?.message || 'Lỗi khi tạo slug'
+      };
+    }
+  },
+
+  // Upload ảnh
+  uploadImage: async (file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axios.post('/article/upload-image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      return {
+        succeeded: response.data.succeeded,
+        data: response.data.data,
+        message: response.data.message
+      };
+    } catch (error: any) {
+      return {
+        succeeded: false,
+        message: error.response?.data?.message || 'Lỗi khi tải ảnh lên'
       };
     }
   }

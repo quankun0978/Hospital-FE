@@ -5,42 +5,41 @@
   >
     <div>
       <AppCard>
-        <!-- Actions bar -->
-        <div class="mb-6 flex items-center justify-between">
-          <div class="relative">
-            <input
+        <!-- Header actions -->
+        <div class="flex justify-between items-center mb-6">
+          <div class="flex-1 max-w-md">
+            <AppInput
               v-model="searchTerm"
               @input="handleSearch"
-              type="text"
               placeholder="Tìm kiếm theo tên, địa chỉ..."
-              class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+              class="w-full"
             >
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-              </svg>
-            </div>
+              <template #prefix>
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+              </template>
+            </AppInput>
           </div>
-          <div class="flex items-center space-x-4">
-            <AppButton
-              variant="primary"
-              @click="navigateToCreate"
-            >
-              Thêm cơ sở y tế
-            </AppButton>
-            <button
-              @click="loadClinics"
-              class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
-              title="Làm mới"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          
+          <AppButton
+            type="primary"
+            @click="navigateToCreate"
+            class="ml-4"
+          >
+            <template #icon>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
               </svg>
-            </button>
-          </div>
+            </template>
+            Thêm cơ sở y tế
+          </AppButton>
         </div>
 
         <!-- Clinics table -->
+      </AppCard>
+      
+      <AppCard>
         <AppTable
           :columns="columns"
           :data="clinics"
@@ -120,6 +119,8 @@ import AdminLayout from '@/layouts/AdminLayout.vue'
 import AppCard from '@/components/common/Card/Card.vue'
 import AppTable from '@/components/common/Table/Table.vue'
 import AppModal from '@/components/common/Modal/Modal.vue'
+import AppButton from '@/components/common/Button/Button.vue'
+import AppInput from '@/components/common/Input/Input.vue'
 import StatusBadge from '@/components/common/StatusBadge/StatusBadge.vue'
 import Message from '@/plugins/message'
 import { getImage } from '@/common/function'

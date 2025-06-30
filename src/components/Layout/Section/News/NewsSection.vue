@@ -164,7 +164,7 @@ export default {
             title: article.title,
             slug: article.slug,
             link: `/articles/${article.slug}`,
-            image: 'https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Dalieu.png?width=300', // Placeholder image
+            image:article.imageUrl , // Placeholder image
             reviewer: article.authorName || 'Admin',
             date: article.publishedAt,
             description: article.description

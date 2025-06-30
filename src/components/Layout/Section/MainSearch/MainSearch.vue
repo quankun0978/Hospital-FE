@@ -27,7 +27,7 @@
     </div>
     <div class="absolute z-0 bottom-0 right-0">
       <img width="676" height="520" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/your-medical-booking.webp"
-        alt="YouMed" class="opacity-40 lg:opacity-100 block">
+                    alt="Hospital" class="opacity-40 lg:opacity-100 block">
     </div>
   </section>
 </template>

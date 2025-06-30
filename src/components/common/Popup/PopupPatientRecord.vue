@@ -1,50 +1,50 @@
 ﻿<template>
   <div v-if="visible" class="fixed inset-0 z-50 flex items-center justify-center bg-[#00000073]">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-lg relative">
-      <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-600" @click="$emi"Text"">
+      <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-600" @click="$emit('close')">
         <span class="text-2xl">&times;</span>
       </button>
       <div class="p-6">
-        <h2 class="text-lg font-semibold mb-4">{{ mode === 'add' ? 'ThÃªm há»“ sÆ¡ má»›i' : 'Cáº­p nháº­t há»“ sÆ¡' }}</h2>
+        <h2 class="text-lg font-semibold mb-4">{{ mode === 'add' ? 'Thêm hồ sơ mới' : 'Cập nhật hồ sơ' }}</h2>
         <form @submit.prevent="handleSubmit">
           <div class="space-y-4">
             <div>
-              <label class="block font-medium mb-1">Há» vÃ  tÃªn <span class="text-red-500">*</span></label>
-              <input v-model="form.fullName" required class="input" placeholder="Nháº­p há» vÃ  tÃªn" />
+              <label class="block font-medium mb-1">Họ và tên <span class="text-red-500">*</span></label>
+              <input v-model="form.fullName" required class="input" placeholder="Nhập họ và tên" />
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block font-medium mb-1">NgÃ y sinh <span class="text-red-500">*</span></label>
+                <label class="block font-medium mb-1">Ngày sinh <span class="text-red-500">*</span></label>
                 <input v-model="form.dateOfBirth" type="date" required class="input" />
               </div>
               <div>
-                <label class="block font-medium mb-1">Giá»›i tÃ­nh <span class="text-red-500">*</span></label>
+                <label class="block font-medium mb-1">Giới tính <span class="text-red-500">*</span></label>
                 <select v-model="form.gender" required class="input">
                   <option value="M">Nam</option>
-                  <option value="F">Ná»¯</option>
+                  <option value="F">Nữ</option>
                 </select>
               </div>
             </div>
             <div>
-              <label class="block font-medium mb-1">Äá»‹a chá»‰ <span class="text-red-500">*</span></label>
-              <input v-model="form.address" required class="input" placeholder="Nháº­p Ä‘á»‹a chá»‰" />
+              <label class="block font-medium mb-1">Địa chỉ <span class="text-red-500">*</span></label>
+              <input v-model="form.address" required class="input" placeholder="Nhập địa chỉ" />
             </div>
             <div>
-              <label class="block font-medium mb-1">Sá»‘ Ä‘iá»‡n thoáº¡i <span class="text-red-500">*</span></label>
-              <input v-model="form.phone" required class="input" placeholder="Nháº­p sá»‘ Ä‘iá»‡n thoáº¡i" />
+              <label class="block font-medium mb-1">Số điện thoại <span class="text-red-500">*</span></label>
+              <input v-model="form.phone" required class="input" placeholder="Nhập số điện thoại" />
             </div>
             <div>
               <label class="block font-medium mb-1">Email</label>
-              <input v-model="form.email" class="input" placeholder="Nháº­p email" type="email" />
+              <input v-model="form.email" class="input" placeholder="Nhập email" type="email" />
             </div>
             <div>
-              <label class="block font-medium mb-1">MÃ£ tháº» BHYT</label>
-              <input v-model="form.healthInsuranceNumber" class="input" placeholder="Nháº­p mÃ£ tháº» BHYT" />
+              <label class="block font-medium mb-1">Mã thẻ BHYT</label>
+              <input v-model="form.healthInsuranceNumber" class="input" placeholder="Nhập mã thẻ BHYT" />
             </div>
           </div>
           <div class="flex justify-end mt-6">
             <button type="submit" class="bg-primary text-white font-medium rounded-lg px-6 py-2 hover:bg-blue-700 transition" :disabled="loading">
-              {{ loading ? 'Äang lÆ°u...' : (mode === 'add' ? 'ThÃªm há»“ sÆ¡ má»›i' : 'Cáº­p nháº­t há»“ sÆ¡') }}
+              {{ loading ? 'Đang lưu...' : (mode === 'add' ? 'Thêm hồ sơ mới' : 'Cập nhật hồ sơ') }}
             </button>
           </div>
         </form>
@@ -85,10 +85,10 @@ const formatDateForInput = (date: any) => {
   const d = new Date(date);
   if (isNaN(d.getTime())) return '';
   
-  // Sá»­ dá»¥ng getFullYear, getMonth, getDate Ä‘á»ƒ trÃ¡nh timezone offset
+  // Sử dụng getFullYear, getMonth, getDate để tránh timezone offset
   const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStar"Text"; // getMonth() tráº£ vá» 0-11
-  const day = String(d.getDate()).padStar"Text";
+  const month = String(d.getMonth() + 1).padStart(2, '0'); // getMonth() trả về 0-11
+  const day = String(d.getDate()).padStart(2, '0');
   
   return `${year}-${month}-${day}`;
 };
@@ -97,7 +97,7 @@ watch(() => props.record, (val: any) => {
   if (props.mode === 'update' && val) {
     Object.assign(form.value, {
       ...val,
-      dateOfBirth: formatDateForInpu"Text",
+      dateOfBirth: formatDateForInput(val.dateOfBirth),
       userId: userId, // Ensure userId is preserved
     });
   } else if (props.mode === 'add') {
@@ -115,10 +115,10 @@ async function handleSubmit() {
     } else {
       await patientRecordApi.update(form.value.patientId, form.value);
     }
-    emi"Text";
-    emi"Text";
+    emit('success');
+    emit('close');
   } catch (e) {
-    aler"Text";
+    alert('Có lỗi xảy ra!');
   } finally {
     loading.value = false;
   }

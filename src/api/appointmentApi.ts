@@ -1,69 +1,111 @@
-import { fetchData, fetchDataWithParams, postData, updateData } from './commonFunction';
-import type { PaginatedResponse } from '../model/PaginatedResponse';
+import { fetchData, fetchDataWithParams, postData, updateData } from './commonFunction'
 
+// Interface cho tạo lịch hẹn
 export interface CreateAppointmentRequest {
-  patientId: string;
-  doctorId: string;
-  appointmentDate: string;
-  timeType: string;
-  reason?: string;
+  patientId: string
+  doctorId: string
+  appointmentDate: string
+  timeType: string
+  reason?: string
 }
 
+// Interface cho thông tin lịch hẹn chi tiết
 export interface AppointmentDetails {
-  appointmentId: string;
-  patientId: string;
-  patientName?: string;
-  doctorId: string;
-  doctorName?: string;
-  appointmentDate: string;
-  timeType?: string;
-  reason?: string;
-  status: string;
-  statusText: string;
-  createdAt: string;
-  updatedAt?: string;
+  appointmentId: string
+  patientId: string
+  patient?: {
+    fullName: string
+    phone: string
+    email: string
+    dateOfBirth: string
+    gender: string
+    address: string
+    healthInsuranceNumber: string
+    identityNumber: string
+    ethnicity: string
+    occupation: string
+    patientCode: string
+  }
+  doctorId: string
+  doctor?: {
+    name: string
+    email: string
+  }
+  appointmentDate: string
+  timeType?: string
+  reason?: string
+  status: string
+  createdAt: string
+  updatedAt?: string
 }
 
-export interface UpdateStatusRequest {
-  status: string;
+// Interface cho hoàn thành khám bệnh
+export interface CompleteAppointmentRequest {
+  appointmentId: string
+  medicalNotes: string
+  medicalImages: string[]
+}
+
+// Interface cho phân trang
+export interface QueryParameters {
+  pageNumber?: number
+  pageSize?: number
+  searchTerm?: string
+  status?: string
+  appointmentDate?: string
+}
+
+// Interface cho kết quả phân trang
+export interface PaginatedResult<T> {
+  data: T[]
+  pageNumber: number
+  pageSize: number
+  totalPages: number
+  totalRecords: number
+  hasPreviousPage: boolean
+  hasNextPage: boolean
 }
 
 const appointmentApi = {
+  // Lấy danh sách lịch hẹn với phân trang và filter
+  getAppointments: (params: QueryParameters) => 
+    fetchDataWithParams<PaginatedResult<AppointmentDetails>>('/appointment', params),
+
+  // Lấy chi tiết lịch hẹn theo ID
+  getAppointmentById: (id: string) => 
+    fetchData<AppointmentDetails>(`/appointment/${id}`),
+
   // Tạo lịch hẹn mới
-  create: (data: CreateAppointmentRequest) => 
-    postData<{ appointmentId: string }>('/Appointment', data),
+  createAppointment: (data: CreateAppointmentRequest) => 
+    postData<{ appointmentId: string }>('/appointment', data),
 
-  // Lấy thông tin lịch hẹn theo ID
-  getById: (id: string) => 
-    fetchData<AppointmentDetails>(`/Appointment/${id}`),
+  // Lấy lịch hẹn theo bệnh nhân
+  getAppointmentsByPatient: (patientId: string) => 
+    fetchData<AppointmentDetails[]>(`/appointment/patient/${patientId}`),
 
-  // Lấy danh sách lịch hẹn có phân trang
-  getAll: (parameters: any) => 
-    fetchDataWithParams<PaginatedResponse<AppointmentDetails>>('/Appointment', parameters),
+  // Lấy lịch hẹn theo bác sĩ
+  getAppointmentsByDoctor: (doctorId: string) => 
+    fetchData<AppointmentDetails[]>(`/appointment/doctor/${doctorId}`),
 
-  // Lấy danh sách lịch hẹn theo bệnh nhân
-  getByPatientId: (patientId: string) => 
-    fetchData<AppointmentDetails[]>(`/Appointment/patient/${patientId}`),
-
-  // Lấy danh sách lịch hẹn theo bác sĩ
-  getByDoctorId: (doctorId: string) => 
-    fetchData<AppointmentDetails[]>(`/Appointment/doctor/${doctorId}`),
-
-  // Lấy danh sách lịch hẹn theo người dùng
-  getByUserId: (userId: string) => 
-    fetchData<AppointmentDetails[]>(`/Appointment/user/${userId}`),
+  // Lấy lịch hẹn theo người dùng
+  getAppointmentsByUser: (userId: string) => 
+    fetchData<AppointmentDetails[]>(`/appointment/user/${userId}`),
 
   // Cập nhật trạng thái lịch hẹn
-  updateStatus: (id: string, data: UpdateStatusRequest) => 
-    updateData<{ success: boolean }>(`/Appointment/${id}/status`, data),
+  updateAppointmentStatus: (id: string, status: string) => 
+    updateData<{ success: boolean }>(`/appointment/${id}/status`, { status }),
 
   // Hủy lịch hẹn
-  cancel: (id: string) => 
-    updateData<{ success: boolean }>(`/Appointment/${id}/cancel`, {}),
+  cancelAppointment: (id: string) => 
+    updateData<{ success: boolean }>(`/appointment/${id}/cancel`, {}),
 
   // Xác nhận lịch hẹn
-  confirm: (id: string) => 
-    updateData<{ success: boolean }>(`/Appointment/${id}/confirm`, {}),
-};
+  confirmAppointment: (id: string) => 
+    updateData<{ success: boolean }>(`/appointment/${id}/confirm`, {}),
 
-export default appointmentApi; 
+  // Hoàn thành khám bệnh và gửi kết quả
+  completeAppointment: (data: CompleteAppointmentRequest) => 
+    postData<{ success: boolean }>('/appointment/complete', data)
+}
+
+export default appointmentApi 

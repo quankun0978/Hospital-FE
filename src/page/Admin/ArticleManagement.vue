@@ -50,6 +50,27 @@
           @paginationChange="handlePaginationChange"
           empty-text="Không có bài viết nào"
         >
+          <!-- Image column -->
+          <template #cell-imageUrl="{ record }">
+            <div class="flex justify-center">
+              <img
+                v-if="record.imageUrl"
+                :src="getImage(record.imageUrl)"
+                alt="Article image"
+                class="w-12 h-12 object-cover rounded-md border border-gray-200"
+                @error="onImageError"
+              />
+              <div
+                v-else
+                class="w-12 h-12 bg-gray-100 rounded-md flex items-center justify-center border border-gray-200"
+              >
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+            </div>
+          </template>
+
           <!-- Author column -->
           <template #cell-authorName="{ record }">
             <div class="flex items-center">
@@ -159,6 +180,7 @@ import AppButton from '@/components/common/Button/Button.vue'
 import AppModal from '@/components/common/Modal/Modal.vue'
 import StatusBadge from '@/components/common/StatusBadge/StatusBadge.vue'
 import Message from '@/plugins/message'
+import { getImage } from '@/common/function'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -181,10 +203,16 @@ const pagination = reactive({
 // Table columns
 const columns = [
   {
+    title: 'Ảnh',
+    key: 'imageUrl',
+    align: 'center',
+    width: '80px'
+  },
+  {
     title: 'Tiêu đề',
     key: 'title',
     align: 'left',
-    width: '30%'
+    width: '25%'
   },
   {
     title: 'Tác giả',
@@ -321,6 +349,17 @@ const formatDateTime = (dateString) => {
     hour: '2-digit',
     minute: '2-digit'
   })
+}
+
+const onImageError = (event) => {
+  event.target.style.display = 'none'
+  event.target.parentElement.innerHTML = `
+    <div class="w-12 h-12 bg-gray-100 rounded-md flex items-center justify-center border border-gray-200">
+      <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+      </svg>
+    </div>
+  `
 }
 
 // Debounce function

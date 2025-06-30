@@ -26,14 +26,31 @@
             
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">
-                Ngày khám <span class="text-red-500">*</span>
+                <span class="flex items-center">
+                  <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                  Ngày khám <span class="text-red-500">*</span>
+                </span>
               </label>
-              <AppInput
-                v-model="formData.date"
-                type="date"
-                :min="today"
-                required
-              />
+              <div class="relative w-full">
+                <input
+                  type="date"
+                  v-model="formData.date"
+                  :min="tomorrow"
+                  :max="maxDate"
+                  required
+                  class="px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white shadow-sm text-gray-700 font-medium transition-all duration-200 hover:border-primary text-sm w-full custom-date-input"
+                />
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-xs text-gray-500 mt-1">
+                Chọn ngày từ ngày mai đến {{ formatMaxDateLabel() }}
+              </p>
             </div>
             
             <div>
@@ -82,7 +99,6 @@ import allCodeApi from '@/api/allCodeApi'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import AppCard from '@/components/common/Card/Card.vue'
 import AppButton from '@/components/common/Button/Button.vue'
-import AppInput from '@/components/common/Input/Input.vue'
 import AppSelect from '@/components/common/Select/Select.vue'
 import Message from '@/plugins/message'
 
@@ -101,11 +117,29 @@ const scheduleId = computed(() => route.params.id)
 const userRole = computed(() => authStore.getUserRole)
 const currentUserId = computed(() => authStore.getUserId)
 
-// Today date for minimum date input
-const today = computed(() => {
+// Tomorrow date for minimum date input (không cho tạo lịch hôm nay)
+const tomorrow = computed(() => {
   const date = new Date()
+  date.setDate(date.getDate() + 1) // Thêm 1 ngày
   return date.toISOString().split('T')[0]
 })
+
+// Max date (3 tháng từ hôm nay)
+const maxDate = computed(() => {
+  const date = new Date()
+  date.setMonth(date.getMonth() + 3)
+  return date.toISOString().split('T')[0]
+})
+
+// Format max date label for display
+const formatMaxDateLabel = () => {
+  const date = new Date()
+  date.setMonth(date.getMonth() + 3)
+  const day = date.getDate().toString().padStart(2, '0')
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const year = date.getFullYear()
+  return `${day}/${month}/${year}`
+}
 
 // Form data
 const formData = reactive({
@@ -202,13 +236,29 @@ const validateForm = () => {
     return false
   }
   
-  // Check if date is not in the past
+  // Enhanced date validation
   const selectedDate = new Date(formData.date)
   const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  const tomorrow = new Date(today)
+  tomorrow.setDate(today.getDate() + 1)
   
-  if (selectedDate < today) {
-    Message.error('Không thể chọn ngày trong quá khứ')
+  // Reset time để so sánh chỉ ngày
+  today.setHours(0, 0, 0, 0)
+  tomorrow.setHours(0, 0, 0, 0)
+  selectedDate.setHours(0, 0, 0, 0)
+  
+  if (selectedDate < tomorrow) {
+    Message.error('Chỉ có thể tạo lịch khám từ ngày mai trở đi')
+    return false
+  }
+  
+  // Kiểm tra không được quá 3 tháng
+  const maxAllowedDate = new Date(today)
+  maxAllowedDate.setMonth(today.getMonth() + 3)
+  maxAllowedDate.setHours(0, 0, 0, 0)
+  
+  if (selectedDate > maxAllowedDate) {
+    Message.error('Chỉ có thể tạo lịch khám trong vòng 3 tháng tới')
     return false
   }
   
@@ -274,4 +324,38 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.text-primary {
+  color: #2563eb;
+}
+
+.bg-primary {
+  background-color: #2563eb;
+}
+
+/* Custom date input styling */
+.custom-date-input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.custom-date-input {
+  position: relative;
+}
+
+.custom-date-input::-webkit-inner-spin-button,
+.custom-date-input::-webkit-clear-button {
+  display: none;
+}
+
+.custom-date-input:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.custom-date-input:hover {
+  border-color: #2563eb;
+}
 </style> 

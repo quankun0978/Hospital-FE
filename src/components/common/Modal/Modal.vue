@@ -6,12 +6,12 @@
       @click="handleMaskClick"
     >
       <!-- Overlay -->
-      <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+      <div class="fixed inset-0 bg-[#00000073]  transition-opacity backdrop-blur-sm"></div>
       
       <!-- Modal container -->
       <div class="flex min-h-full items-center justify-center p-4">
         <div
-          class="relative transform overflow-hidden rounded-lg bg-white shadow-xl transition-all"
+          class="relative transform overflow-hidden rounded-xl bg-white shadow-2xl transition-all animate-fade-in"
           :class="sizeClasses"
           @click.stop
         >
@@ -188,5 +188,20 @@ watch(() => props.visible, (newVal) => {
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 </style> 

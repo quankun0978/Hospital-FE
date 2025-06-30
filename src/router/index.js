@@ -325,6 +325,17 @@ const routes = [
     },
   },
   {
+    path: "/admin/appointments",
+    name: "admin-appointments",
+    component: () => import("@/page/Admin/AppointmentManagement.vue"),
+    beforeEnter: authGuard,
+    meta: {
+      title: "Hospital - Quản lý lịch hẹn",
+      requiresAuth: true,
+      requiresRole: ["R1", "R2"] // Admin và Doctor đều có thể truy cập
+    },
+  },
+  {
     path: "/admin/articles",
     name: "admin-articles",
     component: ArticleManagement,
