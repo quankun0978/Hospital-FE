@@ -58,7 +58,7 @@
             
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">
-                Phòng khám
+                Bệnh viện/Phòng khám
               </label>
               <AppSelect
                 v-model="formData.clinicId"
@@ -361,22 +361,37 @@ const handleImageRemove = () => {
 const loadUsers = async () => {
   try {
     let response;
+    const queryParams = { PageSize: 1000 }; // Load nhiều users
+    
     if (isEditing.value) {
       // Khi edit, hiển thị tất cả bác sĩ (để có thể thấy bác sĩ hiện tại trong dropdown)
-      response = await doctorApi.getUsersByRole('R2');
+      response = await doctorApi.getUsersByRole('R2', queryParams);
     } else {
       // Khi tạo mới, chỉ hiển thị bác sĩ chưa có thông tin
-      response = await doctorApi.getUsersByRoleWithoutDoctorInfo('R2');
+      response = await doctorApi.getUsersByRoleWithoutDoctorInfo('R2', queryParams);
     }
+    
+    console.log('Load users response:', response);
     
     if (response.succeeded && response.data) {
       userOptions.value = response.data.map(user => ({
         value: user.userId,
         label: `${user.name || ''}`.trim() || user.email
       }));
+      
+      console.log('User options mapped:', userOptions.value);
+      
+      // Hiển thị thông báo nếu không có bác sĩ nào
+      if (userOptions.value.length === 0 && !isEditing.value) {
+        Message.warning('Không có bác sĩ nào chưa có thông tin. Vui lòng tạo tài khoản bác sĩ trước.');
+      }
+    } else {
+      console.error('Load users failed:', response);
+      Message.error(response.message || 'Không thể tải danh sách bác sĩ');
     }
   } catch (error) {
     console.error('Load users error:', error);
+    Message.error('Lỗi khi tải danh sách bác sĩ');
   }
 };
 

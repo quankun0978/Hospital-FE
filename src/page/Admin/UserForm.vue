@@ -41,6 +41,7 @@
               </label>
               <AppInput
                 v-model="formData.email"
+                disabled
                 type="email"
                 placeholder="Nhập email"
               />
@@ -227,7 +228,7 @@ const handleSubmit = async () => {
       const updateData = {
         username: formData.username,
         name: formData.name,
-        email: formData.email,
+        email: formData.email || '', // Đảm bảo email được gửi
         roleId: formData.roleId
       }
       

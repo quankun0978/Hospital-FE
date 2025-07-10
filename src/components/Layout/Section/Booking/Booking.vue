@@ -71,8 +71,11 @@
 
 <script setup>
 import { onMounted, onBeforeUnmount, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import bookingIcon from '@/assets/images/booking.svg';
 import AppButton from '@/components/common/Button/Button.vue';
+
+const router = useRouter();
 
 // Template refs
 const scrollContainer = ref(null);
@@ -117,8 +120,8 @@ const props = defineProps({
 
 // Methods
 const goToViewMore = () => {
-  // Chuyển đến link xem thêm
-  window.location.href = props.viewMoreLink;
+  // Chuyển đến link xem thêm sử dụng router
+  router.push(props.viewMoreLink);
 };
 
 const scrollPrev = () => {

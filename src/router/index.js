@@ -369,6 +369,17 @@ const routes = [
     },
   },
   {
+    path: "/admin/revenue-statistics",
+    name: "admin-revenue-statistics",
+    component: () => import("@/page/Admin/RevenueStatistics.vue"),
+    beforeEnter: authGuard,
+    meta: {
+      title: "Hospital - Thống kê doanh thu",
+      requiresAuth: true,
+      requiresRole: ["R1","R2"] // Chỉ Admin
+    },
+  },
+  {
     path: "/admin/specialties",
     name: "admin-specialties",
     component: () => import("@/page/Admin/SpecialtyManagement.vue"),

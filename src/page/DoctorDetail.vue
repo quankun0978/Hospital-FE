@@ -35,7 +35,7 @@
                   priority
                   width="180"
                   height="180"
-                  class="object-cover absolute inset-0"
+                  class="object-cover absolute inset-0 h-full"
                   :alt="doctor.name"
                   loading="eager"
                   fetchpriority="high"
@@ -75,7 +75,7 @@
                 class="flex flex-col md:flex-row md:items-end md:gap-3 items-center"
               >
                 <h2 class="text-gray-600 text-sm mb-0 doctorinfo-label">
-                  Chuyên khoa
+                  {{ getDoctorSpecialtyLabel() }}
                 </h2>
                 <div class="space-x-2">
                   <h3
@@ -145,20 +145,6 @@
                   </p>
                 </div>
               </div>
-            </div>
-
-            <div>
-              <button
-                class="absolute top-2 md:top-4 md:right-4 right-2 flex items-center border px-2 rounded-full py-1 group"
-              >
-                <svg width="16" viewBox="0 0 512 512">
-                  <path
-                    fill="#fbbf24"
-                    d="M416 480L256 357.41 96 480V32h320z"
-                  ></path>
-                </svg>
-                <span class="text-gray-500 text-xs">Yêu thích</span>
-              </button>
             </div>
           </div>
 
@@ -233,8 +219,18 @@
               <div class="px-4 md:px-6 py-4 border-b bg-gray-50">
                 <label class="block text-sm font-medium text-gray-700 mb-3">
                   <span class="flex items-center">
-                    <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    <svg
+                      class="w-4 h-4 mr-2 text-primary"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      ></path>
                     </svg>
                     Chọn ngày khám
                   </span>
@@ -249,9 +245,21 @@
                       :max="maxDate"
                       class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white shadow-sm text-gray-700 font-medium transition-all duration-200 hover:border-primary text-sm min-w-[150px] custom-date-input"
                     />
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    <div
+                      class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+                    >
+                      <svg
+                        class="w-4 h-4 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path>
                       </svg>
                     </div>
                   </div>
@@ -259,79 +267,6 @@
                     Chọn ngày trong vòng 3 tháng tới
                   </p>
                 </div>
-              </div>
-
-              <!-- Ngày khám - chỉ hiển thị khi có lịch khám -->
-              <div v-if="!loadingSchedules && availableDates.length > 0" class="relative px-8 md:px-5">
-                <div class="h-16 w-full">
-                  <div
-                    class="flex flex-row overflow-auto hide-scroll-bar scroll"
-                  >
-                    <div
-                      v-for="(date, index) in availableDates"
-                      :key="index"
-                      :class="[
-                        'pl-5 pr-5 flex flex-col items-center py-2 whitespace-nowrap mx-px cursor-pointer',
-                        selectedDate === index
-                          ? 'border-b-primary bg-blue-50 border-b-4'
-                          : '',
-                      ]"
-                      @click="selectDate(index)"
-                    >
-                      <p class="font-semibold">{{ date.label }}</p>
-                      <span
-                        :class="[
-                          'text-sm',
-                          date.timeSlots && date.timeSlots.length > 0 ? 'text-green-500' : 'text-gray-500',
-                        ]"
-                      >
-                        {{ date.timeSlots ? date.timeSlots.length : 0 }} khung giờ
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Điều hướng lịch -->
-                <button
-                  aria-label="scroll left"
-                  class="absolute bottom-1/2 translate-y-1/2 left-0 bg-white rounded-full p-2 text-gray-500 ring-1 ring-gray-200"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 512 512"
-                  >
-                    <path
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="48"
-                      d="M328 112L184 256l144 144"
-                    ></path>
-                  </svg>
-                </button>
-                <button
-                  aria-label="scroll right"
-                  class="absolute bottom-1/2 translate-y-1/2 right-0 bg-white rounded-full p-2 text-gray-500 ring-1 ring-gray-200"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 512 512"
-                  >
-                    <path
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="48"
-                      d="M184 112l144 144-144 144"
-                    ></path>
-                  </svg>
-                </button>
               </div>
 
               <!-- Khung giờ khám hoặc thông báo không có lịch -->
@@ -342,55 +277,151 @@
                     <div class="loader mx-auto"></div>
                     <p class="text-gray-500 mt-2">Đang tải lịch khám...</p>
                   </div>
-                  
+
                   <!-- No schedules available -->
-                  <div v-else-if="availableDates.length === 0" class="text-center py-8">
-                    <div class="mx-auto w-16 h-16 mb-4 flex items-center justify-center bg-gray-100 rounded-full">
-                      <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  <div
+                    v-else-if="availableDates.length === 0"
+                    class="text-center py-8"
+                  >
+                    <div
+                      class="mx-auto w-16 h-16 mb-4 flex items-center justify-center bg-gray-100 rounded-full"
+                    >
+                      <svg
+                        class="w-8 h-8 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path>
                       </svg>
                     </div>
-                    <p class="text-lg font-medium text-gray-700 mb-2">Bác sĩ chưa có lịch khám</p>
-                    <p class="text-sm text-gray-500">Vui lòng chọn ngày khác hoặc liên hệ trực tiếp để đặt lịch</p>
+                    <p class="text-lg font-medium text-gray-700 mb-2">
+                      Bác sĩ chưa có lịch khám
+                    </p>
+                    <p class="text-sm text-gray-500">
+                      Vui lòng chọn ngày khác hoặc liên hệ trực tiếp để đặt lịch
+                    </p>
                   </div>
-                  
+
                   <!-- Available time slots -->
-                  <div v-else-if="availableDates[selectedDate]" class="font-medium">
-                    <div class="flex items-center">
-                      <img
-                        width="20"
-                        height="20"
-                        loading="lazy"
-                        src="@/assets/images/sun-fog.svg"
-                        alt="Buổi chiều"
-                      />
-                      <p class="ml-1 text-sm pr-1">Buổi chiều</p>
-                      <div class="h-px w-full bg-slate-200 flex-1"></div>
+                  <div
+                    v-else-if="availableDates[selectedDate]"
+                    class="font-medium"
+                  >
+                    <!-- Buổi sáng -->
+                    <div v-if="morningSlots.length > 0" class="mb-4">
+                      <div class="flex items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <path
+                            d="M10 15.4166C12.9916 15.4166 15.4167 12.9915 15.4167 9.99998C15.4167 7.00844 12.9916 4.58331 10 4.58331C7.0085 4.58331 4.58337 7.00844 4.58337 9.99998C4.58337 12.9915 7.0085 15.4166 10 15.4166Z"
+                            stroke="#3B82F6"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M15.95 15.95L15.8416 15.8417M15.8416 4.15832L15.95 4.04999L15.8416 4.15832ZM4.04996 15.95L4.15829 15.8417L4.04996 15.95ZM9.99996 1.73332V1.66666V1.73332ZM9.99996 18.3333V18.2667V18.3333ZM1.73329 9.99999H1.66663H1.73329ZM18.3333 9.99999H18.2666H18.3333ZM4.15829 4.15832L4.04996 4.04999L4.15829 4.15832Z"
+                            stroke="#3B82F6"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        <p class="ml-1 text-sm pr-1">Buổi sáng</p>
+                        <div class="h-px w-full bg-slate-200 flex-1"></div>
+                      </div>
+
+                      <div
+                        class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 py-3 overflow-x-auto"
+                      >
+                        <button
+                          v-for="(slot, index) in morningSlots"
+                          :key="`morning-${index}`"
+                          aria-label="Slot"
+                          :disabled="!slot.available"
+                          :class="[
+                            'text-center border rounded-md py-3 tabular-nums transition relative',
+                            selectedTimeSlot === slot.time
+                              ? 'bg-primary text-white border-primary'
+                              : slot.available
+                              ? 'hover:text-white hover:border-white hover:bg-primary border-gray-300 text-gray-700'
+                              : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-50',
+                          ]"
+                          @click="
+                            slot.available ? selectTimeSlot(slot.time) : null
+                          "
+                          :title="
+                            slot.available
+                              ? 'Có thể đặt lịch'
+                              : 'Khung giờ đã được đặt'
+                          "
+                        >
+                          {{ slot.time }}
+                          <span
+                            v-if="!slot.available"
+                            class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"
+                          ></span>
+                        </button>
+                      </div>
                     </div>
 
-                    <div
-                      class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 py-3 overflow-x-auto max-h-52"
-                    >
-                      <button
-                        v-for="(slot, index) in availableDates[selectedDate]
-                          .timeSlots"
-                        :key="index"
-                        aria-label="Slot"
-                        :disabled="!slot.available"
-                        :class="[
-                          'text-center border rounded-md py-3 tabular-nums transition relative',
-                          selectedTimeSlot === slot.time
-                            ? 'bg-primary text-white border-primary'
-                            : slot.available
-                            ? 'hover:text-white hover:border-white hover:bg-primary border-gray-300 text-gray-700'
-                            : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-50',
-                        ]"
-                        @click="slot.available ? selectTimeSlot(slot.time) : null"
-                        :title="slot.available ? 'Có thể đặt lịch' : 'Khung giờ đã được đặt'"
+                    <!-- Buổi chiều -->
+                    <div v-if="afternoonSlots.length > 0">
+                      <div class="flex items-center">
+                        <img
+                          width="20"
+                          height="20"
+                          loading="lazy"
+                          src="@/assets/images/sun-fog.svg"
+                          alt="Buổi chiều"
+                        />
+                        <p class="ml-1 text-sm pr-1">Buổi chiều</p>
+                        <div class="h-px w-full bg-slate-200 flex-1"></div>
+                      </div>
+
+                      <div
+                        class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 py-3 overflow-x-auto"
                       >
-                        {{ slot.time }}
-                        <span v-if="!slot.available" class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-                      </button>
+                        <button
+                          v-for="(slot, index) in afternoonSlots"
+                          :key="`afternoon-${index}`"
+                          aria-label="Slot"
+                          :disabled="!slot.available"
+                          :class="[
+                            'text-center border rounded-md py-3 tabular-nums transition relative',
+                            selectedTimeSlot === slot.time
+                              ? 'bg-primary text-white border-primary'
+                              : slot.available
+                              ? 'hover:text-white hover:border-white hover:bg-primary border-gray-300 text-gray-700'
+                              : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-50',
+                          ]"
+                          @click="
+                            slot.available ? selectTimeSlot(slot.time) : null
+                          "
+                          :title="
+                            slot.available
+                              ? 'Có thể đặt lịch'
+                              : 'Khung giờ đã được đặt'
+                          "
+                        >
+                          {{ slot.time }}
+                          <span
+                            v-if="!slot.available"
+                            class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"
+                          ></span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -439,7 +470,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import doctorApi from "../api/doctorApi";
 import scheduleApi from "../api/scheduleApi";
@@ -447,6 +478,7 @@ import { Markdown } from "../model/Markdown";
 import SunFog from "../assets/images/sun-fog.svg";
 import Message from "@/plugins/message";
 import { defineAsyncComponent } from "vue";
+import { getImage } from "../common/function";
 
 // Import popup component
 const PopupPatientRecord = defineAsyncComponent(() =>
@@ -465,7 +497,7 @@ const selectedDate = ref(0);
 const selectedTimeSlot = ref(null);
 const availableDates = ref([]);
 const loadingSchedules = ref(false);
-const selectedDateValue = ref('');
+const selectedDateValue = ref("");
 
 // Popup state
 const showPopup = ref(false);
@@ -473,18 +505,18 @@ const popupMode = ref("add");
 const popupRecord = ref(null);
 
 // Date picker constraints
-const minDate = ref('');
-const maxDate = ref('');
+const minDate = ref("");
+const maxDate = ref("");
 
 // Khởi tạo date constraints
 const initializeDateConstraints = () => {
   const today = new Date();
   const maxDateObj = new Date();
   maxDateObj.setMonth(today.getMonth() + 3); // Cho phép đặt lịch trong 3 tháng tới
-  
-  minDate.value = today.toISOString().split('T')[0];
-  maxDate.value = maxDateObj.toISOString().split('T')[0];
-  
+
+  minDate.value = today.toISOString().split("T")[0];
+  maxDate.value = maxDateObj.toISOString().split("T")[0];
+
   // Set default selected date to today
   selectedDateValue.value = minDate.value;
 };
@@ -492,31 +524,38 @@ const initializeDateConstraints = () => {
 // Hàm lấy lịch khám của bác sĩ
 const fetchDoctorSchedules = async (doctorSlug, selectedDate = null) => {
   loadingSchedules.value = true;
-  
+
   try {
-    console.log('Fetching schedules for doctor:', doctorSlug, 'date:', selectedDate);
-    
+    console.log(
+      "Fetching schedules for doctor:",
+      doctorSlug,
+      "date:",
+      selectedDate
+    );
+
     // Gọi API thực để lấy schedules với date parameter
     const params = new URLSearchParams();
     if (selectedDate) {
-      params.append('date', selectedDate);
+      params.append("date", selectedDate);
     }
-    
-    const url = selectedDate 
+
+    const url = selectedDate
       ? `schedules/doctor/slug/${doctorSlug}?${params.toString()}`
       : `schedules/doctor/slug/${doctorSlug}`;
-    
-    const response = await scheduleApi.getSchedulesByDoctorSlug(doctorSlug, selectedDate);
-    
+
+    const response = await scheduleApi.getSchedulesByDoctorSlug(
+      doctorSlug,
+      selectedDate
+    );
+
     if (response.data.succeeded && response.data.data) {
       const groupedSchedules = groupSchedulesByDate(response.data.data);
       availableDates.value = groupedSchedules;
     } else {
       availableDates.value = [];
     }
-    
   } catch (error) {
-    console.error('Error fetching doctor schedules:', error);
+    console.error("Error fetching doctor schedules:", error);
     availableDates.value = [];
   } finally {
     loadingSchedules.value = false;
@@ -525,47 +564,84 @@ const fetchDoctorSchedules = async (doctorSlug, selectedDate = null) => {
 
 // Hàm nhóm schedules theo ngày
 const groupSchedulesByDate = (schedules) => {
-  console.log('Grouping schedules:', schedules); // Debug log
-  
+  console.log("Grouping schedules:", schedules); // Debug log
+
   const grouped = schedules.reduce((acc, schedule) => {
     const date = schedule.date;
     if (!acc[date]) {
       acc[date] = {
         label: formatDateLabel(date),
         date: date,
-        timeSlots: []
+        timeSlots: [],
       };
     }
-    
+
     // Log từng schedule để debug
-    console.log(`Schedule ${schedule.id}: Date=${schedule.date}, Time=${schedule.timeTypeText}, IsActive=${schedule.isActive}`);
-    
+    console.log(
+      `Schedule ${schedule.id}: Date=${schedule.date}, Time=${schedule.timeTypeText}, IsActive=${schedule.isActive}`
+    );
+
     acc[date].timeSlots.push({
       id: schedule.timeType,
       time: schedule.timeTypeText,
       available: schedule.isActive, // Backend đã kiểm tra appointment (false nếu đã book)
       scheduleId: schedule.id,
-      isBooked: !schedule.isActive // Đã được đặt khi isActive = false
+      isBooked: !schedule.isActive, // Đã được đặt khi isActive = false
     });
     return acc;
   }, {});
-  
-  const result = Object.values(grouped).sort((a, b) => new Date(a.date) - new Date(b.date));
-  console.log('Grouped result:', result); // Debug log
+
+  const result = Object.values(grouped).sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
+  console.log("Grouped result:", result); // Debug log
   return result;
 };
 
 // Hàm format label ngày (dd/mm/yyyy format)
 const formatDateLabel = (dateString) => {
   const date = new Date(dateString);
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
-  
+
   // Format: "Th 2, 19/05/2024" (ngày/tháng/năm)
-  const weekday = date.toLocaleDateString('vi-VN', { weekday: 'short' });
+  const weekday = date.toLocaleDateString("vi-VN", { weekday: "short" });
   return `${weekday}, ${day}/${month}/${year}`;
 };
+
+// Computed properties để phân loại time slots
+const morningSlots = computed(() => {
+  if (!availableDates.value[selectedDate.value]) return [];
+
+  return availableDates.value[selectedDate.value].timeSlots.filter((slot) => {
+    // Lấy giờ bắt đầu từ timeText (format: "11:00-12:00", "11:00", "7h-8h", v.v.)
+    const timeText = slot.time;
+    // Tìm số giờ đầu tiên trong chuỗi
+    const hourMatch = timeText.match(/(\d{1,2})[h:]?\d*[-\s]?/);
+    if (hourMatch) {
+      const hour = parseInt(hourMatch[1]);
+      return hour < 13; // Sáng: trước 13:00
+    }
+    return false;
+  });
+});
+
+const afternoonSlots = computed(() => {
+  if (!availableDates.value[selectedDate.value]) return [];
+
+  return availableDates.value[selectedDate.value].timeSlots.filter((slot) => {
+    // Lấy giờ bắt đầu từ timeText (format: "13:00-14:00", "13:00", "13h-14h", v.v.)
+    const timeText = slot.time;
+    // Tìm số giờ đầu tiên trong chuỗi
+    const hourMatch = timeText.match(/(\d{1,2})[h:]?\d*[-\s]?/);
+    if (hourMatch) {
+      const hour = parseInt(hourMatch[1]);
+      return hour >= 13; // Chiều: từ 13:00 trở đi
+    }
+    return false;
+  });
+});
 
 // Hàm lấy dữ liệu từ API
 const fetchDoctorDetails = async () => {
@@ -585,10 +661,12 @@ const fetchDoctorDetails = async () => {
     console.log(response);
     if (response.succeeded && response.data) {
       doctor.value = response.data;
-      
+
       // Sau khi lấy được doctor, gọi tiếp API lấy markdown
       try {
-        const response = await doctorApi.getDoctorMarkdown(doctor.value.doctorId);
+        const response = await doctorApi.getDoctorMarkdown(
+          doctor.value.doctorId
+        );
         if (response.succeeded && response.data && response.data.contentHTML) {
           doctorMarkdownHTML.value = response.data.contentHTML;
         } else {
@@ -636,11 +714,7 @@ const getShortTitle = (doctor) => {
 
 const getDoctorImage = (doctor) => {
   // Lấy hình ảnh từ thông tin chi tiết nếu có
-  const imageUrl = "https://localhost:7038" + doctor.doctorInfos?.[0]?.imageUrl;
-  if (imageUrl) return imageUrl;
-
-  // Hình ảnh mặc định nếu không có
-  return "https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/timmach.png?width=300";
+  return getImage(doctor.doctorInfos?.[0]?.imageUrl);
 };
 
 const getDoctorSpecialties = (doctor) => {
@@ -648,19 +722,7 @@ const getDoctorSpecialties = (doctor) => {
   if (doctor.specialties && doctor.specialties.length > 0) {
     return doctor.specialties.map((specialty) => specialty.name);
   }
-
-  // Fallback: Sử dụng positionName nếu không có specialties
-  const specialties = [];
-  if (doctor.doctorInfos && doctor.doctorInfos.length > 0) {
-    doctor.doctorInfos.forEach((info) => {
-      if (info.positionName && !specialties.includes(info.positionName)) {
-        specialties.push(info.positionName);
-      }
-    });
-  }
-
-  // Nếu không có thông tin, trả về mảng rỗng
-  return specialties.length > 0 ? specialties : ["Đa khoa"];
+  return [];
 };
 
 const getDoctorHospital = (doctor) => {
@@ -671,6 +733,20 @@ const getDoctorHospital = (doctor) => {
 
   // Fallback: Lấy tên bệnh viện/phòng khám từ thông tin chi tiết
   return doctor.doctorInfos?.[0]?.clinicName || "";
+};
+
+const getDoctorSpecialtyLabel = () => {
+  // Kiểm tra xem bác sĩ có thuộc phòng khám hay bệnh viện
+  if (doctor.value?.clinics && doctor.value.clinics.length > 0) {
+    // Nếu clinic đầu tiên là phòng khám (không phải hospital)
+    const firstClinic = doctor.value.clinics[0];
+    if (firstClinic.isHospital === false) {
+      return "Chuyên khám";
+    }
+  }
+
+  // Mặc định là chuyên khoa (cho bệnh viện hoặc khi không có thông tin)
+  return "Chuyên khoa";
 };
 
 // Xử lý chọn ngày
@@ -688,7 +764,7 @@ const selectTimeSlot = (slot) => {
 
   // Chuyển hướng sang trang appointment-step với thông tin đầy đủ
   const rawDate = availableDates.value[selectedDate.value].date; // ISO format date
-  
+
   router.push({
     path: "/appointment-step",
     query: {
@@ -698,7 +774,9 @@ const selectTimeSlot = (slot) => {
       date: dateLabel,
       rawDate: rawDate, // Thêm raw date để parsing dễ hơn
       timeSlot: slot, // Text hiển thị
-      timeSlotId: availableDates.value[selectedDate.value].timeSlots.find(t => t.time === slot)?.id, // CodeKey cho API
+      timeSlotId: availableDates.value[selectedDate.value].timeSlots.find(
+        (t) => t.time === slot
+      )?.id, // CodeKey cho API
     },
   });
 };
@@ -726,7 +804,7 @@ const bookAppointment = (doctorInfo) => {
 
   // Chuyển hướng đến trang appointment-step với thông tin đầy đủ
   const rawDate = availableDates.value[selectedDate.value].date; // ISO format date
-  
+
   router.push({
     path: "/appointment-step",
     query: {
@@ -738,7 +816,9 @@ const bookAppointment = (doctorInfo) => {
       date: dateLabel,
       rawDate: rawDate, // Thêm raw date để parsing dễ hơn
       timeSlot: selectedTimeSlot.value, // Text hiển thị
-      timeSlotId: availableDates.value[selectedDate.value].timeSlots.find(t => t.time === selectedTimeSlot.value)?.id, // CodeKey cho API
+      timeSlotId: availableDates.value[selectedDate.value].timeSlots.find(
+        (t) => t.time === selectedTimeSlot.value
+      )?.id, // CodeKey cho API
       time: `${dateLabel} ${selectedTimeSlot.value}`,
     },
   });
@@ -769,7 +849,7 @@ const onDateChange = async () => {
 onMounted(async () => {
   initializeDateConstraints();
   await fetchDoctorDetails();
-  
+
   // Sau khi lấy được doctor, tự động lấy lịch hôm nay
   if (doctor.value) {
     await fetchDoctorSchedules(route.params.slug, selectedDateValue.value);
@@ -876,4 +956,3 @@ onMounted(async () => {
   border-color: #2563eb;
 }
 </style>
-

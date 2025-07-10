@@ -16,7 +16,9 @@
       <nav aria-label="breadcrumb" class="mb-6">
         <ol role="list" class="flex flex-wrap space-x-2 text-sm">
           <li>
-            <router-link to="/" class="hover:text-primary">Trang chủ</router-link>
+            <router-link to="/" class="hover:text-primary"
+              >Trang chủ</router-link
+            >
           </li>
           <li>
             <span class="text-gray-300">/</span>
@@ -30,7 +32,10 @@
             <span class="text-gray-300">/</span>
           </li>
           <li>
-            <router-link :to="`/clinics/${route.params.slug}`" class="hover:text-primary">
+            <router-link
+              :to="`/clinics/${route.params.slug}`"
+              class="hover:text-primary"
+            >
               {{ clinic.name }}
             </router-link>
           </li>
@@ -63,10 +68,10 @@
                   'inline-block px-3 py-1 text-xs rounded-full',
                   clinic.isHospital
                     ? 'bg-blue-100 text-blue-800'
-                    : 'bg-green-100 text-green-800'
+                    : 'bg-green-100 text-green-800',
                 ]"
               >
-                {{ clinic.isHospital ? 'Bệnh viện' : 'Phòng khám' }}
+                {{ clinic.isHospital ? "Bệnh viện" : "Phòng khám" }}
               </span>
               <span class="text-sm text-gray-500">
                 {{ doctors.length }} bác sĩ
@@ -77,7 +82,10 @@
       </div>
 
       <!-- Danh sách bác sĩ -->
-      <div v-if="doctors.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        v-if="doctors.length > 0"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
         <div
           v-for="doctor in doctors"
           :key="doctor.doctorId"
@@ -85,7 +93,9 @@
         >
           <!-- Ảnh bác sĩ -->
           <div class="flex flex-col items-center text-center">
-            <div class="relative w-24 h-24 rounded-full overflow-hidden mb-4 bg-gray-100">
+            <div
+              class="relative w-24 h-24 rounded-full overflow-hidden mb-4 bg-gray-100"
+            >
               <img
                 :src="getDoctorImage(doctor)"
                 :alt="doctor.doctorName"
@@ -100,7 +110,10 @@
             </h3>
 
             <!-- Chức vụ -->
-            <p v-if="doctor.positionName" class="text-sm text-blue-600 mb-2 font-medium">
+            <p
+              v-if="doctor.positionName"
+              class="text-sm text-blue-600 mb-2 font-medium"
+            >
               {{ doctor.positionName }}
             </p>
 
@@ -110,7 +123,10 @@
             </p>
 
             <!-- Ghi chú -->
-            <p v-if="doctor.note" class="text-sm text-gray-500 mb-4 line-clamp-2">
+            <p
+              v-if="doctor.note"
+              class="text-sm text-gray-500 mb-4 line-clamp-2"
+            >
               {{ doctor.note }}
             </p>
 
@@ -136,15 +152,26 @@
       <!-- Empty state -->
       <div v-else class="bg-white rounded-lg p-12 text-center shadow-sm">
         <div class="text-gray-400 mb-4">
-          <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          <svg
+            class="w-16 h-16 mx-auto"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+            ></path>
           </svg>
         </div>
         <h3 class="text-lg font-medium text-gray-900 mb-2">
           Hiện tại chưa có bác sĩ
         </h3>
         <p class="text-gray-500">
-          {{ clinic.name }} hiện chưa có thông tin bác sĩ. Vui lòng quay lại sau.
+          {{ clinic.name }} hiện chưa có thông tin bác sĩ. Vui lòng quay lại
+          sau.
         </p>
       </div>
     </div>
@@ -156,6 +183,7 @@ import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import clinicApi from "../api/clinicApi";
 import Message from "@/plugins/message";
+import { getImage } from "../common/function";
 
 const route = useRoute();
 const router = useRouter();
@@ -200,23 +228,18 @@ const fetchClinicDoctors = async () => {
 
 // Hàm lấy logo clinic
 const getClinicLogo = () => {
-  if (clinic.value?.logoImg) {
-    return "https://localhost:7038" + clinic.value.logoImg;
-  }
-  return "https://cdn.youmed.vn/photos/fb4179f1-d0e9-4e2a-98a2-26e6efe7add8.png";
+  return getImage(clinic.value.logoImg);
 };
 
 // Hàm lấy ảnh bác sĩ
 const getDoctorImage = (doctor) => {
-  if (doctor.imageUrl) {
-    return "https://localhost:7038" + doctor.imageUrl;
-  }
-  return "https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/timmach.png?width=300";
+  return getImage(doctor.imageUrl);
 };
 
 // Hàm xử lý lỗi ảnh
 const handleImageError = (event) => {
-  event.target.src = "https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/timmach.png?width=300";
+  event.target.src =
+    "https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/timmach.png?width=300";
 };
 
 // Hàm lấy tiêu đề đầy đủ của bác sĩ
@@ -279,4 +302,4 @@ onMounted(() => {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-</style> 
+</style>

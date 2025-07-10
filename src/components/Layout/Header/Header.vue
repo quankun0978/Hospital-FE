@@ -16,7 +16,7 @@
         <router-link to="/">
           <img
             width="200"
-           style="height: 40px"
+            style="height: 40px"
             src="@/assets/images/logo.svg"
             alt="Hospital"
           />
@@ -27,7 +27,7 @@
         :class="[
           'bg-white fixed z-[100] top-0 right-0 left-0 transition-all duration-300 lg:transform-none lg:flex lg:h-auto lg:relative',
           'h-screen lg:h-auto overflow-y-auto lg:overflow-visible',
-          isMenuOpen && 'translate-x-0' 
+          isMenuOpen && 'translate-x-0',
         ]"
       >
         <div class="lg:hidden sticky top-0">
@@ -86,7 +86,7 @@
                     <p
                       class="hidden md:block text-sm font-normal text-gray-700"
                     >
-                      Tìm kiếm và đặt lịch khám tại bệnh viện
+                      Tìm kiếm và đặt lịch khám các bác sĩ tại bệnh viện
                     </p>
                   </router-link>
                 </li>
@@ -101,44 +101,17 @@
                     <p
                       class="hidden md:block text-sm font-normal text-gray-700"
                     >
-                      Tìm kiếm và đặt lịch khám tại phòng khám
+                      Tìm kiếm và đặt lịch khám các bác sĩ tại phòng khám
                     </p>
                   </router-link>
                 </li>
-                <li
-                  class="menu-item menu-item-type-custom menu-item-object-custom nav-item"
-                >
-                  <router-link
-                    :to="{ name: 'search', query: { type: 'all', specialty: 'Tiêm chủng' } }"
-                    class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
-                  >
-                    Tiêm chủng
-                    <p
-                      class="hidden md:block text-sm font-normal text-gray-700"
-                    >
-                      Đặt lịch tiêm chủng cho trẻ em và người lớn
-                    </p>
-                  </router-link>
-                </li>
-                <li
-                  class="menu-item menu-item-type-custom menu-item-object-custom nav-item"
-                >
-                  <router-link
-                    :to="{ name: 'search', query: { type: 'all', specialty: 'Xét nghiệm' } }"
-                    class="dropdown-item flex-col md:items-start md:p-4 md:mx-4 md:rounded-lg"
-                  >
-                    Xét nghiệm
-                    <p
-                      class="hidden md:block text-sm font-normal text-gray-700"
-                    >
-                      Đặt lịch xét nghiệm tại nhà hoặc tại cơ sở y tế
-                    </p>
-                  </router-link>
-                </li>
+
                 <li
                   class="mt-4 dropdown-footer menu-item menu-item-type-custom menu-item-object-custom nav-item"
                 >
-                  <a href="tel:19002805" class="dropdown-item">Hỗ trợ: 1900-2805</a>
+                  <a href="tel:19002805" class="dropdown-item"
+                    >Hỗ trợ: 1900-2805</a
+                  >
                 </li>
               </ul>
             </li>
@@ -147,21 +120,11 @@
             >
               <a href="#" class="nav-link">Tư vấn trực tuyến</a>
             </li>
+
             <li
               class="menu-item menu-item-type-custom menu-item-object-custom nav-item"
             >
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="#"
-                class="nav-link"
-                >Cửa hàng</a
-              >
-            </li>
-            <li
-              class="menu-item menu-item-type-custom menu-item-object-custom nav-item"
-            >
-              <a href="#" class="nav-link">Tin tức</a>
+              <a href="#" @click="scrollToNews" class="nav-link">Tin tức</a>
             </li>
           </ul>
         </div>
@@ -173,9 +136,7 @@
         >
           <img :src="downloadAppIcon" alt="Download App" />
           <div class="block">
-            <p class="text-sm font-semibold text-gray-800">
-              Tải app Hospital
-            </p>
+            <p class="text-sm font-semibold text-gray-800">Tải app Hospital</p>
             <p class="text-xs font-medium text-gray-500">
               Đặt khám nhanh chóng, tiện lợi
             </p>
@@ -214,9 +175,7 @@
             class="absolute w-[170px] right-0 mt-1 w-56 bg-white rounded shadow border border-gray-100 z-[1001]"
           >
             <div class="p-3 border-b border-gray-100">
-              <p class="text-xs text-gray-500">
-                Tài khoản của tôi
-              </p>
+              <p class="text-xs text-gray-500">Tài khoản của tôi</p>
               <p class="text-sm font-medium text-gray-800 truncate">
                 {{ userName }}
               </p>
@@ -298,7 +257,7 @@ const userRole = computed(() => authStore.getUserRole);
 
 // Kiểm tra quyền admin hoặc doctor
 const isAdminOrDoctor = computed(() => {
-  return userRole.value === 'R1' || userRole.value === 'R2';
+  return userRole.value === "R1" || userRole.value === "R2";
 });
 
 watch(isMenuOpen, async (newVal) => {
@@ -330,10 +289,65 @@ const userInitials = computed(() => {
 function logout() {
   // Sử dụng Pinia store để đăng xuất
   authStore.logout();
-  
+
   // Đóng dropdown nếu đang mở
   isUserDropdownOpen.value = false;
   router.push("/");
+}
+
+// Scroll đến mục tin tức
+function scrollToNews(event) {
+  event.preventDefault();
+  
+  // Kiểm tra xem có đang ở trang Home không
+  if (route.path === '/') {
+    // Nếu đang ở trang Home, scroll đến section tin tức
+    setTimeout(() => {
+      const newsSection = document.querySelector('.home-page .news-section') || 
+                         document.querySelector('[class*="news"]') ||
+                         document.querySelector('h1, h2, h3, h4, h5, h6').parentElement;
+      
+      // Tìm element chứa text "Tin tức y tế"
+      const elements = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+      let targetElement = null;
+      
+      for (let element of elements) {
+        if (element.textContent.includes('Tin tức y tế')) {
+          targetElement = element;
+          break;
+        }
+      }
+      
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }, 100);
+  } else {
+    // Nếu không ở trang Home, chuyển về Home và scroll
+    router.push('/').then(() => {
+      setTimeout(() => {
+        const elements = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        let targetElement = null;
+        
+        for (let element of elements) {
+          if (element.textContent.includes('Tin tức y tế')) {
+            targetElement = element;
+            break;
+          }
+        }
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }, 500); // Tăng thời gian chờ để page load xong
+    });
+  }
 }
 
 // Xử lý sự kiện click bên ngoài để đóng menu
@@ -367,7 +381,7 @@ function handleOutsideClick(e) {
 onMounted(async () => {
   // Auth store đã được khởi tạo từ plugin, chỉ cần validate
   await authStore.validateAuthState(route.path);
-  
+
   document.addEventListener("click", handleOutsideClick);
 });
 

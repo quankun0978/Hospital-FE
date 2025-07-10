@@ -154,10 +154,10 @@ const doctorApi = {
   getDoctorMarkdown: (id: string) => fetchData<DoctorMarkdown>(`/doctor/${id}/markdown`),
   
   // Lấy users theo role và chưa có DoctorInfo (để thêm mới)
-  getUsersByRoleWithoutDoctorInfo: (roleId: string) => fetchData<User[]>(`/User/by-role/${roleId}/without-doctor-info`),
+  getUsersByRoleWithoutDoctorInfo: (roleId: string, params: QueryParameters = {}) => fetchDataWithParams<User[]>(`/User/by-role/${roleId}/without-doctor-info`, params),
   
   // Lấy users theo role (tất cả, dùng khi edit)
-  getUsersByRole: (roleId: string) => fetchData<User[]>(`/User/by-role/${roleId}`),
+  getUsersByRole: (roleId: string, params: QueryParameters = {}) => fetchDataWithParams<User[]>(`/User/by-role/${roleId}`, params),
   
   // Lấy danh sách allcodes theo type (sử dụng endpoint options)
   getAllcodes: (type: string) => fetchData<any[]>(`/allcode/options/${type}`),

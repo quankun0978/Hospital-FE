@@ -207,7 +207,7 @@
       title="Chi tiết lịch khám"
       width="800px"
       :loading="modalLoading"
-      :closable="true"
+      :closable="false"
       :maskClosable="true"
       class="detail-modal"
     >
@@ -283,26 +283,6 @@
                 {{ selectedAppointment.patient?.gender === 'M' ? 'Nam' : 
                    selectedAppointment.patient?.gender === 'F' ? 'Nữ' : 'Chưa cập nhật' }}
               </p>
-            </div>
-            <div>
-              <label class="text-sm font-medium text-gray-500">Mã bệnh nhân</label>
-              <p class="text-base text-gray-900">{{ selectedAppointment.patient?.patientCode || 'Chưa cập nhật' }}</p>
-            </div>
-            <div>
-              <label class="text-sm font-medium text-gray-500">Mã BHYT</label>
-              <p class="text-base text-gray-900">{{ selectedAppointment.patient?.healthInsuranceNumber || 'Chưa cập nhật' }}</p>
-            </div>
-            <div>
-              <label class="text-sm font-medium text-gray-500">Số CMND/CCCD</label>
-              <p class="text-base text-gray-900">{{ selectedAppointment.patient?.identityNumber || 'Chưa cập nhật' }}</p>
-            </div>
-            <div>
-              <label class="text-sm font-medium text-gray-500">Dân tộc</label>
-              <p class="text-base text-gray-900">{{ selectedAppointment.patient?.ethnicity || 'Chưa cập nhật' }}</p>
-            </div>
-            <div>
-              <label class="text-sm font-medium text-gray-500">Nghề nghiệp</label>
-              <p class="text-base text-gray-900">{{ selectedAppointment.patient?.occupation || 'Chưa cập nhật' }}</p>
             </div>
             <div class="col-span-2">
               <label class="text-sm font-medium text-gray-500">Địa chỉ</label>

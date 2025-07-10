@@ -1,11 +1,29 @@
 ﻿<template>
   <div class="doctor-list-page">
     <div class="container mx-auto px-4 py-8">
-      <h1 class="text-3xl font-bold text-gray-800 mb-6">Bác sĩ</h1>
+      <h1 class="text-3xl font-bold text-gray-800 mb-6">Danh sách bác sĩ</h1>
+      
+      <!-- Clinic Filter Badge -->
+      <div v-if="clinicFilter" class="mb-4">
+        <div class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+          Bác sĩ tại: {{ clinicFilter }}
+          <button 
+            @click="clearFilters" 
+            class="ml-2 text-blue-600 hover:text-blue-800"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
       
       <!-- Search and Filters -->
-      <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
-        <div class="max-w-md mx-auto">
+      <div class="bg-white rounded-lg shadow-sm pb-6 mb-8">
+        <div class="max-w-md ">
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,30 +62,57 @@
       <div v-else>
         <div v-if="doctors.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div v-for="doctor in doctors" :key="doctor.doctorId" class="bg-white rounded-lg shadow-sm overflow-hidden transition-shadow hover:shadow-md">
-            <router-link :to="`/doctors/${doctor.doctorId}`" class="block">
-              <div class="w-full aspect-square overflow-hidden">
+            <router-link :to="`/doctors/${doctor.doctorInfos[0].slug}`" class="block">
+              <div class="w-full h-48 overflow-hidden bg-gray-100 flex items-center justify-center">
                 <img 
                   :src="getDoctorImage(doctor)" 
                   :alt="doctor.name"
-                  class="w-full h-full object-cover transition-transform hover:scale-105" 
+                  class="w-32 h-32 rounded-full object-cover transition-transform hover:scale-105" 
                 />
               </div>
             </router-link>
             <div class="p-4">
-              <router-link :to="`/doctors/${doctor.doctorId}`" class="block">
+              <router-link :to="`/doctors/${doctor.doctorInfos[0].slug}`" class="block">
                 <h3 class="text-lg font-semibold text-gray-800 hover:text-primary transition-colors">
                   {{ getTitle(doctor) }} {{ doctor.name }}
                 </h3>
               </router-link>
-              <div class="flex flex-wrap gap-1 my-2">
-                <span v-for="(specialty, index) in getDoctorSpecialties(doctor)" :key="index" 
-                  class="inline-block bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded">
-                  {{ specialty }}
-                </span>
+              <div v-if="getDoctorSpecialties(doctor).length > 0" class="mt-2">
+                <div class="flex flex-wrap gap-1">
+                  <span
+                    v-for="specialty in getDoctorSpecialties(doctor).slice(0, 2)"
+                    :key="specialty"
+                    class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
+                  >
+                    {{ specialty }}
+                  </span>
+                  <span
+                    v-if="getDoctorSpecialties(doctor).length > 2"
+                    class="inline-block px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full"
+                  >
+                    +{{ getDoctorSpecialties(doctor).length - 2 }}
+                  </span>
+                </div>
               </div>
-              <p class="text-sm text-gray-600 line-clamp-1">{{ getDoctorHospital(doctor) }}</p>
+              <p class="mt-2 text-sm text-gray-600 line-clamp-2">
+                {{ getDoctorHospital(doctor) }}
+              </p>
+              <div v-if="doctor.experience" class="mt-2 flex items-center text-sm text-gray-500">
+                <svg
+                  class="w-4 h-4 mr-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span>{{ doctor.experience }} năm kinh nghiệm</span>
+              </div>
               <router-link 
-                :to="`/doctors/${doctor.doctorId}`" 
+                :to="`/doctors/${doctor.doctorInfos[0].slug}`" 
                 class="mt-3 inline-flex items-center text-primary text-sm font-medium hover:underline"
               >
                 Xem chi tiết
@@ -80,16 +125,16 @@
         </div>
         <div v-else class="text-center py-16 bg-white rounded-lg shadow-sm">
           <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
           <h3 class="mt-2 text-lg font-medium text-gray-900">Không tìm thấy bác sĩ nào</h3>
           <p class="mt-1 text-gray-500">Vui lòng thử tìm kiếm với từ khóa khác.</p>
           <div class="mt-6">
             <button 
-              @click="clearSearch" 
+              @click="clearFilters" 
               class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
             >
-              Xóa tìm kiếm
+              Xóa bộ lọc
             </button>
           </div>
         </div>
@@ -135,6 +180,8 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import doctorApi from '../api/doctorApi';
+import { getImage } from '../common/function';
+
 const route = useRoute();
 const router = useRouter();
 
@@ -147,12 +194,16 @@ const currentPage = ref(1);
 const totalPages = ref(1);
 const pageSize = ref(12);
 const totalItems = ref(0);
+const clinicFilter = ref('');
+const clinicId = ref('');
 
 // Lấy thông tin tìm kiếm và trang từ URL
 onMounted(() => {
-  const { search, page } = route.query;
+  const { search, page, clinic, clinicId: cId } = route.query;
   if (search) searchTerm.value = search.toString();
   if (page) currentPage.value = parseInt(page) || 1;
+  if (clinic) clinicFilter.value = clinic.toString();
+  if (cId) clinicId.value = cId.toString();
   
   fetchDoctors();
 });
@@ -167,16 +218,17 @@ const fetchDoctors = async () => {
     const parameters = {
       pageNumber: currentPage.value,
       pageSize: pageSize.value,
-      search: searchTerm.value || undefined
+      search: searchTerm.value || undefined,
+      clinicId: clinicId.value || undefined
     };
     
     // Gọi API
     const response = await doctorApi.getDoctors(parameters);
     
-    if (response.success && response.data) {
-      doctors.value = response.data.items || [];
-      totalPages.value = response.data.totalPages || 1;
-      totalItems.value = response.data.totalCount || 0;
+    if (response.data) {
+      doctors.value = response.data || [];
+      totalPages.value = response.totalPages || 1;
+      totalItems.value = response.totalCount || 0;
       
       // Cập nhật URL với tham số tìm kiếm và trang
       updateUrlParams();
@@ -207,19 +259,35 @@ const updateUrlParams = () => {
     delete query.page;
   }
   
+  if (clinicFilter.value) {
+    query.clinic = clinicFilter.value;
+  } else {
+    delete query.clinic;
+  }
+  
+  if (clinicId.value) {
+    query.clinicId = clinicId.value;
+  } else {
+    delete query.clinicId;
+  }
+  
   router.replace({ query });
 };
 
 // Xử lý tìm kiếm
 const handleSearch = () => {
   currentPage.value = 1;
+  updateUrlParams();
   fetchDoctors();
 };
 
-// Xóa tìm kiếm
-const clearSearch = () => {
+// Xóa tìm kiếm và bộ lọc
+const clearFilters = () => {
   searchTerm.value = '';
+  clinicFilter.value = '';
+  clinicId.value = '';
   currentPage.value = 1;
+  updateUrlParams();
   fetchDoctors();
 };
 
@@ -227,6 +295,7 @@ const clearSearch = () => {
 const changePage = (page) => {
   if (page < 1 || page > totalPages.value) return;
   currentPage.value = page;
+  updateUrlParams();
   fetchDoctors();
   
   // Cuộn lên đầu trang
@@ -281,32 +350,36 @@ const getTitle = (doctor) => {
 
 const getDoctorImage = (doctor) => {
   // Lấy hình ảnh từ thông tin chi tiết nếu có
-  const imageUrl = doctor.doctorInfos?.[0]?.imageUrl;
-  if (imageUrl) return imageUrl;
-  
-  // Hình ảnh mặc định nếu không có
-  return 'https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/timmach.png?width=300';
+  return getImage(doctor.doctorInfos?.[0]?.imageUrl);
 };
 
 const getDoctorSpecialties = (doctor) => {
-  // Trong thực tế, specialties có thể được lấy từ một API khác hoặc từ hệ thống phân loại
-  // Tạm thời, chúng ta có thể dựa vào priceId hoặc positionName để xác định chuyên khoa
+  // Sử dụng dữ liệu specialties thực từ API
+  if (doctor.specialties && doctor.specialties.length > 0) {
+    return doctor.specialties.map((specialty) => specialty.name);
+  }
+
+  // Fallback: Sử dụng positionName nếu không có specialties
   const specialties = [];
-  
   if (doctor.doctorInfos && doctor.doctorInfos.length > 0) {
-    doctor.doctorInfos.forEach(info => {
+    doctor.doctorInfos.forEach((info) => {
       if (info.positionName && !specialties.includes(info.positionName)) {
         specialties.push(info.positionName);
       }
     });
   }
-  
+
   // Nếu không có thông tin, trả về mảng rỗng
   return specialties.length > 0 ? specialties : ['Đa khoa'];
 };
 
 const getDoctorHospital = (doctor) => {
-  // Lấy tên bệnh viện/phòng khám từ thông tin chi tiết
+  // Sử dụng dữ liệu clinics thực từ API
+  if (doctor.clinics && doctor.clinics.length > 0) {
+    return doctor.clinics[0].name;
+  }
+
+  // Fallback: Lấy tên bệnh viện/phòng khám từ thông tin chi tiết
   return doctor.doctorInfos?.[0]?.clinicName || '';
 };
 </script>
@@ -348,6 +421,13 @@ const getDoctorHospital = (doctor) => {
 
 .focus\:border-primary:focus {
   border-color: #2563eb;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style> 
 

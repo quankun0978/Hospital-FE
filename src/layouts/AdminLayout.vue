@@ -28,17 +28,17 @@
           <template #title>
             <span>
               <team-outlined />
-              <span>Quản lý bác sĩ</span>
+              <span>{{ userRole === 'R1' ? 'Quản lý bác sĩ' : 'Quản lý lịch khám' }}</span>
             </span>
           </template>
-          <a-menu-item key="doctors">
+          <a-menu-item v-if="userRole === 'R1'" key="doctors">
             <span>Danh sách bác sĩ</span>
           </a-menu-item>
           <a-menu-item key="schedules">
             <span>{{ userRole === 'R1' ? 'Quản lý lịch khám' : 'Lịch khám của tôi' }}</span>
           </a-menu-item>
           <a-menu-item key="appointments">
-            <span>Quản lý lịch hẹn</span>
+            <span>{{ userRole === 'R1' ? 'Quản lý lịch hẹn' : 'Lịch hẹn của tôi' }}</span>
           </a-menu-item>
         </a-sub-menu>
 
@@ -78,10 +78,17 @@
           </a-menu-item>
         </a-sub-menu>
 
-        <a-menu-item key="reports">
-          <bar-chart-outlined />
-          <span>Báo cáo</span>
-        </a-menu-item>
+        <a-sub-menu key="statistics-management">
+          <template #title>
+            <span>
+              <bar-chart-outlined />
+              <span>Thống kê & Báo cáo</span>
+            </span>
+          </template>
+          <a-menu-item key="revenue-statistics">
+            <span>Thống kê doanh thu</span>
+          </a-menu-item>
+        </a-sub-menu>
       </a-menu>
     </a-layout-sider>
     
@@ -92,9 +99,24 @@
           <div class="flex items-center space-x-4">
             <span class="text-sm text-gray-500">Xin chào,</span>
             <span class="text-sm font-medium text-gray-900">{{ userName }}</span>
-            <div class="h-8 w-8 bg-blue-500 rounded-full flex items-center justify-center">
-              <span class="text-white text-sm font-medium">{{ userInitials }}</span>
-            </div>
+            <a-dropdown placement="bottomRight" :trigger="['click']">
+              <div class="h-8 w-8 bg-blue-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-600 transition-colors">
+                <span class="text-white text-sm font-medium">{{ userInitials }}</span>
+              </div>
+              <template #overlay>
+                <a-menu>
+                  <a-menu-item key="home" @click="goToHome">
+                    <home-outlined />
+                    <span class="ms-2">Trang đặt lịch khám</span>
+                  </a-menu-item>
+                  <a-menu-divider />
+                  <a-menu-item key="logout" @click="logout">
+                    <logout-outlined />
+                    <span class="ms-2">Đăng xuất</span>
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
           </div>
         </div>
       </a-layout-header>
@@ -117,7 +139,7 @@
       </a-layout-content>
       
       <a-layout-footer style="text-align: center">
-        Hospital Management System ©2024 Created by Admin Team
+        Hospital Management System ©2025 Created by Admin Team
       </a-layout-footer>
     </a-layout>
   </a-layout>
@@ -136,6 +158,8 @@ import {
   BarChartOutlined,
   MedicineBoxOutlined,
   FileTextOutlined,
+  HomeOutlined,
+  LogoutOutlined,
 } from '@ant-design/icons-vue'
 
 const props = defineProps({
@@ -183,6 +207,8 @@ watch(() => route.path, (newPath) => {
     selectedKeys.value = ['specialties']
   } else if (newPath.includes('/admin/articles')) {
     selectedKeys.value = ['articles']
+  } else if (newPath.includes('/admin/revenue-statistics')) {
+    selectedKeys.value = ['revenue-statistics']
   } else if (newPath.includes('/admin/reports')) {
     selectedKeys.value = ['reports']
   } else {
@@ -220,6 +246,9 @@ const handleMenuSelect = ({ key }) => {
     case 'articles':
       navigateTo('/admin/articles')
       break
+    case 'revenue-statistics':
+      navigateTo('/admin/revenue-statistics')
+      break
     case 'reports':
       navigateTo('/admin/reports')
       break
@@ -230,6 +259,15 @@ const handleMenuSelect = ({ key }) => {
 
 const navigateTo = (path) => {
   router.push(path)
+}
+
+const goToHome = () => {
+  router.push('/')
+}
+
+const logout = () => {
+  authStore.logout()
+  router.push('/login')
 }
 </script>
 

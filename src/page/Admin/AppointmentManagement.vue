@@ -95,7 +95,10 @@
                 {{ record.doctor?.name || "N/A" }}
               </p>
               <p class="text-sm text-gray-500">
-                {{ record.doctor?.email || "" }}
+                {{ record.doctor?.specialtyName || record.doctor?.email || "" }}
+              </p>
+              <p v-if="record.doctor?.positionName" class="text-xs text-gray-400">
+                {{ record.doctor.positionName }}
               </p>
             </div>
           </template>
@@ -253,14 +256,6 @@
               {{ selectedPatient.phone || "Chưa cập nhật" }}
             </p>
           </div>
-          <div class="space-y-1">
-            <label class="block text-sm font-medium text-gray-700"
-              >Số bảo hiểm y tế</label
-            >
-            <p class="text-sm text-gray-900 p-2 bg-gray-50 rounded">
-              {{ selectedPatient.healthInsuranceNumber || "Chưa cập nhật" }}
-            </p>
-          </div>
           <div class="md:col-span-2 space-y-1">
             <label class="block text-sm font-medium text-gray-700"
               >Địa chỉ</label
@@ -314,6 +309,9 @@
           </p>
           <p class="text-sm text-blue-800">
             Bác sĩ: {{ selectedAppointment.doctor?.name }}
+            <span v-if="selectedAppointment.doctor?.specialtyName" class="text-xs">
+              ({{ selectedAppointment.doctor.specialtyName }})
+            </span>
           </p>
           <p class="text-sm text-blue-800">
             Ngày khám: {{ formatDate(selectedAppointment.appointmentDate) }}
@@ -392,8 +390,9 @@
         </p>
         <p class="text-sm text-gray-600">
           Lịch khám của bệnh nhân
-          <strong>{{ selectedAppointment.patient?.fullName }}</strong> vào ngày
-          <strong>{{ formatDate(selectedAppointment.appointmentDate) }}</strong>
+          <strong>{{ selectedAppointment.patient?.fullName }}</strong> 
+          với bác sĩ <strong>{{ selectedAppointment.doctor?.name }}</strong>
+          vào ngày <strong>{{ formatDate(selectedAppointment.appointmentDate) }}</strong>
           sẽ bị hủy. Hành động này không thể hoàn tác.
         </p>
       </div>
@@ -524,13 +523,13 @@ const getGenderText = (gender) => {
 const getStatusType = (status) => {
   switch (status) {
     case "S1":
-      return "warning";     // Lịch hẹn mới
+      return "warning"; // Lịch hẹn mới
     case "S2":
-      return "info";        // Đã xác nhận
+      return "info"; // Đã xác nhận
     case "S3":
-      return "success";     // Đã khám xong
+      return "success"; // Đã khám xong
     case "S4":
-      return "danger";      // Đã hủy
+      return "danger"; // Đã hủy
     default:
       return "default";
   }

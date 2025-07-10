@@ -149,7 +149,6 @@
       :loading="modalLoading"
       @ok="handleDelete"
       @cancel="isDeleteModalVisible = false"
-      @update:visible="isDeleteModalVisible = $event"
       ok-text="Xóa"
       cancel-text="Hủy"
       width="sm"

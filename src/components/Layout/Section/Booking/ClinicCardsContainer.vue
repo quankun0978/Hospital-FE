@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="clinic-cards-container" :class="{ 'loading': loading }">
+  <div class="clinic-cards-container" :class="{ loading: loading }">
     <div v-if="loading" class="flex justify-center items-center py-8">
       <div class="loader"></div>
     </div>
@@ -8,28 +8,36 @@
     </div>
     <template v-else>
       <!-- Hiển thị HospitalCard cho những cơ sở y tế là bệnh viện (isHospital = true) -->
-      <HospitalCard 
-        v-for="clinic in hospitals" 
-        :key="'hospital-'+clinic.clinicId" 
-        :name="clinic.name" 
+      <HospitalCard
+        v-for="clinic in hospitals"
+        :key="'hospital-' + clinic.clinicId"
+        :name="clinic.name"
         :address="clinic.address"
         :bannerImage="getClinicImage(clinic)"
         :logoImage="getLogoImage(clinic)"
         :link="`/clinics/${clinic.slug}`"
-        :weekdayHours="clinic.openTime ? clinic.openTime + ' - ' + clinic.closeTime : '7h30 - 16h30'"
-        :weekendHours="clinic.openTime ? clinic.openTime + ' - ' + clinic.closeTime : '7h30 - 11h30'"
+        :weekdayHours="
+          clinic.openTime
+            ? clinic.openTime + ' - ' + clinic.closeTime
+            : '7h30 - 16h30'
+        "
+        :weekendHours="
+          clinic.openTime
+            ? clinic.openTime + ' - ' + clinic.closeTime
+            : '7h30 - 11h30'
+        "
       />
-      
+
       <!-- Hiển thị ClinicCard cho những cơ sở y tế là phòng khám (isHospital = false) -->
-      <ClinicCard 
-        v-for="clinic in regularClinics" 
-        :key="'clinic-'+clinic.clinicId" 
-        :name="clinic.name" 
+      <ClinicCard
+        v-for="clinic in regularClinics"
+        :key="'clinic-' + clinic.clinicId"
+        :name="clinic.name"
         :address="clinic.address"
         :image="getClinicImage(clinic)"
         :link="`/clinics/${clinic.slug}`"
       />
-      
+
       <div v-if="clinics.length === 0" class="text-center text-gray-500 py-4">
         Không có phòng khám nào
       </div>
@@ -38,75 +46,78 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import ClinicCard from './ClinicCard.vue';
-import HospitalCard from './HospitalCard.vue';
-import clinicApi from '../../../../api/clinicApi';
+import { ref, onMounted, computed } from "vue";
+import ClinicCard from "./ClinicCard.vue";
+import HospitalCard from "./HospitalCard.vue";
+import clinicApi from "@/api/clinicApi";
+import { getImage } from "@/common/function";
 // Props
 const props = defineProps({
   limit: {
     type: Number,
-    default: 10
+    default: 10,
   },
   searchTerm: {
     type: String,
-    default: ''
+    default: "",
   },
   showOnlyHospitals: {
     type: Boolean,
-    default: false
+    default: false,
   },
   showOnlyClinics: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 // State
 const clinics = ref([]);
 const loading = ref(true);
-const error = ref('');
+const error = ref("");
 
 // Computed properties để phân loại bệnh viện và phòng khám
 const hospitals = computed(() => {
-  return clinics.value.filter(clinic => clinic.isHospital);
+  return clinics.value.filter((clinic) => clinic.isHospital);
 });
 
 const regularClinics = computed(() => {
-  return clinics.value.filter(clinic => !clinic.isHospital);
+  return clinics.value.filter((clinic) => !clinic.isHospital);
 });
 
 // Hàm lấy dữ liệu từ API
 const fetchClinics = async () => {
   loading.value = true;
-  error.value = '';
-  
+  error.value = "";
+
   try {
     // Thiết lập các tham số phân trang
     const parameters = {
       pageNumber: 1,
       pageSize: props.limit,
-      search: props.searchTerm || undefined
+      search: props.searchTerm || undefined,
     };
-    
+
     // Gọi API
     const response = await clinicApi.getClinics(parameters);
-    
+
     if (response.data) {
       // Lọc kết quả nếu cần
       if (props.showOnlyHospitals) {
-        clinics.value = response.data.filter(clinic => clinic.isHospital) || [];
+        clinics.value =
+          response.data.filter((clinic) => clinic.isHospital) || [];
       } else if (props.showOnlyClinics) {
-        clinics.value = response.data.filter(clinic => !clinic.isHospital) || [];
+        clinics.value =
+          response.data.filter((clinic) => !clinic.isHospital) || [];
       } else {
         clinics.value = response.data || [];
       }
     } else {
-      error.value = response.message || 'Lỗi khi tải dữ liệu';
+      error.value = response.message || "Lỗi khi tải dữ liệu";
     }
   } catch (err) {
-    console.error('Lỗi khi lấy dữ liệu phòng khám:', err);
-    error.value = 'Lỗi khi tải dữ liệu';
+    console.error("Lỗi khi lấy dữ liệu phòng khám:", err);
+    error.value = "Lỗi khi tải dữ liệu";
   } finally {
     loading.value = false;
   }
@@ -114,22 +125,13 @@ const fetchClinics = async () => {
 
 // Hàm lấy hình ảnh phòng khám
 const getClinicImage = (clinic) => {
-  // Lấy hình ảnh từ thông tin chi tiết nếu có
-  const imageUrl = clinic.imageUrl ? "https://localhost:7038" + clinic.imageUrl : null;
-  if (imageUrl) return imageUrl;
-  
-  // Hình ảnh mặc định nếu không có
-  return 'https://cdn.youmed.vn/photos/186f542e-45e0-416b-9050-b258bfd2317b.png?width=60';
+  return getImage(clinic.imageUrl);
 };
 
 // Hàm lấy hình ảnh phòng khám
 const getLogoImage = (clinic) => {
   // Lấy hình ảnh từ thông tin chi tiết nếu có
-  const imageUrl = clinic.logoImg ? "https://localhost:7038" + clinic.logoImg : null;
-  if (imageUrl) return imageUrl;
-  
-  // Hình ảnh mặc định nếu không có
-  return 'https://cdn.youmed.vn/photos/186f542e-45e0-416b-9050-b258bfd2317b.png?width=60';
+  return getImage(clinic.logoImg);
 };
 
 // Hook lifecycle
@@ -157,7 +159,11 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
-</style> 
+</style>

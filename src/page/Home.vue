@@ -6,7 +6,7 @@
       title="Đặt khám trực tuyến"
       subtitle="Nhanh chóng, tiện lợi, an toàn với hệ thống đặt lịch khám hiện đại"
     />
-    <main class="container-full mx-auto  py-8">
+    <main class="container-full mx-auto py-8">
       <!-- Booking Section for Doctors -->
       <Booking
         id="booking-doctors"
@@ -24,32 +24,32 @@
         id="booking-hospitals"
         title="Đặt khám bệnh viện"
         description="Đặt khám và thanh toán để có phiếu khám trước khi đi khám."
-        viewMoreLink="/hospitals"
+        viewMoreLink="/clinics?type=hospital"
         itemsContainerClass="hospital-cards"
       >
         <ClinicCardsContainer :limit="8" :showOnlyHospitals="true" />
       </Booking>
-      
+
       <!-- Booking Section for Clinics -->
       <Booking
         id="booking-clinics"
         title="Đặt khám phòng khám"
         description="Đa dạng phòng khám với nhiều chuyên khoa khác nhau."
-        viewMoreLink="/clinics"
+        viewMoreLink="/clinics?type=clinic"
         itemsContainerClass="clinic-cards"
       >
         <ClinicCardsContainer :limit="8" :showOnlyClinics="true" />
       </Booking>
 
       <Booking
-        id="booking-hospitals"
+        id="booking-specialties"
         title="Đặt lịch theo Chuyên khoa"
         description="Danh sách bác sĩ, bệnh viện, phòng khám theo chuyên khoa"
-        viewMoreLink="/hospitals"
-        :useDetailsView=true
+        viewMoreLink="/clinics"
+        :useDetailsView="true"
         itemsContainerClass="hospital-cards"
       >
-        <SpecialtyContainer/>
+        <SpecialtyContainer />
       </Booking>
 
       <!-- News Section -->
@@ -58,7 +58,6 @@
         subtitle="Cập nhật những thông tin y tế mới nhất, hữu ích cho sức khỏe của bạn"
       />
       <NewsSection />
-      <ProfessionalSection/>
     </main>
 
     <!-- About Section -->
@@ -79,7 +78,6 @@ import AboutSection from "@/components/Layout/Section/About/AboutSection.vue";
 import SecuritySection from "@/components/Layout/Section/Security/SecuritySection.vue";
 import MainHeading from "@/components/Layout/Heading/MainHeading.vue";
 import SpecialtyContainer from "../components/Layout/Section/Booking/SpecialtyContainer.vue";
-import ProfessionalSection from "../components/Layout/Section/Professional/ProfessionalSection.vue";
 </script>
 
 <style scoped>

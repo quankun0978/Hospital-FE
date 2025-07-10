@@ -273,15 +273,14 @@
                                                   <p
                                                     _ngcontent-serverapp-c107=""
                                                   >
-                                                    Mã bệnh nhân
+                                                    Email
                                                   </p>
                                                   <p
                                                     _ngcontent-serverapp-c107=""
                                                     class="font-medium"
                                                   >
                                                     {{
-                                                      record.patientCode ||
-                                                      "Chưa có"
+                                                      record.email || "Chưa có"
                                                     }}
                                                   </p>
                                                 </li>
@@ -440,9 +439,7 @@
                                       nz-input=""
                                       class="ant-input rounded mt-1 ng-untouched ng-pristine ng-valid"
                                       placeholder="Triệu chứng, thuốc đang dùng, tiền sử, ..."
-                                      style="
-                                        height: 120px;
-                                      "
+                                      style="height: 120px"
                                     ></textarea>
                                   </form>
                                 </div>
@@ -660,6 +657,7 @@ import doctorApi from "@/api/doctorApi";
 import appointmentApi from "@/api/appointmentApi";
 import Message from "@/plugins/message";
 import patientRecordApi from "@/api/patientRecordApi";
+import { getImage } from "../../common/function";
 
 const PopupPatientRecord = defineAsyncComponent(() =>
   import("@/components/common/Popup/PopupPatientRecord.vue")
@@ -713,8 +711,8 @@ const getInitials = (name) => {
 const formatDate = (date) => {
   if (!date) return "--";
   const d = new Date(date);
-  const day = d.getDate().toString().padStart(2, '0');
-  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const day = d.getDate().toString().padStart(2, "0");
+  const month = (d.getMonth() + 1).toString().padStart(2, "0");
   const year = d.getFullYear();
   return `${day}/${month}/${year}`; // Định dạng dd/mm/yyyy
 };
@@ -746,9 +744,7 @@ const fetchDoctorDetails = async () => {
     const response = await doctorApi.getDoctorBySlug(doctorSlug.value);
     if (response.succeeded && response.data) {
       doctor.value = response.data;
-      imageUrl.value =
-        "https://localhost:7038" + response.data.doctorInfos[0].imageUrl;
-      console.log(imageUrl.value);
+      imageUrl.value = getImage(response.data.doctorInfos[0].imageUrl);
     }
   } catch (error) {
     console.error("Lỗi khi lấy thông tin bác sĩ:", error);
@@ -782,12 +778,7 @@ const isRecordExpanded = (recordId) => {
 
 // Hàm lấy logo phòng khám
 const getDoctorLogo = () => {
-  if (doctorInfo.value?.imageUrl) {
-    return "https://localhost:7038" + doctorInfo.value.imageUrl;
-  }
-
-  // Logo mặc định
-  return "https://cdn.youmed.vn/photos/fb4179f1-d0e9-4e2a-98a2-26e6efe7add8.png";
+  return getImage(doctorInfo.value.imageUrl);
 };
 
 // Xử lý đặt lịch khám
@@ -808,45 +799,29 @@ const submitAppointment = async () => {
 
     // Enhanced date handling với validation
     const formattedDate = formatDateForAPI(appointmentDate.value);
-    
+
     // Validate all required fields before API call
     if (!selectedRecord.value.patientId) {
       Message.error("Không tìm thấy ID bệnh nhân");
       return;
     }
-    
+
     if (!doctor.value.doctorId) {
       Message.error("Không tìm thấy ID bác sĩ");
       return;
     }
-    
-    if (!formattedDate || formattedDate === 'Invalid Date') {
+
+    if (!formattedDate || formattedDate === "Invalid Date") {
       Message.error("Ngày khám không hợp lệ");
       return;
     }
-    
+
     // Check timeType availability - prefer timeSlotId (CodeKey) over timeSlot (text)
     const finalTimeType = timeSlotId.value || timeSlot.value;
     if (!finalTimeType) {
       Message.error("Vui lòng chọn khung giờ khám");
       return;
     }
-    
-    console.log('🔍 TimeType validation:');
-    console.log('- timeSlotId (CodeKey):', timeSlotId.value);
-    console.log('- timeSlot (text):', timeSlot.value);
-    console.log('- finalTimeType used:', finalTimeType);
-
-    console.log('=== APPOINTMENT DATA PREPARATION ===');
-    console.log('Original date from query:', appointmentDate.value);
-    console.log('Raw date from query:', rawDate.value);
-    console.log('Formatted date for API:', formattedDate);
-    console.log('Patient ID:', selectedRecord.value.patientId);
-    console.log('Doctor ID:', doctor.value.doctorId);
-    console.log('Time slot (display):', timeSlot.value);
-    console.log('Time slot ID (CodeKey):', timeSlotId.value);
-    console.log('All query params:', route.query);
-    console.log('=====================================');
 
     const appointmentData = {
       patientId: selectedRecord.value.patientId,
@@ -856,9 +831,7 @@ const submitAppointment = async () => {
       reason: appointmentNote.value || "",
     };
 
-    console.log('📤 Sending appointment data to API:', appointmentData);
     const response = await appointmentApi.createAppointment(appointmentData);
-    console.log('📥 API Response:', response);
 
     // Đóng loading message
     loadingMessage();
@@ -896,43 +869,45 @@ const submitAppointment = async () => {
 
 // Enhanced date formatting với comprehensive validation
 const formatDateForAPI = (dateLabel) => {
-  console.log('🔍 Starting formatDateForAPI with:', dateLabel);
-  
+  console.log("🔍 Starting formatDateForAPI with:", dateLabel);
+
   if (!dateLabel) {
-    console.warn('⚠️ No dateLabel provided, using today');
+    console.warn("⚠️ No dateLabel provided, using today");
     return new Date().toISOString().split("T")[0];
   }
 
   try {
     // Strategy 1: Ưu tiên rawDate từ query parameter (most reliable)
     if (rawDate.value) {
-      console.log('✅ Strategy 1: Using rawDate from query:', rawDate.value);
-      
+      console.log("✅ Strategy 1: Using rawDate from query:", rawDate.value);
+
       if (/^\d{4}-\d{2}-\d{2}/.test(rawDate.value)) {
-        const isoDate = rawDate.value.split('T')[0];
-        console.log('✅ rawDate converted to ISO:', isoDate);
+        const isoDate = rawDate.value.split("T")[0];
+        console.log("✅ rawDate converted to ISO:", isoDate);
         return isoDate;
       }
     }
-    
+
     // Strategy 2: Check if dateLabel is already ISO format
     if (/^\d{4}-\d{2}-\d{2}$/.test(dateLabel)) {
-      console.log('✅ Strategy 2: dateLabel is already ISO format:', dateLabel);
+      console.log("✅ Strategy 2: dateLabel is already ISO format:", dateLabel);
       return dateLabel;
     }
-    
+
     // Strategy 3: Parse Vietnamese format "Th 2, 19/05/2024"
-    const vietnameseFormatMatch = dateLabel.match(/,\s*(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    const vietnameseFormatMatch = dateLabel.match(
+      /,\s*(\d{1,2})\/(\d{1,2})\/(\d{4})/
+    );
     if (vietnameseFormatMatch) {
       const day = vietnameseFormatMatch[1].padStart(2, "0");
       const month = vietnameseFormatMatch[2].padStart(2, "0");
       const year = vietnameseFormatMatch[3];
       const formattedDate = `${year}-${month}-${day}`;
-      
+
       // Validate the constructed date
       const testDate = new Date(formattedDate);
       if (!isNaN(testDate.getTime())) {
-        console.log('✅ Strategy 3: Vietnamese format parsed:', formattedDate);
+        console.log("✅ Strategy 3: Vietnamese format parsed:", formattedDate);
         return formattedDate;
       }
     }
@@ -940,21 +915,25 @@ const formatDateForAPI = (dateLabel) => {
     // Strategy 4: Try to parse as a standard date string
     const parsedDate = new Date(dateLabel);
     if (!isNaN(parsedDate.getTime())) {
-      const isoFormat = parsedDate.toISOString().split('T')[0];
-      console.log('✅ Strategy 4: Standard date parsing:', isoFormat);
+      const isoFormat = parsedDate.toISOString().split("T")[0];
+      console.log("✅ Strategy 4: Standard date parsing:", isoFormat);
       return isoFormat;
     }
 
     // Strategy 5: Emergency fallback - use today
-    console.error('❌ All parsing strategies failed for:', dateLabel);
+    console.error("❌ All parsing strategies failed for:", dateLabel);
     const today = new Date().toISOString().split("T")[0];
-    console.warn('⚠️ Using today as emergency fallback:', today);
+    console.warn("⚠️ Using today as emergency fallback:", today);
     return today;
-    
   } catch (error) {
-    console.error('💥 Exception in formatDateForAPI:', error, 'dateLabel:', dateLabel);
+    console.error(
+      "💥 Exception in formatDateForAPI:",
+      error,
+      "dateLabel:",
+      dateLabel
+    );
     const today = new Date().toISOString().split("T")[0];
-    console.warn('⚠️ Using today due to exception:', today);
+    console.warn("⚠️ Using today due to exception:", today);
     return today;
   }
 };

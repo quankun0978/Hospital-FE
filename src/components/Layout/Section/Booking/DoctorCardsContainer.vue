@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="doctor-cards-container" :class="{ 'loading': loading }">
+  <div class="doctor-cards-container" :class="{ loading: loading }">
     <div v-if="loading" class="flex justify-center items-center py-8">
       <div class="loader"></div>
     </div>
@@ -7,10 +7,10 @@
       {{ error }}
     </div>
     <template v-else>
-      <DoctorCard 
-        v-for="doctor in doctors" 
-        :key="doctor.doctorId" 
-        :name="doctor.name" 
+      <DoctorCard
+        v-for="doctor in doctors"
+        :key="doctor.doctorId"
+        :name="doctor.name"
         :title="getTitle(doctor)"
         :image="getDoctorImage(doctor)"
         :link="`/doctors/${doctor.doctorInfos[0].slug}`"
@@ -25,50 +25,51 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import DoctorCard from './DoctorCard.vue';
-import doctorApi from '../../../../api/doctorApi';
+import { ref, onMounted, computed } from "vue";
+import DoctorCard from "./DoctorCard.vue";
+import doctorApi from "@/api/doctorApi";
+import { getImage } from "@/common/function";
 // Props
 const props = defineProps({
   limit: {
     type: Number,
-    default: 10
+    default: 10,
   },
   searchTerm: {
     type: String,
-    default: ''
-  }
+    default: "",
+  },
 });
 
 // State
 const doctors = ref([]);
 const loading = ref(true);
-const error = ref('');
+const error = ref("");
 
 // Hàm lấy dữ liệu từ API
 const fetchDoctors = async () => {
   loading.value = true;
-  error.value = '';
-  
+  error.value = "";
+
   try {
     // Thiết lập các tham số phân trang
     const parameters = {
       pageNumber: 1,
       pageSize: props.limit,
-      search: props.searchTerm || undefined
+      search: props.searchTerm || undefined,
     };
-    
+
     // Gọi API
     const response = await doctorApi.getDoctors(parameters);
-    
+
     if (response.data) {
       doctors.value = response.data || [];
     } else {
-      error.value = response.message || 'Lỗi khi tải dữ liệu';
+      error.value = response.message || "Lỗi khi tải dữ liệu";
     }
   } catch (err) {
-    console.error('Lỗi khi lấy dữ liệu bác sĩ:', err);
-    error.value = 'Lỗi khi tải dữ liệu';
+    console.error("Lỗi khi lấy dữ liệu bác sĩ:", err);
+    error.value = "Lỗi khi tải dữ liệu";
   } finally {
     loading.value = false;
   }
@@ -81,38 +82,34 @@ const getTitle = (doctor) => {
   if (position) return position;
   console.log(doctor);
   // Mặc định là BS.
-  return 'BS.';
+  return "BS.";
 };
 
 const getDoctorImage = (doctor) => {
   // Lấy hình ảnh từ thông tin chi tiết nếu có
-  const imageUrl = "https://localhost:7038" + doctor.doctorInfos?.[0]?.imageUrl;
-  if (imageUrl) return imageUrl;
-  
-  // Hình ảnh mặc định nếu không có
-  return 'https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/05/timmach.png?width=300';
+  return getImage(doctor.doctorInfos?.[0]?.imageUrl);
 };
 
 const getDoctorSpecialties = (doctor) => {
   // Trong thực tế, specialties có thể được lấy từ một API khác hoặc từ hệ thống phân loại
   // Tạm thời, chúng ta có thể dựa vào priceId hoặc positionName để xác định chuyên khoa
   const specialties = [];
-  
+
   if (doctor.doctorInfos && doctor.doctorInfos.length > 0) {
-    doctor.doctorInfos.forEach(info => {
+    doctor.doctorInfos.forEach((info) => {
       if (info.positionName && !specialties.includes(info.positionName)) {
         specialties.push(info.positionName);
       }
     });
   }
-  
+
   // Nếu không có thông tin, trả về mảng rỗng
-  return specialties.length > 0 ? specialties : ['Đa khoa'];
+  return specialties.length > 0 ? specialties : ["Đa khoa"];
 };
 
 const getDoctorHospital = (doctor) => {
   // Lấy tên bệnh viện/phòng khám từ thông tin chi tiết
-  return doctor.doctorInfos?.[0]?.clinicName || '';
+  return doctor.doctorInfos?.[0]?.clinicName || "";
 };
 
 // Hook lifecycle
@@ -140,7 +137,11 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
-</style> 
+</style>

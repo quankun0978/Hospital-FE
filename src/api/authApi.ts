@@ -14,7 +14,6 @@ const authApi = {
     gender: string; 
     address: string; 
     phone: string; 
-    healthInsuranceNumber?: string 
   }) => postData<User>('/auth/register', data),
   sendEmailVerification: (data: { email: string }) => postData<{ message: string }>('/auth/send-email-verification', data),
   verifyEmail: (data: { email: string; verificationCode: string }) => postData<{ message: string }>('/auth/verify-email', data),

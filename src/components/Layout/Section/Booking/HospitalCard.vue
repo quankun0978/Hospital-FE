@@ -23,7 +23,7 @@
         {{ name }}
       </h3>
       <h4 class="line-clamp-2 text-sm">{{ address }}</h4>
-      <ul class="mt-auto pt-2">
+      <ul class="pt-3">
         <li v-if="weekdayHours" class="text-sm">
           <h4>
             <span class=" w-24 mr-2">{{ weekday }}:</span>

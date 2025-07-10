@@ -68,7 +68,7 @@
                 v-for="(image, index) in getFallbackImages().slice(0, 4)"
                 :key="`fallback-${index}`"
                 class="cursor-zoom-in hidden md:block"
-                style="width: 49%; height: 50%;"
+                style="width: 49%; height: 50%"
               >
                 <a-image
                   :src="image"
@@ -126,7 +126,7 @@
             </div>
 
             <!-- Ảnh ẩn cho preview (carousel + fallback còn lại) -->
-            <div style="display: none;">
+            <div style="display: none">
               <!-- Ảnh carousel (background) -->
               <a-image
                 v-for="(image, index) in getCarouselImages()"
@@ -208,23 +208,6 @@
               </a>
             </div>
           </div>
-
-          <!-- Favorite Button -->
-          <div>
-            <button
-              class="absolute top-2 md:top-4 md:right-4 right-2 flex items-center border border-slate-200 px-2 rounded-full py-1"
-            >
-              <svg width="16" viewBox="0 0 512 512">
-                <path
-                  d="M352 48H160a48 48 0 00-48 48v368l144-128 144 128V96a48 48 0 00-48-48z"
-                  fill="none"
-                  stroke="#64748b"
-                  stroke-width="32"
-                ></path>
-              </svg>
-              <span class="text-gray-500 text-xs">Yêu thích</span>
-            </button>
-          </div>
         </div>
 
         <!-- Navigation Tabs -->
@@ -244,17 +227,6 @@
                   Thông tin
                 </button>
               </li>
-              <li class="inline-flex">
-                <button
-                  @click="scrollToSpecialties()"
-                  :class="[
-                    'font-semibold px-4 py-2 whitespace-nowrap hover:bg-slate-100 rounded-lg',
-                    activeTab === 'specialties' ? 'active' : '',
-                  ]"
-                >
-                  Chuyên khám
-                </button>
-              </li>
             </ul>
           </div>
         </div>
@@ -269,8 +241,9 @@
             <!-- Information Tab Content -->
             <div v-show="activeTab === 'info'">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Introduction -->
-                <div class="flex flex-col">
+                <!-- Left Column: Introduction -->
+                <div class="flex flex-col space-y-6">
+                  <!-- Introduction -->
                   <div class="p-4 md:p-6">
                     <h2 class="text-lg font-semibold">Giới thiệu</h2>
                     <div class="mt-4 prose max-w-none">
@@ -300,9 +273,10 @@
                   </div>
                 </div>
 
-                <!-- Working Hours & Contact -->
+                <!-- Right Column: Working Hours, Contact Support & Specialties -->
                 <div class="flex flex-col">
-                  <div class="p-4 md:p-6">
+                  <!-- Working Hours -->
+                  <div class="p-4">
                     <h2 class="text-lg font-semibold">Giờ làm việc</h2>
                     <div class="mt-4 text-base">
                       <ul class="space-y-2">
@@ -322,121 +296,55 @@
                   </div>
 
                   <!-- Contact Support -->
-                  <div class="p-4 md:p-6">
+                  <div class="p-4">
                     <h2 class="text-lg font-semibold">Tổng đài hỗ trợ</h2>
                     <div class="text-base">
                       <p class="mb-4 text-sm opacity-80">
                         Trong trường hợp bạn cần hỗ trợ thêm thông tin, vui lòng
                         liên hệ tổng đài bên dưới để được trợ giúp.
                       </p>
-                      <ul v-if="clinic.phone">
+                      <ul>
                         <li class="my-1">
+                          <a
+                            href="tel:19002805"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            class="font-medium inline-flex items-center border-b border-slate-100 hover:border-b-primary"
+                          >
+                            Tổng đài: 1900-2805
+                          </a>
+                        </li>
+                        <li v-if="clinic.phone" class="my-1">
                           <a
                             :href="`tel:${clinic.phone}`"
                             target="_blank"
                             rel="noreferrer noopener"
                             class="font-medium inline-flex items-center border-b border-slate-100 hover:border-b-primary"
                           >
-                            Tổng đài: {{ clinic.phone }}
+                            Tổng đài {{ clinic.name }}: {{ clinic.phone }}
                           </a>
                         </li>
                       </ul>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="mt-12" id="specialties-section">
-              <div class="bg-white">
-                <div class="max-w-5xl mx-auto px-4 md:px-6 py-8">
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Chuyên khoa -->
-                    <div>
-                      <h2 class="text-xl font-bold text-gray-800 mb-6">
-                        Chuyên khoa
-                      </h2>
+                  <!-- Specialties -->
+                  <div class="p-4">
+                    <h2 class="text-lg font-semibold">
+                      {{ clinic.isHospital ? "Chuyên khoa" : "Chuyên khám" }}
+                    </h2>
+                    <div
+                      class="mt-4 space-y-3"
+                      v-if="clinic.specialties && clinic.specialties.length > 0"
+                    >
                       <div
-                        class="space-y-3"
-                        v-if="
-                          clinic.specialties && clinic.specialties.length > 0
-                        "
+                        v-for="specialty in clinic.specialties"
+                        :key="specialty.id"
+                        class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer"
                       >
-                        <div
-                          v-for="specialty in clinic.specialties"
-                          :key="specialty.id"
-                          class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer"
-                        >
-                          <span class="text-gray-800 font-medium">{{
-                            specialty.name
-                          }}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Chuyên khám -->
-                    <div>
-                      <h2 class="text-xl font-bold text-gray-800 mb-6">
-                        Chuyên khám
-                      </h2>
-                      <div class="space-y-3">
-                        <div
-                          class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer"
-                        >
-                          <span class="text-gray-800 font-medium"
-                            >Vật lý trị liệu - Phục hồi...</span
-                          >
-                        </div>
-
-                        <div
-                          class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer"
-                        >
-                          <span class="text-gray-800 font-medium"
-                            >Cây chi điều trị giảm cân</span
-                          >
-                        </div>
-
-                        <div
-                          class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer"
-                        >
-                          <span class="text-gray-800 font-medium"
-                            >Nhi Chăm</span
-                          >
-                        </div>
-
-                        <div
-                          class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer"
-                        >
-                          <span class="text-gray-800 font-medium"
-                            >Điện Chăm</span
-                          >
-                        </div>
-
-                        <div
-                          class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer"
-                        >
-                          <span class="text-gray-800 font-medium">Cây Chi</span>
-                        </div>
-
-                        <!-- Dynamic specialties from API -->
-                        <!-- <div v-if="clinic.doctors && clinic.doctors.length > 0">
-                          <div
-                            v-for="doctor in clinic.doctors"
-                            :key="`specialty-${doctor.doctorId}`"
-                            class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer"
-                          >
-                            <div
-                              class="w-6 h-6 rounded-full border-2 border-primary mr-3 flex items-center justify-center"
-                            >
-                              <div
-                                class="w-3 h-3 rounded-full bg-primary"
-                              ></div>
-                            </div>
-                            <span class="text-gray-800 font-medium">{{
-                              doctor.speciality
-                            }}</span>
-                          </div>
-                        </div> -->
+                        <span class="text-gray-800 font-medium">{{
+                          specialty.name
+                        }}</span>
                       </div>
                     </div>
                   </div>
@@ -455,7 +363,9 @@ import { ref, onMounted, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import ClinicCardsContainer from "@/components/Layout/Section/Booking/ClinicCardsContainer.vue";
 import clinicApi from "../api/clinicApi";
+import { getImage } from "../common/function";
 
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 const route = useRoute();
 const router = useRouter();
 
@@ -464,14 +374,6 @@ const clinic = ref(null);
 const loading = ref(true);
 const error = ref("");
 const activeTab = ref("info"); // Tab state
-
-// Default images for carousel
-const defaultCarouselImages = [
-  "https://youmed.vn/photos/33c6bfce-2c2d-4b7b-90a2-dcb89660ccbd.png",
-  "https://youmed.vn/photos/01d3d38d-6eb7-4203-8725-ddc338c32f67.png",
-  "https://youmed.vn/photos/9185dd0a-b52c-4d06-b91d-4dacafeb1625.png",
-  "https://youmed.vn/photos/9dffac73-8e6a-41f8-ae59-b166e639ff4c.png",
-];
 
 const additionalImages = ref([
   "https://cdn.youmed.vn/photos/c77387d0-f050-41a7-bd8f-e95ab1efab9d.jpg",
@@ -516,7 +418,7 @@ const getCarouselImages = () => {
     // Lọc ra các hình ảnh background cho carousel
     const backgroundImages = clinic.value.clinicImages
       .filter((img) => img.isBackground)
-      .map((img) => "https://localhost:7038/" + img.imageFallbackUrl);
+      .map((img) => getImage(img.imageFallbackUrl));
 
     if (backgroundImages.length > 0) {
       return backgroundImages;
@@ -524,7 +426,7 @@ const getCarouselImages = () => {
   }
 
   // Sử dụng hình ảnh mặc định nếu không có
-  return defaultCarouselImages;
+  return [];
 };
 
 // Hàm lấy hình ảnh fallback
@@ -533,7 +435,7 @@ const getFallbackImages = () => {
     // Lọc ra các hình ảnh fallback
     const fallbackImages = clinic.value.clinicImages
       .filter((img) => !img.isBackground)
-      .map((img) => "https://localhost:7038/" + img.imageFallbackUrl);
+      .map((img) => getImage(img.imageFallbackUrl));
 
     if (fallbackImages.length > 0) {
       return fallbackImages;
@@ -554,11 +456,9 @@ const getAllImages = () => {
 // Hàm lấy logo phòng khám
 const getClinicLogo = () => {
   if (clinic.value?.logoImg) {
-    return "https://localhost:7038" + clinic.value.logoImg;
+    return getImage(clinic.value.logoImg);
   }
-
-  // Logo mặc định
-  return "https://cdn.youmed.vn/photos/fb4179f1-d0e9-4e2a-98a2-26e6efe7add8.png";
+  return "";
 };
 
 // Hàm tính tổng số hình ảnh
@@ -571,14 +471,16 @@ const getTotalImagesCount = () => {
 // Hàm hiển thị tất cả ảnh bắt đầu từ ảnh đầu tiên
 const showAllImages = async () => {
   await nextTick();
-  
+
   // Tìm và click vào ảnh ẩn đầu tiên để bắt đầu preview từ ảnh carousel
-  const hiddenImages = document.querySelectorAll('[style="display: none;"] .ant-image img');
+  const hiddenImages = document.querySelectorAll(
+    '[style="display: none;"] .ant-image img'
+  );
   if (hiddenImages.length > 0) {
     hiddenImages[0].click();
   } else {
     // Fallback: click vào ảnh fallback đầu tiên nếu có
-    const fallbackImages = document.querySelectorAll('.ant-image img');
+    const fallbackImages = document.querySelectorAll(".ant-image img");
     if (fallbackImages.length > 0) {
       fallbackImages[0].click();
     }
@@ -587,8 +489,16 @@ const showAllImages = async () => {
 
 // Hàm đặt lịch khám
 const bookAppointment = () => {
-  // Chuyển hướng đến trang danh sách bác sĩ của clinic
-  router.push(`/clinics/${route.params.slug}/doctors`);
+  // Chuyển hướng đến trang danh sách bác sĩ với filter theo clinic
+  const clinicIdValue = clinic.value.clinicId || clinic.value.id;
+
+  router.push({
+    path: "/doctors",
+    query: {
+      clinic: clinic.value.name,
+      clinicId: clinicIdValue,
+    },
+  });
 };
 
 // Hàm scroll xuống phần thông tin
@@ -607,22 +517,6 @@ const scrollToInfo = () => {
   }, 100);
 };
 
-// Hàm scroll xuống phần chuyên khoa
-const scrollToSpecialties = () => {
-  activeTab.value = "specialties";
-
-  // Scroll xuống phần chuyên khoa ở cuối trang
-  setTimeout(() => {
-    const specialtiesSection = document.getElementById("specialties-section");
-    if (specialtiesSection) {
-      specialtiesSection.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  }, 100);
-};
-
 // Hook lifecycle
 onMounted(() => {
   fetchClinicDetails();
@@ -630,11 +524,11 @@ onMounted(() => {
 </script>
 
 <style scoped>
-:deep(.ant-image){
-  height: 100% ;
+:deep(.ant-image) {
+  height: 100%;
 }
-:deep(.ant-image-img){
-  height: 100% ;
+:deep(.ant-image-img) {
+  height: 100%;
 }
 /* Carousel styles */
 .carousel-wrapper {
@@ -808,6 +702,4 @@ onMounted(() => {
   width: 49%;
   height: 50%;
 }
-
 </style>
-

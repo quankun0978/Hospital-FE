@@ -3,12 +3,14 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Header from '@/components/Layout/Header/Header.vue'
 import Footer from '@/components/Layout/Footer/Footer.vue'
+import CozeChat from '@/components/AIConsultant/AIConsultant.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
     Footer,
+    CozeChat,
   },
   setup() {
     const route = useRoute()
@@ -21,7 +23,9 @@ export default {
     return {
       isAdminPage
     }
-  }
+  },
+ 
+
 }
 </script>
 
@@ -37,6 +41,8 @@ export default {
     <template v-if="!isAdminPage">
       <Footer/>
     </template>
+    <CozeChat />
+     
   </div>
 </template>
 

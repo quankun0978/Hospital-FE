@@ -92,6 +92,7 @@
 <script>
 import SpecialtyCard from "./SpecialtyCard.vue";
 import specialityApi from "../../../../api/specialityApi";
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   name: "SpecialtyContainer",
@@ -127,9 +128,7 @@ export default {
           this.specialties = response.data.map((specialty) => ({
             id: specialty.specialtyId,
             name: specialty.name,
-            image:
-              "https://localhost:7038" + specialty.imageUrl ||
-              "https://localhost:7038" + specialty.image, // Fallback cho tương thích
+            image: apiUrl + specialty.imageUrl,
             link: specialty.link || `/chuyen-khoa/${specialty.slug}`, // Tạo link từ slug
             description: specialty.description,
           }));
@@ -140,46 +139,6 @@ export default {
         console.error("Lỗi khi lấy danh sách chuyên khoa:", error);
         this.error =
           "Không thể tải danh sách chuyên khoa. Vui lòng thử lại sau.";
-
-        // Fallback về data fake nếu API không hoạt động
-        this.specialties = [
-          {
-            name: "Y học cổ truyền",
-            image:
-              "https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Yhoccotruyen.png",
-            link: "https://youmed.vn/dat-kham/search?specialty=y-hoc-co-truyen",
-          },
-          {
-            name: "Truyền nhiễm",
-            image:
-              "https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/truyennhiem.png",
-            link: "https://youmed.vn/dat-kham/search?specialty=truyen-nhiem",
-          },
-          {
-            name: "Tim mạch",
-            image:
-              "https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/timmach.png",
-            link: "https://youmed.vn/dat-kham/search?specialty=tim-mach",
-          },
-          {
-            name: "Lão khoa",
-            image:
-              "https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/laokhoa.png",
-            link: "https://youmed.vn/dat-kham/search?specialty=lao-khoa",
-          },
-          {
-            name: "Chấn thương chỉnh hình",
-            image:
-              "https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Chanthuongchinhhinh.png",
-            link: "https://youmed.vn/dat-kham/search?specialty=chan-thuong-chinh-hinh",
-          },
-          {
-            name: "Hồi sức - cấp cứu",
-            image:
-              "https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/hoisuccapcuu.png",
-            link: "https://youmed.vn/dat-kham/search?specialty=hoi-suc-cap-cuu",
-          },
-        ];
       } finally {
         this.loading = false;
       }

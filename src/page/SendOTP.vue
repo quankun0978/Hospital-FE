@@ -4,7 +4,7 @@
       class="max-w-7xl mx-auto md:px-6 py-10 lg:py-32 md:grid md:grid-cols-12"
     >
       <div class="md:flex md:col-span-6 lg:col-span-7">
-        <a href="http://youmed.vn/apps" target="_blank">
+        <a href="/" target="_blank">
           <img
             width="500"
             height="500"
@@ -33,7 +33,7 @@
                 'text-gray-500': currentStep !== 1,
               }"
             >
-              Xác thực OTP
+              Xác thực
             </div>
             <div
               class="w-1/3 py-2 text-center font-medium"
@@ -93,11 +93,7 @@
                       @click="verifyOtp"
                       :additionalClasses="'w-full md:w-auto md:px-10 mt-10 mb-6'"
                     >
-                      {{
-                        loading
-                          ? "Đang xác thực..."
-                          : "Xác thực OTP"
-                      }}
+                      {{ loading ? "Đang xác thực..." : "Xác thực" }}
                     </AppButton>
                   </div>
                 </div>
@@ -105,9 +101,7 @@
                   class="flex flex-col gap-2 items-center text-sm-w500 mt-6 mb-[60px] text-center"
                 >
                   Không nhận được mã?
-                  <span
-                    class="text-primary cursor-pointer"
-                    @click="resendOtp"
+                  <span class="text-primary cursor-pointer" @click="resendOtp"
                     >Gửi lại mã</span
                   >
                 </div>
@@ -148,11 +142,7 @@
                         :disabled="loading"
                         :additionalClasses="'w-full md:w-auto md:px-10 mt-6 mb-6'"
                       >
-                        {{
-                          loading
-                            ? "Đang xử lý..."
-                            : "Tiếp tục"
-                        }}
+                        {{ loading ? "Đang xử lý..." : "Tiếp tục" }}
                       </AppButton>
                     </div>
                   </div>
@@ -215,13 +205,6 @@
                         :placeholder="'Nhập số điện thoại'"
                         :error="profileErrors.phone"
                       />
-                      <Input
-                        v-model="profileForm.healthInsuranceNumber"
-                        id="health-insurance"
-                        :label="'Số bảo hiểm y tế'"
-                        :placeholder="'Nhập số bảo hiểm y tế (nếu có)'"
-                        :error="profileErrors.healthInsuranceNumber"
-                      />
                     </div>
                     <div class="flex justify-center">
                       <AppButton
@@ -231,9 +214,7 @@
                         :additionalClasses="'w-full md:w-auto md:px-10 mt-6 mb-6'"
                       >
                         {{
-                          loading
-                            ? "Đang tạo tài khoản..."
-                            : "Hoàn tất đăng ký"
+                          loading ? "Đang tạo tài khoản..." : "Hoàn tất đăng ký"
                         }}
                       </AppButton>
                     </div>
@@ -293,14 +274,12 @@ const profileForm = ref({
   gender: "M",
   address: "",
   phone: "",
-  healthInsuranceNumber: "",
 });
 
 const profileErrors = ref({
   fullName: "",
   address: "",
   phone: "",
-  healthInsuranceNumber: "",
 });
 
 // Tối ưu hóa hàm xử lý nhập OTP để giảm độ trễ
@@ -363,35 +342,33 @@ const verifyOtp = async () => {
     errorMessage.value = "";
     const otpCode = otpDigits.value.join("");
 
-    console.log("Verifying OTP:", { email: email.value, verificationCode: otpCode });
+    console.log("Verifying OTP:", {
+      email: email.value,
+      verificationCode: otpCode,
+    });
 
     if (!email.value) {
       errorMessage.value = "Email không hợp lệ";
-      Message.error(errorMessage.value);
       return;
     }
 
     // Gọi API xác thực email
     const response = await authApi.verifyEmail({
       email: email.value,
-      verificationCode: otpCode
+      verificationCode: otpCode,
     });
-
-    console.log("Verify response:", response);
-
     if (response && response.succeeded) {
       // Chuyển sang bước tiếp theo
       currentStep.value = 2;
       errorMessage.value = "";
-      Message.success("Xác thực email thành công!");
+      // Message.success("Xác thực email thành công!");
     } else {
-      errorMessage.value = response?.message || "Mã OTP không chính xác hoặc đã hết hạn.";
-      Message.error(errorMessage.value);
+      errorMessage.value =
+        response?.message || "Mã OTP không chính xác hoặc đã hết hạn.";
     }
   } catch (error) {
     console.error("Lỗi xác thực OTP:", error);
     console.error("Error details:", error.response);
-    
     if (error.response?.data) {
       if (error.response.data.errors && error.response.data.errors.length > 0) {
         errorMessage.value = error.response.data.errors[0];
@@ -401,9 +378,9 @@ const verifyOtp = async () => {
         errorMessage.value = "Mã OTP không chính xác hoặc đã hết hạn.";
       }
     } else {
-      errorMessage.value = "Có lỗi xảy ra trong quá trình xác thực. Vui lòng thử lại.";
+      errorMessage.value =
+        "Có lỗi xảy ra trong quá trình xác thực. Vui lòng thử lại.";
     }
-    Message.error(errorMessage.value);
   } finally {
     loading.value = false;
   }
@@ -416,7 +393,9 @@ const resendOtp = async () => {
     errorMessage.value = "";
 
     // Gọi API gửi lại email verification
-    const response = await authApi.sendEmailVerification({ email: email.value });
+    const response = await authApi.sendEmailVerification({
+      email: email.value,
+    });
 
     if (response.succeeded) {
       Message.success("Đã gửi lại mã xác thực đến email của bạn!");
@@ -429,7 +408,8 @@ const resendOtp = async () => {
     }
   } catch (error) {
     console.error("Lỗi gửi lại OTP:", error);
-    errorMessage.value = error.response?.data?.message || "Có lỗi xảy ra khi gửi lại mã xác thực.";
+    errorMessage.value =
+      error.response?.data?.message || "Có lỗi xảy ra khi gửi lại mã xác thực.";
     Message.error(errorMessage.value);
   } finally {
     loading.value = false;
@@ -476,7 +456,6 @@ const validateProfile = () => {
     fullName: "",
     address: "",
     phone: "",
-    healthInsuranceNumber: "",
   };
 
   if (!profileForm.value.fullName) {
@@ -516,14 +495,13 @@ const submitProfile = async () => {
       name: profileForm.value.fullName,
       email: email.value, // Sử dụng email thay vì phone
       roleId: "R3", // R3 là vai trò bệnh nhân
-      
+
       // Thông tin PatientRecord
       fullName: profileForm.value.fullName,
       dateOfBirth: formattedDateOfBirth,
       gender: profileForm.value.gender,
       address: profileForm.value.address,
       phone: profileForm.value.phone, // Phone của bệnh nhân
-      healthInsuranceNumber: profileForm.value.healthInsuranceNumber,
     };
 
     console.log("Register data:", registerData);
@@ -545,7 +523,7 @@ const submitProfile = async () => {
     }
   } catch (error) {
     console.error("Register error:", error);
-    
+
     if (error.response?.data?.errors?.length > 0) {
       errorMessage.value = error.response.data.errors[0];
     } else if (error.response?.data?.message) {
@@ -565,7 +543,8 @@ onMounted(async () => {
     if (route.query.email) {
       email.value = route.query.email;
     } else {
-      errorMessage.value = 'Không tìm thấy thông tin email. Vui lòng quay lại trang đăng ký.';
+      errorMessage.value =
+        "Không tìm thấy thông tin email. Vui lòng quay lại trang đăng ký.";
       Message.error(errorMessage.value);
     }
 
@@ -636,5 +615,3 @@ onMounted(async () => {
   font-weight: 500;
 }
 </style>
-
-

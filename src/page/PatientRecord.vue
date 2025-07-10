@@ -7,19 +7,29 @@
         <div class="bg-white md:rounded-md">
           <ul class="flex overflow-y-auto hide-scroll-bar md:py-4 md:flex-col">
             <li v-if="isAdminOrDoctor">
-              <router-link class="menu-item" to="/admin">Trang quản lý</router-link>
+              <router-link class="menu-item" to="/admin"
+                >Trang quản lý</router-link
+              >
             </li>
             <li>
-              <router-link class="menu-item" to="/appointments">Lịch khám của tôi</router-link>
+              <router-link class="menu-item" to="/appointments"
+                >Lịch khám của tôi</router-link
+              >
             </li>
             <li>
-              <router-link class="menu-item item-active" to="/patient-record">Hồ sơ</router-link>
+              <router-link class="menu-item item-active" to="/patient-record"
+                >Hồ sơ</router-link
+              >
             </li>
             <li>
-              <router-link class="menu-item" to="/change-password">Đổi mật khẩu</router-link>
+              <router-link class="menu-item" to="/change-password"
+                >Đổi mật khẩu</router-link
+              >
             </li>
             <li>
-              <button class="menu-item w-full text-left" @click="logout">Đăng xuất</button>
+              <button class="menu-item w-full text-left" @click="logout">
+                Đăng xuất
+              </button>
             </li>
           </ul>
         </div>
@@ -102,9 +112,6 @@
                 <h3 class="text-lg font-bold uppercase">
                   {{ selectedRecord.fullName }}
                 </h3>
-                <p class="text-gray-500 text-sm">
-                  Mã BN: {{ selectedRecord.patientCode || "--" }}
-                </p>
               </div>
             </div>
             <div class="bg-orange-50 p-3 flex flex-row items-center border-b">
@@ -132,6 +139,12 @@
                 <span class="whitespace-nowrap mr-2">Họ và tên</span
                 ><span class="font-medium text-right">{{
                   selectedRecord.fullName
+                }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="whitespace-nowrap mr-2">Email</span
+                ><span class="font-medium text-right">{{
+                  selectedRecord.email || "--"
                 }}</span>
               </div>
               <div class="flex justify-between">
@@ -163,39 +176,7 @@
                 }}</span>
               </div>
             </div>
-            <div class="p-6 space-y-3">
-              <h4 class="font-medium">Thông tin bổ sung</h4>
-              <div class="flex justify-between">
-                <span class="whitespace-nowrap mr-2">Mã BHYT</span
-                ><span class="font-medium text-right">{{
-                  selectedRecord.healthInsuranceNumber || "--"
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="whitespace-nowrap mr-2">Số CMND/CCCD</span
-                ><span class="font-medium text-right">{{
-                  selectedRecord.identityNumber || "--"
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="whitespace-nowrap mr-2">Dân tộc</span
-                ><span class="font-medium text-right">{{
-                  selectedRecord.ethnicity || "--"
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="whitespace-nowrap mr-2">Nghề nghiệp</span
-                ><span class="font-medium text-right">{{
-                  selectedRecord.occupation || "--"
-                }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="whitespace-nowrap mr-2">Email</span
-                ><span class="font-medium text-right">{{
-                  selectedRecord.email || "--"
-                }}</span>
-              </div>
-            </div>
+
             <div class="p-6 flex justify-end">
               <button
                 class="bg-primary text-white font-medium rounded-lg px-6 py-2 hover:bg-blue-700 transition"
@@ -220,10 +201,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, defineAsyncComponent } from "vue";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 import patientRecordApi from "../api/patientRecordApi";
-import { useAuthStore } from '../store/auth';
-import BlockFamily from "../assets/images/family-block.svg";
+import { useAuthStore } from "../store/auth";
+import BlockFamily from "@/assets/images/family-block.svg";
 const PopupPatientRecord = defineAsyncComponent(
   () => import("../components/common/Popup/PopupPatientRecord.vue")
 );
@@ -243,13 +224,14 @@ const popupRecord = ref<any>(null);
 // Kiểm tra quyền admin hoặc doctor
 const isAdminOrDoctor = computed(() => {
   const userRole = authStore.getUserRole;
-  return userRole === 'R1' || userRole === 'R2';
+  return userRole === "R1" || userRole === "R2";
 });
+
 
 // Đăng xuất
 const logout = () => {
   authStore.logout();
-  router.push('/');
+  router.push("/");
 };
 
 function getInitials(name: string) {
@@ -282,20 +264,20 @@ function openUpdatePopup() {
   showPopup.value = true;
 }
 async function reloadRecords() {
-  // const userId = localStorage.getItem('userId');
-  const res = await patientRecordApi.getByUserId(userId);
-  patientRecords.value = Array.isArray(res) ? res : [res];
-  selectedRecord.value = patientRecords.value[0] || null;
+  if (userId) {
+    const res = await patientRecordApi.getByUserId(userId);
+    patientRecords.value = Array.isArray(res) ? res : [res];
+    selectedRecord.value = patientRecords.value[0] || null;
+  }
 }
 
 onMounted(async () => {
   // Giả sử đã có userId, thực tế lấy từ store hoặc localStorage
-  const userId = localStorage.getItem("userId");
-  //   if (userId) {
-  const res = await patientRecordApi.getByUserId(userId);
-  patientRecords.value = Array.isArray(res) ? res : [res];
-  selectedRecord.value = patientRecords.value[0] || null;
-  //   }
+  if (userId) {
+    const res = await patientRecordApi.getByUserId(userId);
+    patientRecords.value = Array.isArray(res) ? res : [res];
+    selectedRecord.value = patientRecords.value[0] || null;
+  }
 });
 </script>
 

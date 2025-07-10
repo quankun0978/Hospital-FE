@@ -189,8 +189,9 @@ const loadUsers = async () => {
   try {
     loading.value = true
     const params = {
-      pageNumber: pagination.current,
-      pageSize: pagination.pageSize
+      PageNumber: pagination.current,
+      PageSize: pagination.pageSize,
+      searchTerm: searchTerm.value || undefined
     }
     
     const response = await adminApi.getUsers(params)
@@ -238,12 +239,18 @@ const confirmDelete = (user) => {
 }
 
 const handleDelete = async () => {
+  // Prevent double submission
+  if (modalLoading.value) {
+    console.log('Already processing, ignoring duplicate request')
+    return
+  }
+
   try {
     modalLoading.value = true
     
     const response = await adminApi.deleteUser(selectedUser.value.userId)
     
-    if (response.success) {
+    if (response.succeeded) {
       Message.success('Xóa người dùng thành công')
       isDeleteModalVisible.value = false
       loadUsers()

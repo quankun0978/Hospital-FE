@@ -4,12 +4,12 @@
       class="max-w-7xl mx-auto md:px-6 py-10 lg:py-32 md:grid md:grid-cols-12"
     >
       <div class="md:flex md:col-span-6 lg:col-span-7">
-        <a href="http://youmed.vn/apps" target="_blank">
+        <a href="/" target="_blank">
           <img
             width="500"
             height="500"
             loading="lazy"
-            src="https://youmed.vn/dat-kham/assets/img/booking/png/Login.png"
+            src="@/assets/images/hospital_app.png"
             alt="Đặt khám"
             class="mx-auto"
           />

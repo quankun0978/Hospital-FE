@@ -326,7 +326,7 @@
         <!-- Header kết quả -->
         <div class="p-4 border-b" v-if="searchResults">
           <h1 class="text-sm text-gray-700 font-normal">
-            Tìm thấy {{ searchResults.totalResults }} kết quả cho "{{ searchQuery }}"
+            Tìm thấy {{ searchResults.totalResults }} kết quả
           </h1>
         </div>
 
@@ -411,13 +411,6 @@
 
             <!-- Nút đặt khám -->
             <div class="flex justify-center z-50 lg:flex-col gap-2">
-              <button
-                v-if="result.type === 'doctor' && result.isOnline"
-                @click.stop="bookOnlineAppointment(result)"
-                class="w-36 bg-green-500 text-center hover:bg-green-600 hover:text-white px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white lg:flex-initial truncate ml-auto"
-              >
-                Khám online
-              </button>
               <button
                 @click.stop="bookAppointment(result)"
                 class="w-36 bg-primary text-center hover:bg-blue-600 hover:text-white px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white lg:flex-initial truncate ml-auto"
@@ -701,14 +694,8 @@ const clearFilters = () => {
 const bookAppointment = (result) => {
   if (result.type === 'doctor') {
     router.push({ 
-      name: 'appointment-step', 
-      query: { 
-        doctorSlug: result.slug,
-        doctorId: result.id,
-        doctorName: result.name,
-        clinicName: result.address,
-        specialty: result.specialties?.[0] || ''
-      } 
+      name: 'doctor-detail', 
+      params: { slug: result.slug }
     });
   } else {
     router.push({ 
