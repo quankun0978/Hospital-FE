@@ -14,14 +14,14 @@ onMounted(() => {
   script.onload = () => {
     new window.CozeWebSDK.WebChatClient({
       config: {
-        bot_id: botId,
+        bot_id: '7525664495109423112',
       },
       componentProps: {
         title: 'Hospital-Tư vấn',
       },
       auth: {
         type: 'token',
-        token: cozeToken,
+        token: 'pat_1ErMDz6eCzojRnUM5d9TrnEOidj24py4D4n64sUddDgiOm2mqiHlkGmOjBv3eFkn',
         onRefreshToken: function () {
           return 'pat_********'
         }

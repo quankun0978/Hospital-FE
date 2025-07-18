@@ -142,7 +142,7 @@
                                       class="grid gap-4 max-h-96 overflow-y-auto ng-star-inserted"
                                     >
                                       <div
-                                        v-for="(record, idx) in patientRecords"
+                                        v-for="(record) in patientRecords"
                                         :key="record.patientId"
                                       >
                                         <div
@@ -200,19 +200,6 @@
                                                           )
                                                         }}
                                                       </div>
-                                                      <span
-                                                        v-if="idx === 0"
-                                                        class="absolute z-20 text-xs bg-gray-400 rounded-full -top-1 right-0 text-white px-1"
-                                                        >Tôi</span
-                                                      >
-                                                      <span
-                                                        v-else
-                                                        class="absolute z-20 text-xs bg-gray-400 rounded-full -top-1 right-0 text-white px-1"
-                                                        >{{
-                                                          record.relationshipType ||
-                                                          "Khác"
-                                                        }}</span
-                                                      >
                                                     </div>
                                                   </div>
                                                 </div>

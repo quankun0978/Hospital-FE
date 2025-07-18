@@ -33,14 +33,14 @@
             >
               Xem thống kê
             </AppButton>
-            <AppButton
+            <!-- <AppButton
               variant="secondary"
               @click="exportReport"
               :loading="exportLoading"
               :disabled="!statistics"
             >
               Xuất báo cáo
-            </AppButton>
+            </AppButton> -->
           </div>
         </div>
       </AppCard>

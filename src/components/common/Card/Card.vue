@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white rounded-lg shadow-sm border border-gray-200"
+    class="bg-white rounded-lg "
     :class="[
       bordered ? 'border-gray-200' : 'border-transparent',
       hoverable ? 'hover:shadow-md transition-shadow duration-200 cursor-pointer' : '',

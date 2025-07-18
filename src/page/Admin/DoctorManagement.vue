@@ -74,14 +74,14 @@
 
           <!-- Position column -->
           <template #cell-positionName="{ record }">
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
               {{ record.positionName || 'Chưa có' }}
             </span>
           </template>
 
           <!-- Price column -->
           <template #cell-priceName="{ record }">
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
               {{ record.priceName || 'Chưa có' }}
             </span>
           </template>

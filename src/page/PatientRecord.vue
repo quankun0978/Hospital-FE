@@ -68,16 +68,7 @@
                   <div class="absolute z-20 text-sm text-white font-bold">
                     {{ getInitials(record.fullName) }}
                   </div>
-                  <span
-                    v-if="idx === 0"
-                    class="absolute z-20 text-xs bg-gray-400 rounded-full -top-1 right-0 text-white px-1"
-                    >Tôi</span
-                  >
-                  <span
-                    v-else
-                    class="absolute z-20 text-xs bg-gray-400 rounded-full -top-1 right-0 text-white px-1"
-                    >Cha</span
-                  >
+                 
                 </div>
               </div>
               <div class="flex flex-col">

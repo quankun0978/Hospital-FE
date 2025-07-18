@@ -292,7 +292,7 @@ const handleSubmit = async () => {
     }
   } catch (error) {
     console.error('Submit error:', error)
-    Message.error('Lỗi khi lưu lịch khám')
+    Message.error(error.response.data.errors[0])
   } finally {
     loading.value = false
   }

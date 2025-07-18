@@ -263,13 +263,7 @@
                         </p>
                       </div>
                     </div>
-                    <div>
-                      <button
-                        class="text-sm font-medium rounded-full py-1 text-gray-600 hover:text-primary"
-                      >
-                        ...Xem thêm
-                      </button>
-                    </div>
+                 
                   </div>
                 </div>
 
@@ -329,25 +323,7 @@
                   </div>
 
                   <!-- Specialties -->
-                  <div class="p-4">
-                    <h2 class="text-lg font-semibold">
-                      {{ clinic.isHospital ? "Chuyên khoa" : "Chuyên khám" }}
-                    </h2>
-                    <div
-                      class="mt-4 space-y-3"
-                      v-if="clinic.specialties && clinic.specialties.length > 0"
-                    >
-                      <div
-                        v-for="specialty in clinic.specialties"
-                        :key="specialty.id"
-                        class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer"
-                      >
-                        <span class="text-gray-800 font-medium">{{
-                          specialty.name
-                        }}</span>
-                      </div>
-                    </div>
-                  </div>
+                 
                 </div>
               </div>
             </div>

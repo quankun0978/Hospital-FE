@@ -4,13 +4,14 @@ import { useRoute } from 'vue-router'
 import Header from '@/components/Layout/Header/Header.vue'
 import Footer from '@/components/Layout/Footer/Footer.vue'
 import CozeChat from '@/components/AIConsultant/AIConsultant.vue'
-
+import AICoze from '@/components/AIConsultant/AICoze.vue'
 export default {
   name: 'App',
   components: {
     Header,
     Footer,
     CozeChat,
+    AICoze
   },
   setup() {
     const route = useRoute()
@@ -41,8 +42,8 @@ export default {
     <template v-if="!isAdminPage">
       <Footer/>
     </template>
-    <CozeChat />
-     
+    <!-- <CozeChat /> -->
+    <AICoze />
   </div>
 </template>
 

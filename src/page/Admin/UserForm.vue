@@ -41,7 +41,7 @@
               </label>
               <AppInput
                 v-model="formData.email"
-                disabled
+                :disabled="isEditing"
                 type="email"
                 placeholder="Nhập email"
               />
